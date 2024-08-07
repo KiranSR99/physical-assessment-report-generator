@@ -16,18 +16,18 @@ import java.util.List;
 public class School {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long schoolId;
     @Column(nullable = false)
     private String name;
     private String address;
     @Column(nullable = false, unique = true)
     private String email;
     private String phone;
+    private boolean status = true;
 
     @OneToMany(mappedBy = "school")
     private List<Class> classes;
 
     @OneToMany(mappedBy = "school")
     private List<Section> sections;
-
 }

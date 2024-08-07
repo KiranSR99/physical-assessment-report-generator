@@ -12,9 +12,9 @@ public interface SchoolService {
 
     List<SchoolResponse> getAllSchools();
 
-    SchoolResponse getSchoolById();
+    SchoolResponse getSchoolById(Long schoolId);
 
-    StudentResponse updateSchool(SchoolUpdateRequest updateRequest);
+    SchoolResponse updateSchool(SchoolUpdateRequest updateRequest);
 
     String deleteSchool(Long id);
 }
