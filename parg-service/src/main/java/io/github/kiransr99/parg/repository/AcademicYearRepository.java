@@ -2,6 +2,8 @@ package io.github.kiransr99.parg.repository;
 
 import io.github.kiransr99.parg.entity.AcademicYear;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface AcademicYearRepository extends JpaRepository<AcademicYear, Integer> {
+@Repository
+public interface AcademicYearRepository extends JpaRepository<AcademicYear, Long> {
 }
