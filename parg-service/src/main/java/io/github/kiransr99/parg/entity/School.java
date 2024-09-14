@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class School {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long schoolId;
     @Column(nullable = false)
     private String name;

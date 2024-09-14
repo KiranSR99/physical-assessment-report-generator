@@ -11,12 +11,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SchoolResponse {
+    private Long id;
     private String name;
     private String address;
     private String email;
     private String phone;
 
     public SchoolResponse(School savedSchool) {
+        this.id = savedSchool.getSchoolId();
         this.name = savedSchool.getName();
         this.address = savedSchool.getAddress();
         this.email = savedSchool.getEmail();

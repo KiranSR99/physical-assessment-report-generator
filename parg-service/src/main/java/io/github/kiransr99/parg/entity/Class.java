@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,7 @@ public class Class {
     private School school;
 
     @OneToMany(mappedBy = "className")
-    private List<Section> sections;
+    private List<Section> sections = new ArrayList<>();
 
+    private boolean status = true;
 }

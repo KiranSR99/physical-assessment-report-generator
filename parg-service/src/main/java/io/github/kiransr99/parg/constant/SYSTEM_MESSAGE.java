@@ -7,6 +7,15 @@ public class SYSTEM_MESSAGE {
     public static final String SCHOOL_UPDATED = "School updated successfully.";
     public static final String SCHOOL_DELETED = "School deleted successfully.";
 
+    // CLASS RELATED
+    public static final String CLASS_SAVED = "Class saved successfully.";
+    public static final String CLASS_FETCHED = "All class fetched successfully.";
+    public static final String CLASS_UPDATED = "Class updated successfully.";
+    public static final String CLASS_DELETED = "Class deleted successfully.";
+    public static final Exception SCHOOL_NOT_FOUND = new Exception("School not found");
+    public static final Exception CLASS_NOT_FOUND = new Exception("Class not found");
+
+
     // Student Message
     public static final String STUDENT_SAVED = "Student saved successfully.";
     public static final String STUDENT_FETCHED = "All student fetched successfully.";
