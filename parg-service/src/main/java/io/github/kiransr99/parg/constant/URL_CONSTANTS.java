@@ -22,6 +22,12 @@ public class URL_CONSTANTS {
     public static final String GET_STUDENT_BY_ID = "/getStudentById/{studentId}";
     public static final String DELETE_STUDENT = "/deleteStudent/{studentId}";
 
+    // Academic Year URL
+    public static final String ACADEMIC_YEAR_URL = "/parg/api/v1/academicYear";
+    public static final String SAVE_ACADEMIC_YEAR = "/saveAcademicYear";
+    public static final String UPDATE_ACADEMIC_YEAR = "/updateAcademicYear/{academicYearId}";
+    public static final String GET_ACADEMIC_YEAR_BY_ID = "/getAcademicYearById/{academicYearId}";
+    public static final String DELETE_ACADEMIC_YEAR = "/deleteAcademicYear/{academicYearId}";
 
     // CLASS URLS
     public static final String CLASS_URL = "/parg/api/v1/class";

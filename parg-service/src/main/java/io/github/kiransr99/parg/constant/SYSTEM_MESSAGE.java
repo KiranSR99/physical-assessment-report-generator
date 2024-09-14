@@ -31,4 +31,12 @@ public class SYSTEM_MESSAGE {
     public static final String STUDENT_DELETED = "Student deleted successfully.";
     public static final String STUDENT_NOT_FOUND = "Student not found.";
     public static final String STUDENT_FETCHED_BY_ID = "Student fetched successfully.";
+
+    // Academic Year Message
+    public static final String ACADEMIC_YEAR_SAVED = "Academic year saved successfully.";
+    public static final String ACADEMIC_YEAR_FETCHED = "All academic year fetched successfully.";
+    public static final String ACADEMIC_YEAR_UPDATED = "Academic year updated successfully.";
+    public static final String ACADEMIC_YEAR_DELETED = "Academic year deleted successfully.";
+    public static final String ACADEMIC_YEAR_NOT_FOUND = "Academic year not found.";
+    public static final String ACADEMIC_YEAR_FETCHED_BY_ID = "Academic year fetched successfully.";
 }
