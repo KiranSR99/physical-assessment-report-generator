@@ -27,4 +27,5 @@ public class Class {
     @OneToMany(mappedBy = "className")
     private List<Section> sections;
 
+    private boolean status = true;
 }
