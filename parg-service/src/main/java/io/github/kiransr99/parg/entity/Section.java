@@ -31,4 +31,12 @@ public class Section {
 
     @OneToMany(mappedBy = "section")
     private List<StudentEnrollment> studentEnrollments;
+
+    private boolean status = true;
+
+    public Section(Class className, String sectionName, School school) {
+        this.className = className;
+        this.name = sectionName;
+        this.school = school;
+    }
 }
