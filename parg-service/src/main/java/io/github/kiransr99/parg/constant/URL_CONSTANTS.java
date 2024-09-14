@@ -10,5 +10,12 @@ public class URL_CONSTANTS {
     public static final String GET_SCHOOL_BY_ID = "/getSchoolById/{schoolId}";
     public static final String DELETE_SCHOOL = "/deleteSchool/{schoolId}";
 
+    // Student URL
+    public static final String STUDENT_URL = "/parg/api/v1/student";
+    public static final String SAVE_STUDENT = "/saveStudent";
+    public static final String UPDATE_STUDENT = "/updateStudent/{studentId}";
+    public static final String GET_STUDENT_BY_ID = "/getStudentById/{studentId}";
+    public static final String DELETE_STUDENT = "/deleteStudent/{studentId}";
+
 
 }
