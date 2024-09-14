@@ -36,7 +36,7 @@ public class URL_CONSTANTS {
     public static final String SECTION_URL = "/parg/api/v1/section";
     public static final String GET_ALL_SECTIONS = "/getAllSections";
     public static final String SAVE_SECTION = "/saveSection";
-    public static final String UPDATE_SECTION = "/updateSection";
+    public static final String UPDATE_SECTION = "/updateSection/{sectionId}";
     public static final String GET_SECTION_BY_ID = "/getSectionById/{sectionId}";
     public static final String DELETE_SECTION = "/deleteSection/{sectionId}";
 }
