@@ -23,9 +23,7 @@ public class ClassResponse {
         this.name = savedClass.getName();
         this.school = new SchoolResponse(savedClass.getSchool());
         if (savedClass.getSections() != null) {
-            savedClass.getSections().forEach(section -> {
-                this.sections.add(new SectionResponse(section));
-            });
+            savedClass.getSections().forEach(section -> this.sections.add(new SectionResponse(section)));
         }
     }
 

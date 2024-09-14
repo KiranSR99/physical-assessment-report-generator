@@ -17,5 +17,5 @@ public interface ClassService {
 
     ClassResponse updateClass(Long classId, ClassListRequest request);
 
-    ClassResponse deleteClass(Long classId);
+    String deleteClass(Long classId);
 }

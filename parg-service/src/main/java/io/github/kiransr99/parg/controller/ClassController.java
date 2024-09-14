@@ -1,6 +1,6 @@
 package io.github.kiransr99.parg.controller;
 
-import io.github.kiransr99.parg.constant.SUCCESS_MESSAGE;
+import io.github.kiransr99.parg.constant.SYSTEM_MESSAGE;
 import io.github.kiransr99.parg.constant.URL_CONSTANTS;
 import io.github.kiransr99.parg.controller.base.BaseController;
 import io.github.kiransr99.parg.dto.GlobalApiResponse;
@@ -24,31 +24,31 @@ public class ClassController extends BaseController {
 
     @PostMapping(URL_CONSTANTS.SAVE_CLASS)
     public ResponseEntity<GlobalApiResponse<List<ClassResponse>>> saveClass (@Validated @RequestBody ClassRequest request){
-        return successResponse(classService.saveClass(request), SUCCESS_MESSAGE.CLASS_SAVED);
+        return successResponse(classService.saveClass(request), SYSTEM_MESSAGE.CLASS_SAVED);
     }
 
     @GetMapping(URL_CONSTANTS.GET_ALL_CLASSES)
     public ResponseEntity<GlobalApiResponse<List<ClassResponse>>> getAllClasses (){
-        return successResponse(classService.getAllClasses(), SUCCESS_MESSAGE.CLASS_FETCHED);
+        return successResponse(classService.getAllClasses(), SYSTEM_MESSAGE.CLASS_FETCHED);
     }
 
     @GetMapping(URL_CONSTANTS.GET_CLASSES_BY_SCHOOL_ID)
-    public ResponseEntity<GlobalApiResponse<List<ClassResponse>>> getClassesBySchoolId (@RequestBody Long schoolId){
-        return successResponse(classService.getAllClassesBySchoolId(schoolId), SUCCESS_MESSAGE.CLASS_FETCHED);
+    public ResponseEntity<GlobalApiResponse<List<ClassResponse>>> getClassesBySchoolId (@PathVariable Long schoolId){
+        return successResponse(classService.getAllClassesBySchoolId(schoolId), SYSTEM_MESSAGE.CLASS_FETCHED);
     }
 
     @GetMapping(URL_CONSTANTS.GET_CLASS_BY_ID)
     public ResponseEntity<GlobalApiResponse<ClassResponse>> getClassById (@PathVariable Long classId){
-        return successResponse(classService.getClassById(classId), SUCCESS_MESSAGE.CLASS_FETCHED);
+        return successResponse(classService.getClassById(classId), SYSTEM_MESSAGE.CLASS_FETCHED);
     }
 
-    @PostMapping(URL_CONSTANTS.UPDATE_CLASS)
+    @PutMapping(URL_CONSTANTS.UPDATE_CLASS)
     public ResponseEntity<GlobalApiResponse<ClassResponse>> updateClass (@PathVariable Long classId, @RequestBody ClassListRequest request){
-        return successResponse(classService.updateClass(classId, request), SUCCESS_MESSAGE.CLASS_UPDATED);
+        return successResponse(classService.updateClass(classId, request), SYSTEM_MESSAGE.CLASS_UPDATED);
     }
 
-    @PostMapping(URL_CONSTANTS.DELETE_CLASS)
-    public ResponseEntity<GlobalApiResponse<ClassResponse>> deleteClass (@PathVariable Long classId){
-        return successResponse(classService.deleteClass(classId), SUCCESS_MESSAGE.CLASS_DELETED);
+    @DeleteMapping(URL_CONSTANTS.DELETE_CLASS)
+    public ResponseEntity<GlobalApiResponse<String>> deleteClass (@PathVariable Long classId){
+        return successResponse(classService.deleteClass(classId), SYSTEM_MESSAGE.CLASS_DELETED);
     }
 }

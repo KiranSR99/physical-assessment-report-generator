@@ -15,11 +15,18 @@ public class URL_CONSTANTS {
     public static final String GET_SCHOOL_BY_ID = "/getSchoolById/{schoolId}";
     public static final String DELETE_SCHOOL = "/deleteSchool/{schoolId}";
 
+    // Student URL
+    public static final String STUDENT_URL = "/parg/api/v1/student";
+    public static final String SAVE_STUDENT = "/saveStudent";
+    public static final String UPDATE_STUDENT = "/updateStudent/{studentId}";
+    public static final String GET_STUDENT_BY_ID = "/getStudentById/{studentId}";
+    public static final String DELETE_STUDENT = "/deleteStudent/{studentId}";
+
 
     // CLASS URLS
     public static final String CLASS_URL = "/parg/api/v1/class";
     public static final String GET_ALL_CLASSES = "/getAllClasses";
-    public static final String GET_CLASSES_BY_SCHOOL_ID = "/getClassesBySchoolId";
+    public static final String GET_CLASSES_BY_SCHOOL_ID = "/getClassesBySchoolId/{schoolId}";
     public static final String SAVE_CLASS = "/saveClass";
     public static final String UPDATE_CLASS = "/updateClass/{classId}";
     public static final String GET_CLASS_BY_ID = "/getClassById/{classId}";

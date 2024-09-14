@@ -10,5 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ClassRepository extends JpaRepository<Class, Long> {
-    List<Class> findBySchool(School school);
+    List<Class> findByStatusTrue();
+    List<Class> findBySchoolAndStatusTrue(School school);
 }
