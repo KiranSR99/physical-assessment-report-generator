@@ -15,6 +15,14 @@ public class SYSTEM_MESSAGE {
     public static final Exception SCHOOL_NOT_FOUND = new Exception("School not found");
     public static final Exception CLASS_NOT_FOUND = new Exception("Class not found");
 
+    // SECTION RELATED
+    public static final String SECTION_SAVED = "Section saved successfully.";
+    public static final String SECTION_FETCHED = "All section fetched successfully.";
+    public static final String SECTION_UPDATED = "Section updated successfully.";
+    public static final String SECTION_DELETED = "Section deleted successfully.";
+    public static final Exception SECTION_NOT_FOUND = new Exception("Section not found");
+
+
 
     // Student Message
     public static final String STUDENT_SAVED = "Student saved successfully.";
