@@ -1,0 +1,31 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <div class="menus-list mt-5">
+            <li *ngFor="let menu of sidebarMenus" class="nav-item outer-nav-item">
+                <!-- Menu item without submenu -->
+                <a *ngIf="menu.childMenus.length === 0" class="nav-link" [routerLink]="menu.menuRoute" routerLinkActive="active">
+                    <i class="menu-icon {{menu.menuIcon}}"></i>
+                    <p class="menu-title">{{menu.menuName}}</p>
+                </a>
+
+                <!-- Menu item with submenu -->
+                <a *ngIf="menu.childMenus.length > 0" class="nav-link" (click)="toggleSubmenuCollapse(menu.menuName)" routerLinkActive="active">
+                    <i class="menu-icon {{menu.menuIcon}}"></i>
+                    <p class="menu-title">{{menu.menuName}}</p>
+                    <i class="menu-arrow"></i>
+                </a>
+
+                <!-- Submenu -->
+                <div *ngIf="menu.childMenus.length > 0" class="collapse ms-4" [ngbCollapse]="!submenuStates[menu.menuName]">
+                    <ul class="nav flex-column sub-menu">
+                        <li *ngFor="let submenu of menu.childMenus" class="nav-item">
+                            <a class="nav-link py-1" [routerLink]="submenu.menuRoute" routerLinkActive="active">
+                                <p class="menu-title">{{submenu.menuName}}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>

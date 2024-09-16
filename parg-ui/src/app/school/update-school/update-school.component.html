@@ -1,0 +1,109 @@
+<div class="container"></div>
+<div class="col-md-1">
+    <a href="javascript:history.back()" class="text-decoration-none d-flex align-items-center"
+        style="color: var(--primary-color);">
+        <i class="ph ph-arrow-left me-1 fs-5"></i>
+        <span>back</span>
+    </a>
+</div>
+<hr>
+<div class="row mt-4">
+    <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()">
+
+        <div class="">
+            <h5 class="mb-3 section-title fw-bold">Update School</h5>
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Name field -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label custom-label">School Name</label>
+                            <input type="text" formControlName="name" class="form-control"
+                                placeholder="Enter school name" />
+                            <!-- Error message for Name -->
+                            <div *ngIf="schoolFormControls['name'].invalid && schoolFormControls['name'].touched"
+                                class="text-danger">
+                                <small *ngIf="schoolFormControls['name'].errors?.['required']">School name is
+                                    required.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address field -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label custom-label">Address</label>
+                            <input type="text" formControlName="address" class="form-control"
+                                placeholder="Enter address" />
+                            <!-- Error message for Address -->
+                            <div *ngIf="schoolFormControls['address'].invalid && schoolFormControls['address'].touched"
+                                class="text-danger">
+                                <small *ngIf="schoolFormControls['address'].errors?.['required']">Address is
+                                    required.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email field -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="email" class="form-label custom-label">Email</label>
+                            <input type="email" formControlName="email" id="email" class="form-control"
+                                placeholder="Enter email address" />
+                            <!-- Error message for Email -->
+                            <div *ngIf="schoolFormControls['email'].invalid && schoolFormControls['email'].touched"
+                                class="text-danger">
+                                <small *ngIf="schoolFormControls['email'].errors?.['required']">Email is
+                                    required.</small>
+                                <small *ngIf="schoolFormControls['email'].errors?.['pattern']">Please enter a valid
+                                    email address.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone field -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label custom-label">Phone</label>
+                            <input type="text" formControlName="phone" class="form-control"
+                                placeholder="Enter phone number" />
+                            <!-- Error message for Phone -->
+                            <div *ngIf="schoolFormControls['phone'].invalid && schoolFormControls['phone'].touched"
+                                class="text-danger">
+                                <small *ngIf="schoolFormControls['phone'].errors?.['required']">Phone number is
+                                    required.</small>
+                                <small *ngIf="schoolFormControls['phone'].errors?.['pattern']">Please enter a valid
+                                    10-digit phone number.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- School Logo field -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label custom-label">School Logo</label>
+                            <input type="file" class="form-control" id="image" (change)="onFileSelected($event)"
+                                accept=".png, .jpg, .jpeg">
+                            @if (imageTypeError) {
+                            <small class="text-danger">Only jpg, jpeg and png with size &lt; 5MB allowed!</small>
+                            }
+                        </div>
+                        @if (imageURL) {
+                        <div class="img-preview mt-3 text-center">
+                            <img [src]="imageURL" alt="School Logo" class="img-fluid" width="300" />
+                        </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="float-end">
+            <button type="button" class="btn custom-button-outlined mt-3 me-1" (click)="resetForm()">Clear</button>
+            <button type="submit" class="btn custom-button mt-3">Update</button>
+        </div>
+    </form>
+</div>

@@ -3,7 +3,6 @@ package io.github.kiransr99.parg.service.impl;
 import io.github.kiransr99.parg.dto.request.SchoolRequest;
 import io.github.kiransr99.parg.dto.request.SchoolUpdateRequest;
 import io.github.kiransr99.parg.dto.response.SchoolResponse;
-import io.github.kiransr99.parg.dto.response.StudentResponse;
 import io.github.kiransr99.parg.entity.School;
 import io.github.kiransr99.parg.repository.SchoolRepository;
 import io.github.kiransr99.parg.service.SchoolService;
