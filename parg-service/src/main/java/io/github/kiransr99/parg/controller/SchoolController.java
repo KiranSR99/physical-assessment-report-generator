@@ -26,7 +26,7 @@ public class SchoolController extends BaseController {
         return successResponse(schoolService.saveSchool(request), SYSTEM_MESSAGE.SCHOOL_SAVED);
     }
     @GetMapping(URL_CONSTANTS.GET_ALL_SCHOOLS)
-    public ResponseEntity<GlobalApiResponse<List<SchoolResponse>>> getAllSchools (@RequestBody SchoolRequest request){
+    public ResponseEntity<GlobalApiResponse<List<SchoolResponse>>> getAllSchools (){
         return successResponse(schoolService.getAllSchools(), SYSTEM_MESSAGE.SCHOOL_FETCHED);
     }
     @GetMapping(URL_CONSTANTS.GET_SCHOOL_BY_ID)

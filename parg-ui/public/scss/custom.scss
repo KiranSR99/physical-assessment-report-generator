@@ -1,0 +1,27 @@
+
+
+.custom-label {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.custom-button {
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+    color: #fff !important;
+
+    &:hover {
+        background-color: transparent !important;
+        color: var(--secondary-color) !important;
+    }
+}
+
+.custom-button-outlined {
+    border-color: var(--secondary-color) !important;
+    color: var(--secondary-color) !important;
+
+    &:hover {
+        background-color: var(--secondary-color) !important;
+        color: #fff !important;
+    }
+}
