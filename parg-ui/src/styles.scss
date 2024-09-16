@@ -1,1 +1,132 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+    --primary-color: #31c0f0;
+    --secondary-color: #ec6824;
+    --third-color: #f6f7f7;
+    --dashboard-bg: #2d2d2d;
+    --dashboard-text-color: #fff;
+    --main-panel-bg: #f6f7f7;
+
+    --navbar-height: 60px;
+    --sidebar-width: 250px;
+    --sidebar-icon-only-width: 70px
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    width: 100% !important;
+    font-size: 16px;
+}
+
+body {
+    font-family: "Lexend", sans-serif !important;
+    font-weight: 300 !important;
+    line-height: 1.6;
+    color: var(--text-color) !important;
+    background-color: var(--background) !important;
+    overflow-x: hidden;
+}
+
+input, button{
+    font-weight: 300 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+    color: var(--primary-color) !important;
+}
+
+h1 {
+    font-size: clamp(1.9rem, 4.75vw, 3.3rem) !important;
+}
+
+h2 {
+    font-size: clamp(1.7rem, 3.75vw, 2.9rem) !important;
+}
+
+h3 {
+    font-size: clamp(1.4rem, 2.75vw, 2.3rem) !important;
+}
+
+h4 {
+    font-size: clamp(1.2rem, 2.25vw, 1.9rem) !important;
+}
+
+h5 {
+    font-size: clamp(1rem, 1.75vw, 1.4rem) !important;
+}
+
+h6 {
+    font-size: clamp(0.9rem, 1.3vw, 1.2rem) !important;
+}
+
+p,
+a,
+span,
+li {
+    font-size: clamp(0.95rem, 1.4vw, 1rem) !important;
+}
+
+small {
+    font-size: clamp(0.7rem, 0.9vw, 0.8rem) !important;
+}
+
+a {
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+button:active,
+button:focus,
+input:active,
+input:focus {
+    box-shadow: none !important;
+}
+
+
+//To make the toast fixed on the screen regardless of page scrolling 
+.toast-container {
+    position: fixed !important;
+    z-index: 1060;
+
+    .toast-title{
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .toast-message{
+        font-size: 14px;
+        font-weight: 300;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    html,
+    body {
+        overflow-x: hidden;
+    }
+}
+
+//importing other necessary scss files
+@import "../public/scss/misc.scss";
+@import "../public/scss/custom.scss";
