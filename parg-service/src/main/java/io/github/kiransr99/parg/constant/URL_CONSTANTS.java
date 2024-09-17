@@ -2,6 +2,13 @@ package io.github.kiransr99.parg.constant;
 
 public class URL_CONSTANTS {
 
+    public static final String STUDENT_ENROLLMENT_URL = "/parg/api/v1/studentEnrollment";
+    public static final String SAVE_STUDENT_ENROLLMENT = "/saveStudentEnrollment";
+    public static final String UPDATE_STUDENT_ENROLLMENT = "/updateStudentEnrollment/{studentEnrollmentId}";
+    public static final String GET_STUDENT_ENROLLMENT_BY_ID = "/getStudentEnrollmentById/{studentEnrollmentId}";
+    public static final String DELETE_STUDENT_ENROLLMENT = "/deleteStudentEnrollment/{studentEnrollmentId}";
+    public static final String GET_ALL_STUDENT_ENROLLMENTS = "/getAllStudentEnrollments";
+
     private URL_CONSTANTS() {
     }
 

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,7 @@ public class StudentEnrollment {
     @JoinColumn(name = "academic_year_id")
     private AcademicYear academicYear;
 
-    private Integer rollNumber;
+    private String rollNumber;
 
     @OneToMany(mappedBy = "studentEnrollment")
     private List<PhysicalReport> physicalReports;

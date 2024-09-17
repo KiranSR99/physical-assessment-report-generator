@@ -1,5 +1,6 @@
 package io.github.kiransr99.parg.dto.response;
 
+import io.github.kiransr99.parg.entity.AcademicYear;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,5 +13,10 @@ public class AcademicYearResponse {
     public AcademicYearResponse(Long id, Integer year) {
         this.id = id;
         this.year = year;
+    }
+
+    public AcademicYearResponse(AcademicYear academicYear) {
+        this.id = academicYear.getId();
+        this.year = academicYear.getYear();
     }
 }
