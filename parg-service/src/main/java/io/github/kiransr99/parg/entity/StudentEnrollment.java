@@ -31,6 +31,8 @@ public class StudentEnrollment {
     @JoinColumn(name = "academic_year_id")
     private AcademicYear academicYear;
 
+    private String rollNumber;
+
     @OneToMany(mappedBy = "studentEnrollment")
     private List<PhysicalReport> physicalReports;
 }

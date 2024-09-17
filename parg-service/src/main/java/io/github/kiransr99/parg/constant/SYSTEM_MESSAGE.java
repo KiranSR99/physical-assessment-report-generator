@@ -1,6 +1,8 @@
 package io.github.kiransr99.parg.constant;
 
 public class SYSTEM_MESSAGE {
+    public static final Exception STUDENT_ENROLLMENT_NOT_FOUND = new Exception("Student enrollment not found");
+
     private SYSTEM_MESSAGE() {}
     public static final String SCHOOL_SAVED = "School saved successfully.";
     public static final String SCHOOL_FETCHED = "All school fetched successfully.";

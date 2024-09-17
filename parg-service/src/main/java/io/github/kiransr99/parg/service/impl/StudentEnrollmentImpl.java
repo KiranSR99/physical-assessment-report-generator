@@ -15,7 +15,12 @@ import io.github.kiransr99.parg.service.StudentEnrollmentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -43,6 +48,48 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
         studentEnrollment.setStudent(student);
         studentEnrollment.setSection(section);
         studentEnrollment.setAcademicYear(academicYear);
+        studentEnrollment.setRollNumber(studentEnrollmentRequest.getRollNumber());
+        StudentEnrollment savedStudentEnrollment = studentEnrollmentRepository.save(studentEnrollment);
+        return new StudentEnrollmentResponse(savedStudentEnrollment);
+    }
+
+    @Override
+    public StudentEnrollmentResponse getStudentEnrollment(Long studentEnrollmentId) {
+        log.info("Getting student enrollment: {}", studentEnrollmentId);
+        StudentEnrollment studentEnrollment = studentEnrollmentRepository.findById(studentEnrollmentId).orElseThrow(
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_ENROLLMENT_NOT_FOUND)
+        );
+        return new StudentEnrollmentResponse(studentEnrollment);
+    }
+
+    @Override
+    public List<StudentEnrollmentResponse> getAllStudentEnrollments(Pageable pageable) {
+        log.info("Getting all student enrollments");
+        Page<StudentEnrollment> studentEnrollments = studentEnrollmentRepository.findAll(pageable);
+        return studentEnrollments.stream().map(StudentEnrollmentResponse::new).toList();
+    }
+
+    @Override
+    public void deleteStudentEnrollment(Long studentEnrollmentId) {
+        log.info("Deleting student enrollment: {}", studentEnrollmentId);
+        studentEnrollmentRepository.deleteById(studentEnrollmentId);
+    }
+
+    @Override
+    public StudentEnrollmentResponse updateStudentEnrollment(Long studentEnrollmentId, StudentEnrollmentRequest studentEnrollmentRequest) {
+        log.info("Updating student enrollment: {}", studentEnrollmentRequest);
+        StudentEnrollment studentEnrollment = studentEnrollmentRepository.findById(studentEnrollmentId).orElseThrow(
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_ENROLLMENT_NOT_FOUND)
+        );
+        Section section = sectionRepository.findById(studentEnrollmentRequest.getSectionId()).orElseThrow(
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND)
+        );
+        AcademicYear academicYear = academicYearRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
+        );
+        studentEnrollment.setSection(section);
+        studentEnrollment.setAcademicYear(academicYear);
+        studentEnrollment.setRollNumber(studentEnrollmentRequest.getRollNumber());
         StudentEnrollment savedStudentEnrollment = studentEnrollmentRepository.save(studentEnrollment);
         return new StudentEnrollmentResponse(savedStudentEnrollment);
     }

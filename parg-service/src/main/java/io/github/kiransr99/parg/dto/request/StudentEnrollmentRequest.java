@@ -11,4 +11,5 @@ public class StudentEnrollmentRequest {
     public Long studentId;
     public Long sectionId;
     public Long academicYearId;
+    public String rollNumber;
 }
