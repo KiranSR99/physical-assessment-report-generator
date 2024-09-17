@@ -2,6 +2,13 @@ package io.github.kiransr99.parg.constant;
 
 public class URL_CONSTANTS {
 
+    public static final String STUDENT_ENROLLMENT_URL = "/parg/api/v1/studentEnrollment";
+    public static final String SAVE_STUDENT_ENROLLMENT = "/saveStudentEnrollment";
+    public static final String UPDATE_STUDENT_ENROLLMENT = "/updateStudentEnrollment/{studentEnrollmentId}";
+    public static final String GET_STUDENT_ENROLLMENT_BY_ID = "/getStudentEnrollmentById/{studentEnrollmentId}";
+    public static final String DELETE_STUDENT_ENROLLMENT = "/deleteStudentEnrollment/{studentEnrollmentId}";
+    public static final String GET_ALL_STUDENT_ENROLLMENTS = "/getAllStudentEnrollments";
+
     private URL_CONSTANTS() {
     }
 
@@ -42,7 +49,7 @@ public class URL_CONSTANTS {
     public static final String SECTION_URL = "/parg/api/v1/section";
     public static final String GET_ALL_SECTIONS = "/getAllSections";
     public static final String SAVE_SECTION = "/saveSection";
-    public static final String UPDATE_SECTION = "/updateSection";
+    public static final String UPDATE_SECTION = "/updateSection/{sectionId}";
     public static final String GET_SECTION_BY_ID = "/getSectionById/{sectionId}";
     public static final String DELETE_SECTION = "/deleteSection/{sectionId}";
 

@@ -1,0 +1,42 @@
+.card {
+    max-width: 400px;
+    height: 350px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.school-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin: 1rem auto;
+}
+
+i {
+    color: var(--secondary-color);
+}
+
+span {
+    font-size: 14px !important;
+}
+
+.dropdown {
+
+    .btn-link {
+        padding: 10px;
+    }
+
+    .dropdown-menu {
+        min-width: 100px;
+
+        .dropdown-item {
+            cursor: pointer;
+            font-size: 14px !important;
+            font-weight: 300 !important;
+        }
+    }
+}
+
+.details{
+    cursor: pointer;
+}

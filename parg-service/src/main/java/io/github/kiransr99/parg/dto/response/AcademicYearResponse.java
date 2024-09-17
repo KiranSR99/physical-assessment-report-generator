@@ -20,4 +20,9 @@ public class AcademicYearResponse {
         this.startDate = academicYear.getStartDate();
         this.endDate = academicYear.getEndDate();
     }
+
+    public AcademicYearResponse(AcademicYear academicYear) {
+        this.id = academicYear.getId();
+        this.year = academicYear.getYear();
+    }
 }

@@ -1,6 +1,8 @@
 package io.github.kiransr99.parg.constant;
 
 public class SYSTEM_MESSAGE {
+    public static final Exception STUDENT_ENROLLMENT_NOT_FOUND = new Exception("Student enrollment not found");
+
     private SYSTEM_MESSAGE() {}
     public static final String SCHOOL_SAVED = "School saved successfully.";
     public static final String SCHOOL_FETCHED = "All school fetched successfully.";
@@ -14,6 +16,14 @@ public class SYSTEM_MESSAGE {
     public static final String CLASS_DELETED = "Class deleted successfully.";
     public static final Exception SCHOOL_NOT_FOUND = new Exception("School not found");
     public static final Exception CLASS_NOT_FOUND = new Exception("Class not found");
+
+    // SECTION RELATED
+    public static final String SECTION_SAVED = "Section saved successfully.";
+    public static final String SECTION_FETCHED = "All section fetched successfully.";
+    public static final String SECTION_UPDATED = "Section updated successfully.";
+    public static final String SECTION_DELETED = "Section deleted successfully.";
+    public static final Exception SECTION_NOT_FOUND = new Exception("Section not found");
+
 
 
     // Student Message
