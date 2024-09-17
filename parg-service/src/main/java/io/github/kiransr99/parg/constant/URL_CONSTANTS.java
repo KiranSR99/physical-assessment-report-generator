@@ -68,4 +68,12 @@ public class URL_CONSTANTS {
     public static final String GET_PHYSICAL_TEST_METRIC_BY_ID = "/getPhysicalTestMetricById/{physicalTestMetricId}";
     public static final String DELETE_PHYSICAL_TEST_METRIC = "/deletePhysicalTestMetric/{physicalTestMetricId}";
     public static final String GET_ALL_PHYSICAL_TEST_METRICS = "/getAllPhysicalTestMetrics";
+
+    // Physical Report URL
+    public static final String PHYSICAL_REPORT_URL = "/parg/api/v1/physicalReport";
+    public static final String SAVE_PHYSICAL_REPORT = "/savePhysicalReport";
+    public static final String UPDATE_PHYSICAL_REPORT = "/updatePhysicalReport/{physicalReportId}";
+    public static final String GET_PHYSICAL_REPORT_BY_ID = "/getPhysicalReportById/{physicalReportId}";
+    public static final String DELETE_PHYSICAL_REPORT = "/deletePhysicalReport/{physicalReportId}";
+    public static final String GET_ALL_PHYSICAL_REPORTS = "/getAllPhysicalReports";
 }

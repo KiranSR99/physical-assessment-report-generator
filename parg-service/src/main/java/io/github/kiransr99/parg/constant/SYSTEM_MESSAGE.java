@@ -57,4 +57,12 @@ public class SYSTEM_MESSAGE {
     public static final String PHYSICAL_TEST_METRIC_DELETED = "Physical test metric deleted successfully.";
     public static final String PHYSICAL_TEST_METRIC_NOT_FOUND = "Physical test metric not found.";
     public static final String PHYSICAL_TEST_METRIC_FETCHED_BY_ID = "Physical test metric fetched successfully.";
+
+    // Physical Report Message
+    public static final String PHYSICAL_REPORT_SAVED = "Physical report saved successfully.";
+    public static final String PHYSICAL_REPORT_FETCHED = "All physical report fetched successfully.";
+    public static final String PHYSICAL_REPORT_UPDATED = "Physical report updated successfully.";
+    public static final String PHYSICAL_REPORT_DELETED = "Physical report deleted successfully.";
+    public static final String PHYSICAL_REPORT_NOT_FOUND = "Physical report not found.";
+    public static final String PHYSICAL_REPORT_FETCHED_BY_ID = "Physical report fetched successfully.";
 }
