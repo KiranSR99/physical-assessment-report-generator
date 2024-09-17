@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,9 @@ public class AcademicYear {
     private Long id;
     @Column(nullable = false)
     private Integer year;
+
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @OneToMany(mappedBy = "academicYear")
     private List<StudentEnrollment> studentEnrollments;

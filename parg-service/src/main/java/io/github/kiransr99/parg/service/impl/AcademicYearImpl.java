@@ -22,7 +22,10 @@ public class AcademicYearImpl implements AcademicYearService {
         log.info("Creating academic year: {}", academicYearRequest);
         AcademicYear academicYear = new AcademicYear();
         academicYear.setYear(academicYearRequest.getYear());
-        return new AcademicYearResponse(academicYear.getId(), academicYear.getYear());
+        academicYear.setStartDate(academicYearRequest.getStartDate());
+        academicYear.setEndDate(academicYearRequest.getEndDate());
+        academicYearRepository.save(academicYear);
+        return new AcademicYearResponse(academicYear);
     }
 
     @Override
@@ -31,7 +34,7 @@ public class AcademicYearImpl implements AcademicYearService {
         AcademicYear academicYear = academicYearRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
         );
-        return new AcademicYearResponse(academicYear.getId(), academicYear.getYear());
+        return new AcademicYearResponse(academicYear);
     }
 
     @Override
@@ -41,7 +44,10 @@ public class AcademicYearImpl implements AcademicYearService {
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
         );
         academicYear.setYear(academicYearUpdateRequest.getYear());
-        return new AcademicYearResponse(academicYear.getId(), academicYear.getYear());
+        academicYear.setStartDate(academicYearUpdateRequest.getStartDate());
+        academicYear.setEndDate(academicYearUpdateRequest.getEndDate());
+        academicYearRepository.save(academicYear);
+        return new AcademicYearResponse(academicYear);
     }
 
     @Override
