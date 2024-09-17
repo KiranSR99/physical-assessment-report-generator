@@ -41,4 +41,20 @@ public class SYSTEM_MESSAGE {
     public static final String ACADEMIC_YEAR_DELETED = "Academic year deleted successfully.";
     public static final String ACADEMIC_YEAR_NOT_FOUND = "Academic year not found.";
     public static final String ACADEMIC_YEAR_FETCHED_BY_ID = "Academic year fetched successfully.";
+
+    // Physical Test Message
+    public static final String PHYSICAL_TEST_SAVED = "Physical test saved successfully.";
+    public static final String PHYSICAL_TEST_FETCHED = "All physical test fetched successfully.";
+    public static final String PHYSICAL_TEST_UPDATED = "Physical test updated successfully.";
+    public static final String PHYSICAL_TEST_DELETED = "Physical test deleted successfully.";
+    public static final String PHYSICAL_TEST_NOT_FOUND = "Physical test not found.";
+    public static final String PHYSICAL_TEST_FETCHED_BY_ID = "Physical test fetched successfully.";
+
+    // Physical Test Metric Message
+    public static final String PHYSICAL_TEST_METRIC_SAVED = "Physical test metric saved successfully.";
+    public static final String PHYSICAL_TEST_METRIC_FETCHED = "All physical test metric fetched successfully.";
+    public static final String PHYSICAL_TEST_METRIC_UPDATED = "Physical test metric updated successfully.";
+    public static final String PHYSICAL_TEST_METRIC_DELETED = "Physical test metric deleted successfully.";
+    public static final String PHYSICAL_TEST_METRIC_NOT_FOUND = "Physical test metric not found.";
+    public static final String PHYSICAL_TEST_METRIC_FETCHED_BY_ID = "Physical test metric fetched successfully.";
 }

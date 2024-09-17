@@ -52,4 +52,20 @@ public class URL_CONSTANTS {
     public static final String UPDATE_SECTION = "/updateSection/{sectionId}";
     public static final String GET_SECTION_BY_ID = "/getSectionById/{sectionId}";
     public static final String DELETE_SECTION = "/deleteSection/{sectionId}";
+
+    // Physical Test URL
+    public static final String PHYSICAL_TEST_URL = "/parg/api/v1/physicalTest";
+    public static final String SAVE_PHYSICAL_TEST = "/savePhysicalTest";
+    public static final String UPDATE_PHYSICAL_TEST = "/updatePhysicalTest/{physicalTestId}";
+    public static final String GET_PHYSICAL_TEST_BY_ID = "/getPhysicalTestById/{physicalTestId}";
+    public static final String DELETE_PHYSICAL_TEST = "/deletePhysicalTest/{physicalTestId}";
+    public static final String GET_ALL_PHYSICAL_TESTS = "/getAllPhysicalTests";
+
+    // Physical Test Metric URL
+    public static final String PHYSICAL_TEST_METRIC_URL = "/parg/api/v1/physicalTestMetric";
+    public static final String SAVE_PHYSICAL_TEST_METRIC = "/savePhysicalTestMetric";
+    public static final String UPDATE_PHYSICAL_TEST_METRIC = "/updatePhysicalTestMetric/{physicalTestMetricId}";
+    public static final String GET_PHYSICAL_TEST_METRIC_BY_ID = "/getPhysicalTestMetricById/{physicalTestMetricId}";
+    public static final String DELETE_PHYSICAL_TEST_METRIC = "/deletePhysicalTestMetric/{physicalTestMetricId}";
+    public static final String GET_ALL_PHYSICAL_TEST_METRICS = "/getAllPhysicalTestMetrics";
 }
