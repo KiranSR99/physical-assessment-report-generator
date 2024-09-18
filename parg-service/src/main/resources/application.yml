@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/parg
@@ -9,3 +12,9 @@ spring:
     show_sql: true
     hibernate:
       ddl-auto: update
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

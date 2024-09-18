@@ -10,10 +10,12 @@ public class PhysicalTestResponse {
     private Long physicalTestId;
     private String physicalTestName;
     private String physicalTestDescription;
+    private String physicalTestUnit;
 
     public PhysicalTestResponse(PhysicalTest physicalTest) {
         this.physicalTestId = physicalTest.getId();
         this.physicalTestName = physicalTest.getName();
         this.physicalTestDescription = physicalTest.getDescription();
+        this.physicalTestUnit = physicalTest.getUnit();
     }
 }

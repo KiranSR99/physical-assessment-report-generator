@@ -2,6 +2,12 @@ package io.github.kiransr99.parg.constant;
 
 public class SYSTEM_MESSAGE {
     public static final Exception STUDENT_ENROLLMENT_NOT_FOUND = new Exception("Student enrollment not found");
+    public static final Exception PHYSICAL_TEST_PERFORMANCE_NOT_FOUND = new Exception("Physical test performance not found");
+    public static final String PHYSICAL_TEST_PERFORMANCE_SAVED = "Physical test performance saved successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_UPDATED = "Physical test performance updated successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_DELETED = "Physical test performance deleted successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_FETCHED_BY_ID = "Physical test performance fetched successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_FETCHED = "All physical test performance fetched successfully.";
 
     private SYSTEM_MESSAGE() {}
     public static final String SCHOOL_SAVED = "School saved successfully.";
@@ -57,4 +63,12 @@ public class SYSTEM_MESSAGE {
     public static final String PHYSICAL_TEST_METRIC_DELETED = "Physical test metric deleted successfully.";
     public static final String PHYSICAL_TEST_METRIC_NOT_FOUND = "Physical test metric not found.";
     public static final String PHYSICAL_TEST_METRIC_FETCHED_BY_ID = "Physical test metric fetched successfully.";
+
+    // Physical Report Message
+    public static final String PHYSICAL_REPORT_SAVED = "Physical report saved successfully.";
+    public static final String PHYSICAL_REPORT_FETCHED = "All physical report fetched successfully.";
+    public static final String PHYSICAL_REPORT_UPDATED = "Physical report updated successfully.";
+    public static final String PHYSICAL_REPORT_DELETED = "Physical report deleted successfully.";
+    public static final String PHYSICAL_REPORT_NOT_FOUND = "Physical report not found.";
+    public static final String PHYSICAL_REPORT_FETCHED_BY_ID = "Physical report fetched successfully.";
 }
