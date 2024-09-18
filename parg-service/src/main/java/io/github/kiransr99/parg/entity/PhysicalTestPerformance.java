@@ -26,6 +26,6 @@ public class PhysicalTestPerformance {
     @JoinColumn(name = "physical_test_id")
     private PhysicalTest physicalTest;
 
-    @OneToMany(mappedBy = "physicalTestPerformance")
-    private List<PhysicalTestPerformanceMetric> physicalTestPerformanceMetricList;
+//    @OneToMany(mappedBy = "physicalTestPerformance")
+//    private List<PhysicalTestPerformanceMetric> physicalTestPerformanceMetricList;
 }
