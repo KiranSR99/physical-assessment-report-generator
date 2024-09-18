@@ -36,7 +36,7 @@ public class PhysicalReport {
     private String percentile;
     private String comment;
 
-    @OneToMany(mappedBy = "physicalReport")
-    private List<PhysicalTestPerformance> physicalTestPerformanceList;
+    @OneToMany(mappedBy = "physicalReport", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PhysicalTest> physicalTests;
 
 }
