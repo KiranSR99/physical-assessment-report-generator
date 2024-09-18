@@ -24,8 +24,7 @@ public class PhysicalTest {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "physicalTest")
-    private List<PhysicalTestMetric> metrics;
+    private String unit;
 
     @OneToMany(mappedBy = "physicalTest")
     private List<PhysicalTestPerformance> performances;

@@ -25,6 +25,7 @@ public class PhysicalTestImpl implements PhysicalTestService {
         PhysicalTest physicalTest = new PhysicalTest();
         physicalTest.setName(physicalTestRequest.getPhysicalTestName());
         physicalTest.setDescription(physicalTestRequest.getPhysicalTestDescription());
+        physicalTest.setUnit(physicalTestRequest.getPhysicalTestUnit());
         physicalTestRepository.save(physicalTest);
         return new PhysicalTestResponse(physicalTest);
     }
@@ -52,6 +53,7 @@ public class PhysicalTestImpl implements PhysicalTestService {
         );
         physicalTest.setName(physicalTestUpdateRequest.getPhysicalTestName());
         physicalTest.setDescription(physicalTestUpdateRequest.getPhysicalTestDescription());
+        physicalTest.setUnit(physicalTestUpdateRequest.getPhysicalTestUnit());
         physicalTestRepository.save(physicalTest);
         return new PhysicalTestResponse(physicalTest);
     }

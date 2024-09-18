@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class PhysicalTestRequest {
     private String physicalTestName;
     private String physicalTestDescription;
+    private String physicalTestUnit;
 }
