@@ -14,12 +14,12 @@ public class AcademicYearResponse {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    public AcademicYearResponse(AcademicYear academicYear) {
-        this.id = academicYear.getId();
-        this.year = academicYear.getYear();
-        this.startDate = academicYear.getStartDate();
-        this.endDate = academicYear.getEndDate();
-    }
+//    public AcademicYearResponse(AcademicYear academicYear) {
+//        this.id = academicYear.getId();
+//        this.year = academicYear.getYear();
+//        this.startDate = academicYear.getStartDate();
+//        this.endDate = academicYear.getEndDate();
+//    }
 
     public AcademicYearResponse(AcademicYear academicYear) {
         this.id = academicYear.getId();
