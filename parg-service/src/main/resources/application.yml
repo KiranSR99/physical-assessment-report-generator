@@ -13,8 +13,22 @@ spring:
     hibernate:
       ddl-auto: update
 
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  web:
+    resources:
+      static-locations: file:D:/PARG/, file:/home/user/PARG/, file:/Users/PARG/
+
 springdoc:
   api-docs:
     enabled: true
   swagger-ui:
     enabled: true
+
+app:
+  filepath:
+    windows: D:\\PARG\\
+    linux: /home/user/PARG/
+    mac: /Users/PARG/

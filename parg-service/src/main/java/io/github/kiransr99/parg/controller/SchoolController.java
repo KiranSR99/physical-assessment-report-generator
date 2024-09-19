@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,9 +23,10 @@ public class SchoolController extends BaseController {
     private final SchoolService schoolService;
 
     @PostMapping(URL_CONSTANTS.SAVE_SCHOOL)
-    public ResponseEntity<GlobalApiResponse<SchoolResponse>> saveSchool (@Validated @RequestBody SchoolRequest request){
+    public ResponseEntity<GlobalApiResponse<SchoolResponse>> saveSchool (@Validated @ModelAttribute SchoolRequest request) throws IOException {
         return successResponse(schoolService.saveSchool(request), SYSTEM_MESSAGE.SCHOOL_SAVED);
     }
+
     @GetMapping(URL_CONSTANTS.GET_ALL_SCHOOLS)
     public ResponseEntity<GlobalApiResponse<List<SchoolResponse>>> getAllSchools (){
         return successResponse(schoolService.getAllSchools(), SYSTEM_MESSAGE.SCHOOL_FETCHED);
@@ -34,7 +36,7 @@ public class SchoolController extends BaseController {
         return successResponse(schoolService.getSchoolById(schoolId), SYSTEM_MESSAGE.SCHOOL_FETCHED);
     }
     @PutMapping(URL_CONSTANTS.UPDATE_SCHOOL)
-    public ResponseEntity<GlobalApiResponse<SchoolResponse>> updateSchool (@RequestBody SchoolUpdateRequest schoolUpdateRequest){
+    public ResponseEntity<GlobalApiResponse<SchoolResponse>> updateSchool (@ModelAttribute SchoolUpdateRequest schoolUpdateRequest){
         return successResponse(schoolService.updateSchool(schoolUpdateRequest), SYSTEM_MESSAGE.SCHOOL_UPDATED);
     }
 

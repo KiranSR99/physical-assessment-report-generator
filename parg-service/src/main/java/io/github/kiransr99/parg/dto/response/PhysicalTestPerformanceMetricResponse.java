@@ -1,6 +1,5 @@
 package io.github.kiransr99.parg.dto.response;
 
-import io.github.kiransr99.parg.entity.PhysicalTestPerformance;
 import io.github.kiransr99.parg.entity.PhysicalTestPerformanceMetric;
 import lombok.Data;
 import lombok.NoArgsConstructor;
