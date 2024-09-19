@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AcademicYearRequest {
+public class ExamRequest {
     private Integer year;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String examName;
 }

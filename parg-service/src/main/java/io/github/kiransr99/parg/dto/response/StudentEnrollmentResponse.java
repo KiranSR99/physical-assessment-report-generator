@@ -6,12 +6,12 @@ public class StudentEnrollmentResponse {
 
     public StudentResponse student;
     public SectionResponse section;
-    public AcademicYearResponse academicYear;
+    public ExamResponse academicYear;
     public String rollNumber;
     public StudentEnrollmentResponse(StudentEnrollment savedStudentEnrollment) {
         this.student = new StudentResponse(savedStudentEnrollment.getStudent());
         this.section = new SectionResponse(savedStudentEnrollment.getSection());
-        this.academicYear = new AcademicYearResponse(savedStudentEnrollment.getAcademicYear());
+        this.academicYear = new ExamResponse(savedStudentEnrollment.getExam());
         this.rollNumber = savedStudentEnrollment.getRollNumber();
     }
 }
