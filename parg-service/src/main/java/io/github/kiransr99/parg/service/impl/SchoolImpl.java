@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +19,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SchoolImpl implements SchoolService {
     private final SchoolRepository schoolRepository;
+    private final FileService fileService;
 
     @Override
-    public SchoolResponse saveSchool(SchoolRequest request) {
+    public SchoolResponse saveSchool(SchoolRequest request) throws IOException {
         log.info("School save request received.");
         School school = new School();
         school.setName(request.getName());
         school.setPhone(request.getPhone());
         school.setAddress(request.getAddress());
         school.setEmail(request.getEmail());
+
+        if (request.getLogo() != null && !request.getLogo().isEmpty()) {
+            String logo = fileService.saveFile(request.getLogo());
+            school.setLogo(logo);
+        }
 
         log.debug("School object before save: {}", school);
 

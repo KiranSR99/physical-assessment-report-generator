@@ -23,7 +23,7 @@ public class School {
     @Column(nullable = false, unique = true)
     private String email;
     private String phone;
-
+    private String logo;
     private boolean status = true;
 
     @OneToMany(mappedBy = "school")
