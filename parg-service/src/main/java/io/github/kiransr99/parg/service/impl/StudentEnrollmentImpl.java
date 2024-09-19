@@ -3,11 +3,11 @@ package io.github.kiransr99.parg.service.impl;
 import io.github.kiransr99.parg.constant.SYSTEM_MESSAGE;
 import io.github.kiransr99.parg.dto.request.StudentEnrollmentRequest;
 import io.github.kiransr99.parg.dto.response.StudentEnrollmentResponse;
-import io.github.kiransr99.parg.entity.AcademicYear;
+import io.github.kiransr99.parg.entity.Exam;
 import io.github.kiransr99.parg.entity.Section;
 import io.github.kiransr99.parg.entity.Student;
 import io.github.kiransr99.parg.entity.StudentEnrollment;
-import io.github.kiransr99.parg.repository.AcademicYearRepository;
+import io.github.kiransr99.parg.repository.ExamRepository;
 import io.github.kiransr99.parg.repository.SectionRepository;
 import io.github.kiransr99.parg.repository.StudentEnrollmentRepository;
 import io.github.kiransr99.parg.repository.StudentRepository;
@@ -30,7 +30,7 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
     private final StudentEnrollmentRepository studentEnrollmentRepository;
     private final StudentRepository studentRepository;
     private final SectionRepository sectionRepository;
-    private final AcademicYearRepository academicYearRepository;
+    private final ExamRepository examRepository;
 
     @Override
     public StudentEnrollmentResponse saveStudentEnrollment(StudentEnrollmentRequest studentEnrollmentRequest) {
@@ -41,13 +41,13 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
         Section section = sectionRepository.findById(studentEnrollmentRequest.getSectionId()).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND)
         );
-        AcademicYear academicYear = academicYearRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
+        Exam exam = examRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
         );
         StudentEnrollment studentEnrollment = new StudentEnrollment();
         studentEnrollment.setStudent(student);
         studentEnrollment.setSection(section);
-        studentEnrollment.setAcademicYear(academicYear);
+        studentEnrollment.setExam(exam);
         studentEnrollment.setRollNumber(studentEnrollmentRequest.getRollNumber());
         StudentEnrollment savedStudentEnrollment = studentEnrollmentRepository.save(studentEnrollment);
         return new StudentEnrollmentResponse(savedStudentEnrollment);
@@ -84,11 +84,11 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
         Section section = sectionRepository.findById(studentEnrollmentRequest.getSectionId()).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND)
         );
-        AcademicYear academicYear = academicYearRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
+        Exam exam = examRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
         );
         studentEnrollment.setSection(section);
-        studentEnrollment.setAcademicYear(academicYear);
+        studentEnrollment.setExam(exam);
         studentEnrollment.setRollNumber(studentEnrollmentRequest.getRollNumber());
         StudentEnrollment savedStudentEnrollment = studentEnrollmentRepository.save(studentEnrollment);
         return new StudentEnrollmentResponse(savedStudentEnrollment);
