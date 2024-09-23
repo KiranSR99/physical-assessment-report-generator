@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +28,7 @@ public class StudentEnrollment {
 
     @ManyToOne
     @JoinColumn(name = "academic_year_id")
-    private AcademicYear academicYear;
+    private Exam exam;
 
     private String rollNumber;
 

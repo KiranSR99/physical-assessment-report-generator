@@ -14,16 +14,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AcademicYear {
+public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false)
     private Integer year;
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-
-    @OneToMany(mappedBy = "academicYear")
-    private List<StudentEnrollment> studentEnrollments;
+    private String examName;
 }
