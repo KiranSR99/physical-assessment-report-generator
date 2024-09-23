@@ -1,0 +1,28 @@
+.card{
+
+    .card-body{
+        i{
+            width: 20px;
+            color: var(--secondary-color);
+        }
+    }
+}
+
+.dropdown{
+    .fa-ellipsis-v{
+        color: var(--secondary-color);
+    }
+
+    .dropdown-item{
+        cursor: pointer;
+        font-weight: 300;
+
+        i{
+            color: var(--secondary-color);
+        }
+    }
+}
+
+.exam-list{
+    cursor: pointer;
+}

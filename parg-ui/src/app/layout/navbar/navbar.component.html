@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg">
+    <!-- Logo -->
+    <a class="navbar-brand" routerLink="/">
+        <img src="images/logo/eduplaylogo.png" alt="EduPlay Logo" height="40" class="d-none d-md-block">
+        <img src="images/logo/ep-avatar.png" alt="EP Avatar" height="40" class="d-md-none">
+    </a>
+
+    <!-- Hamburger menu for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Center Menu -->
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item me-4">
+                <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/school" routerLinkActive="active">Exam & Results</a>
+            </li>
+        </ul>
+
+        <!-- Right Side Icons -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link">
+                    <i class="fas fa-search"></i>
+                </a>
+            </li>
+            <li class="nav-item d-none d-lg-block">
+                <a class="nav-link" (click)="toggleFullScreen()">
+                    <i class="fas fa-expand"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown" ngbDropdown>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" ngbDropdownToggle>
+                    <img src="images/avatar.jpg" alt="Avatar" class="rounded-circle" width="32" height="32">
+                    <span class="d-none d-lg-inline ms-2">Edu Play</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" routerLink="/profile">My Profile</a></li>
+                    <li><a class="dropdown-item" routerLink="/activity-log">Activity Log</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

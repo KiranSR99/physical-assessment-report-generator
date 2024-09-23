@@ -8,11 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
