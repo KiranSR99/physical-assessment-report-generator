@@ -46,7 +46,7 @@ export class UpdateSchoolComponent implements OnInit {
       address: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      // logo: ['', [Validators.required]]
+      logo: ['', [Validators.required]]
     });
   }
 
@@ -86,7 +86,7 @@ export class UpdateSchoolComponent implements OnInit {
           email: response.data.email,
           phone: response.data.phone
         });
-        // this.imageURL = response.data.logo;
+        this.imageURL = response.data.logo;
       }
     });
   }
@@ -96,12 +96,12 @@ export class UpdateSchoolComponent implements OnInit {
     this.submitted = true;
 
     if (this.schoolForm.valid) {
-      // const formData = new FormData();
-      // Object.keys(this.schoolForm.value).forEach((key) => {
-      //   formData.append(key, this.schoolForm.value[key]);
-      // });
+      const formData = new FormData();
+      Object.keys(this.schoolForm.value).forEach((key) => {
+        formData.append(key, this.schoolForm.value[key]);
+      });
 
-      this.schoolService.updateSchool(this.schoolForm.value).subscribe({
+      this.schoolService.updateSchool(formData).subscribe({
         next: (response: any) => {
           this.toast.showSuccess("School updated successfully.");
           this.router.navigate(['/school']);

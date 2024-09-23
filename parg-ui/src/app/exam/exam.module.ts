@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ExamRoutingModule } from './exam-routing.module';
 import { AddExamComponent } from './add-exam/add-exam.component';
 import { EditExamComponent } from './edit-exam/edit-exam.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { EditExamComponent } from './edit-exam/edit-exam.component';
   ],
   imports: [
     CommonModule,
-    ExamRoutingModule
+    ExamRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class ExamModule { }
