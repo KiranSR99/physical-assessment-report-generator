@@ -31,18 +31,18 @@ public class ExamController extends BaseController {
     }
 
     @GetMapping(URL_CONSTANTS.GET_EXAM_BY_ID)
-    public ResponseEntity<GlobalApiResponse<ExamResponse>> getAcademicYearById(@PathVariable Long academicYearId) {
-        return successResponse(examService.getAcademicYear(academicYearId), SYSTEM_MESSAGE.EXAM_FETCHED_BY_ID);
+    public ResponseEntity<GlobalApiResponse<ExamResponse>> getAcademicYearById(@PathVariable Long examId) {
+        return successResponse(examService.getAcademicYear(examId), SYSTEM_MESSAGE.EXAM_FETCHED_BY_ID);
     }
 
     @PutMapping(URL_CONSTANTS.UPDATE_EXAM)
-    public ResponseEntity<GlobalApiResponse<ExamResponse>> updateAcademicYear(@PathVariable Long academicYearId, @RequestBody AcademicYearUpdateRequest academicYearUpdateRequest) {
-        return successResponse(examService.updateAcademicYear(academicYearId, academicYearUpdateRequest), SYSTEM_MESSAGE.EXAM_UPDATED);
+    public ResponseEntity<GlobalApiResponse<ExamResponse>> updateAcademicYear(@PathVariable Long examId, @RequestBody AcademicYearUpdateRequest academicYearUpdateRequest) {
+        return successResponse(examService.updateAcademicYear(examId, academicYearUpdateRequest), SYSTEM_MESSAGE.EXAM_UPDATED);
     }
 
     @DeleteMapping(URL_CONSTANTS.DELETE_EXAM)
-    public ResponseEntity<GlobalApiResponse<String>> deleteAcademicYear(@PathVariable Long academicYearId) {
-        examService.deleteAcademicYear(academicYearId);
+    public ResponseEntity<GlobalApiResponse<String>> deleteAcademicYear(@PathVariable Long examId) {
+        examService.deleteAcademicYear(examId);
         return successResponse(SYSTEM_MESSAGE.EXAM_DELETED);
     }
 
