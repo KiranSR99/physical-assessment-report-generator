@@ -42,7 +42,7 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND)
         );
         Exam exam = examRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND)
         );
         StudentEnrollment studentEnrollment = new StudentEnrollment();
         studentEnrollment.setStudent(student);
@@ -85,7 +85,7 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND)
         );
         Exam exam = examRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND)
         );
         studentEnrollment.setSection(section);
         studentEnrollment.setExam(exam);

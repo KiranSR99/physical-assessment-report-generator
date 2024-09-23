@@ -12,31 +12,38 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(URL_CONSTANTS.ACADEMIC_YEAR_URL)
+@RequestMapping(URL_CONSTANTS.EXAM_URL)
 @RequiredArgsConstructor
 public class ExamController extends BaseController {
     private final ExamService examService;
 
-    @PostMapping(URL_CONSTANTS.SAVE_ACADEMIC_YEAR)
+    @PostMapping(URL_CONSTANTS.SAVE_EXAM)
     public ResponseEntity<GlobalApiResponse<ExamResponse>> saveAcademicYear(@RequestBody ExamRequest request) {
-        return successResponse(examService.createAcademicYear(request), SYSTEM_MESSAGE.ACADEMIC_YEAR_SAVED);
+        return successResponse(examService.createAcademicYear(request), SYSTEM_MESSAGE.EXAM_SAVED);
     }
 
-    @GetMapping(URL_CONSTANTS.GET_ACADEMIC_YEAR_BY_ID)
+    @GetMapping(URL_CONSTANTS.GET_ALL_EXAMS)
+    public ResponseEntity<GlobalApiResponse<List<ExamResponse>>> getAllExam() {
+        return successResponse(examService.getAllExams(), SYSTEM_MESSAGE.ALL_EXAM_FETCHED);
+    }
+
+    @GetMapping(URL_CONSTANTS.GET_EXAM_BY_ID)
     public ResponseEntity<GlobalApiResponse<ExamResponse>> getAcademicYearById(@PathVariable Long academicYearId) {
-        return successResponse(examService.getAcademicYear(academicYearId), SYSTEM_MESSAGE.ACADEMIC_YEAR_FETCHED_BY_ID);
+        return successResponse(examService.getAcademicYear(academicYearId), SYSTEM_MESSAGE.EXAM_FETCHED_BY_ID);
     }
 
-    @PutMapping(URL_CONSTANTS.UPDATE_ACADEMIC_YEAR)
+    @PutMapping(URL_CONSTANTS.UPDATE_EXAM)
     public ResponseEntity<GlobalApiResponse<ExamResponse>> updateAcademicYear(@PathVariable Long academicYearId, @RequestBody AcademicYearUpdateRequest academicYearUpdateRequest) {
-        return successResponse(examService.updateAcademicYear(academicYearId, academicYearUpdateRequest), SYSTEM_MESSAGE.ACADEMIC_YEAR_UPDATED);
+        return successResponse(examService.updateAcademicYear(academicYearId, academicYearUpdateRequest), SYSTEM_MESSAGE.EXAM_UPDATED);
     }
 
-    @DeleteMapping(URL_CONSTANTS.DELETE_ACADEMIC_YEAR)
+    @DeleteMapping(URL_CONSTANTS.DELETE_EXAM)
     public ResponseEntity<GlobalApiResponse<String>> deleteAcademicYear(@PathVariable Long academicYearId) {
         examService.deleteAcademicYear(academicYearId);
-        return successResponse(SYSTEM_MESSAGE.ACADEMIC_YEAR_DELETED);
+        return successResponse(SYSTEM_MESSAGE.EXAM_DELETED);
     }
 
 }

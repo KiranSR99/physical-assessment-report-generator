@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -28,10 +30,20 @@ public class ExamImpl implements ExamService {
     }
 
     @Override
+    public List<ExamResponse> getAllExams() {
+        log.info("Getting all exams...");
+        List<Exam> exams = examRepository.findAll();
+        log.info("All exams found.");
+        return exams.stream()
+                .map(ExamResponse::new)
+                .toList();
+    }
+
+    @Override
     public ExamResponse getAcademicYear(Long id) {
         log.info("Fetching academic year with id: {}", id);
         Exam exam = examRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND)
         );
         return new ExamResponse(exam);
     }
@@ -40,7 +52,7 @@ public class ExamImpl implements ExamService {
     public ExamResponse updateAcademicYear(Long id, AcademicYearUpdateRequest academicYearUpdateRequest) {
         log.info("Updating academic year with id: {}", id);
         Exam exam = examRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND)
         );
         exam.setYear(academicYearUpdateRequest.getYear());
         exam.setExamName(academicYearUpdateRequest.getExamName());
@@ -52,7 +64,7 @@ public class ExamImpl implements ExamService {
     public void deleteAcademicYear(Long id) {
         log.info("Deleting academic year with id: {}", id);
         Exam exam = examRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.ACADEMIC_YEAR_NOT_FOUND)
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND)
         );
         examRepository.delete(exam);
     }

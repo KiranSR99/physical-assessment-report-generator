@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ListSchoolComponent } from './list-school/list-school.component';
 import { AddSchoolComponent } from './add-school/add-school.component';
 import { UpdateSchoolComponent } from './update-school/update-school.component';
+import { SchoolDetailComponent } from './school-detail/school-detail.component';
 
 const routes: Routes = [
   {
@@ -21,10 +22,9 @@ const routes: Routes = [
   {
     path: 'update/:id',
     component: UpdateSchoolComponent
-  },
-  {
-    path: 'year',
-    loadChildren: () => import('../academic-year/academic-year.module').then( m => m.AcademicYearModule)
+  },{
+    path: ':school-name',
+    component: SchoolDetailComponent
   }
 ];
 

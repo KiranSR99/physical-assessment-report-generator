@@ -6,13 +6,15 @@ import { ListSchoolComponent } from './list-school/list-school.component';
 import { UpdateSchoolComponent } from './update-school/update-school.component';
 import { AddSchoolComponent } from './add-school/add-school.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SchoolDetailComponent } from './school-detail/school-detail.component';
 
 
 @NgModule({
   declarations: [
     ListSchoolComponent,
     UpdateSchoolComponent,
-    AddSchoolComponent
+    AddSchoolComponent,
+    SchoolDetailComponent
   ],
   imports: [
     CommonModule,
