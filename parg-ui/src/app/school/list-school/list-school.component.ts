@@ -49,8 +49,8 @@ export class ListSchoolComponent implements OnInit {
     })
   }
 
-  schoolDetail(slug: any): void{
-    this.router.navigate([`/school/${slug}`]);
+  schoolDetail(id: any): void{
+    this.router.navigate([`/school/school-detail/${id}`]);
   }
 
 }

@@ -22,9 +22,14 @@ const routes: Routes = [
   {
     path: 'update/:id',
     component: UpdateSchoolComponent
-  },{
-    path: ':school-name',
+  },
+  {
+    path: 'school-detail/:id',
     component: SchoolDetailComponent
+  },
+  {
+    path: 'exam',
+    loadChildren: () => import('../exam/exam.module').then(m => m.ExamModule)
   }
 ];
 

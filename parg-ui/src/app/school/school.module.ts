@@ -7,6 +7,7 @@ import { UpdateSchoolComponent } from './update-school/update-school.component';
 import { AddSchoolComponent } from './add-school/add-school.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SchoolDetailComponent } from './school-detail/school-detail.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SchoolDetailComponent } from './school-detail/school-detail.component';
   imports: [
     CommonModule,
     SchoolRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModalModule
   ]
 })
 export class SchoolModule { }
