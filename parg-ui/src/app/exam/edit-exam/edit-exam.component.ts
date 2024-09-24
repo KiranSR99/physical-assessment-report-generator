@@ -10,6 +10,7 @@ import { ExamService } from '../services/exam.service';
   styleUrl: './edit-exam.component.scss'
 })
 export class EditExamComponent implements OnInit {
+  @Input() schoolId: number = 0;
   @Input() examId: any;
   examForm: FormGroup = new FormGroup({});
   submitted = false;
@@ -28,6 +29,7 @@ export class EditExamComponent implements OnInit {
 
   initializeForm(): void {
     this.examForm = this.formBuilder.group({
+      schoolId: [this.schoolId, Validators.required],
       year: ['', [Validators.required, Validators.pattern(/^(20\d{2})$/)]],
       examName: ['', Validators.required]
     });

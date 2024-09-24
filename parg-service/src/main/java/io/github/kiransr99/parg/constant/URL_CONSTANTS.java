@@ -39,11 +39,12 @@ public class URL_CONSTANTS {
     public static final String GET_STUDENT_BY_ID = "/getStudentById/{studentId}";
     public static final String DELETE_STUDENT = "/deleteStudent/{studentId}";
 
-    // Academic Year URL
+    // Exam URL
     public static final String EXAM_URL = "/parg/api/v1/exam";
     public static final String SAVE_EXAM = "/saveExam";
     public static final String UPDATE_EXAM = "/updateExam/{examId}";
     public static final String GET_ALL_EXAMS = "/getAllExams";
+    public static final String GET_ALL_EXAMS_OF_SCHOOL = "/getAllExamsOfSchool/{schoolId}";
     public static final String GET_EXAM_BY_ID = "/getExamById/{examId}";
     public static final String DELETE_EXAM = "/deleteExam/{examId}";
 
@@ -51,6 +52,7 @@ public class URL_CONSTANTS {
     public static final String CLASS_URL = "/parg/api/v1/class";
     public static final String GET_ALL_CLASSES = "/getAllClasses";
     public static final String GET_CLASSES_BY_SCHOOL_ID = "/getClassesBySchoolId/{schoolId}";
+    public static final String GET_CLASSES_BY_EXAM_ID = "/getClassesByExamId/{examId}";
     public static final String SAVE_CLASS = "/saveClass";
     public static final String UPDATE_CLASS = "/updateClass/{classId}";
     public static final String GET_CLASS_BY_ID = "/getClassById/{classId}";

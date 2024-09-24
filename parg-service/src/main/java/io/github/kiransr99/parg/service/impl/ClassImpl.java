@@ -61,6 +61,14 @@ public class ClassImpl implements ClassService {
     }
 
     @Override
+    public List<ClassResponse> getAllClassesByExamId(Long examId) {
+        Exam exam = examRepository.findById(examId).orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
+        return classRepository.findByExamAndStatusTrue(exam).stream()
+                .map(ClassResponse::new)
+                .toList();
+    }
+
+    @Override
     public ClassResponse getClassById(Long classId) {
         return classRepository.findById(classId)
                 .filter(Class::isStatus)

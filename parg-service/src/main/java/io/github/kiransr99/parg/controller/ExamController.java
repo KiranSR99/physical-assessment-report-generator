@@ -35,6 +35,11 @@ public class ExamController extends BaseController {
         return successResponse(examService.getExam(examId), SYSTEM_MESSAGE.EXAM_FETCHED_BY_ID);
     }
 
+    @GetMapping(URL_CONSTANTS.GET_ALL_EXAMS_OF_SCHOOL)
+    public ResponseEntity<GlobalApiResponse<List<ExamResponse>>> getAllExamsOfSchool(@PathVariable Long schoolId) {
+        return successResponse(examService.getAllExamsOfSchool(schoolId), SYSTEM_MESSAGE.ALL_EXAM_FETCHED);
+    }
+
     @PutMapping(URL_CONSTANTS.UPDATE_EXAM)
     public ResponseEntity<GlobalApiResponse<ExamResponse>> updateAcademicYear(@PathVariable Long examId, @RequestBody ExamUpdateRequest examUpdateRequest) {
         return successResponse(examService.updateExam(examId, examUpdateRequest), SYSTEM_MESSAGE.EXAM_UPDATED);
