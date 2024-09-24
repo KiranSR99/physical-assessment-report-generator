@@ -37,6 +37,11 @@ public class ClassController extends BaseController {
         return successResponse(classService.getAllClassesBySchoolId(schoolId), SYSTEM_MESSAGE.CLASS_FETCHED);
     }
 
+    @GetMapping(URL_CONSTANTS.GET_CLASSES_BY_EXAM_ID)
+    public ResponseEntity<GlobalApiResponse<List<ClassResponse>>> getClassesByExamId (@PathVariable Long examId){
+        return successResponse(classService.getAllClassesByExamId(examId), SYSTEM_MESSAGE.CLASS_FETCHED);
+    }
+
     @GetMapping(URL_CONSTANTS.GET_CLASS_BY_ID)
     public ResponseEntity<GlobalApiResponse<ClassResponse>> getClassById (@PathVariable Long classId){
         return successResponse(classService.getClassById(classId), SYSTEM_MESSAGE.CLASS_FETCHED);

@@ -25,6 +25,10 @@ public class Class {
     @JoinColumn(name = "school_id")
     private School school;
 
+    @ManyToOne
+    @JoinColumn(name = "exam_id")
+    private Exam exam;
+
     @OneToMany(mappedBy = "className")
     private List<Section> sections = new ArrayList<>();
 

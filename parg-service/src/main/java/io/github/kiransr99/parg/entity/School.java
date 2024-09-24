@@ -27,6 +27,9 @@ public class School {
     private boolean status = true;
 
     @OneToMany(mappedBy = "school")
+    private List<Exam> exams;
+
+    @OneToMany(mappedBy = "school")
     private List<Class> classes;
 
     @OneToMany(mappedBy = "school")

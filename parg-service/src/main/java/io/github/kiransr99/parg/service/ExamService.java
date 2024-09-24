@@ -1,15 +1,16 @@
 package io.github.kiransr99.parg.service;
 
 import io.github.kiransr99.parg.dto.request.ExamRequest;
-import io.github.kiransr99.parg.dto.request.AcademicYearUpdateRequest;
+import io.github.kiransr99.parg.dto.request.ExamUpdateRequest;
 import io.github.kiransr99.parg.dto.response.ExamResponse;
 
 import java.util.List;
 
 public interface ExamService {
-    ExamResponse createAcademicYear(ExamRequest examRequest);
+    ExamResponse createExam(ExamRequest examRequest);
     List<ExamResponse> getAllExams();
-    ExamResponse getAcademicYear(Long id);
-    ExamResponse updateAcademicYear(Long id, AcademicYearUpdateRequest academicYearUpdateRequest);
-    void deleteAcademicYear(Long id);
+    List<ExamResponse> getAllExamsOfSchool(Long schoolId);
+    ExamResponse getExam(Long id);
+    ExamResponse updateExam(Long id, ExamUpdateRequest examUpdateRequest);
+    void deleteExam(Long id);
 }

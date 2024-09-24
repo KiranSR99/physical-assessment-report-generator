@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExamRequest {
+    private Long schoolId;
     private Integer year;
     private String examName;
 }

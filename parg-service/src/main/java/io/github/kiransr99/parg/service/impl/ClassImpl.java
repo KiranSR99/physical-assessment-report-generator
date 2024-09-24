@@ -5,8 +5,10 @@ import io.github.kiransr99.parg.dto.request.ClassListRequest;
 import io.github.kiransr99.parg.dto.request.ClassRequest;
 import io.github.kiransr99.parg.dto.response.ClassResponse;
 import io.github.kiransr99.parg.entity.Class;
+import io.github.kiransr99.parg.entity.Exam;
 import io.github.kiransr99.parg.entity.School;
 import io.github.kiransr99.parg.repository.ClassRepository;
+import io.github.kiransr99.parg.repository.ExamRepository;
 import io.github.kiransr99.parg.repository.SchoolRepository;
 import io.github.kiransr99.parg.service.ClassService;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,16 +24,19 @@ import java.util.List;
 public class ClassImpl implements ClassService {
     private final ClassRepository classRepository;
     private final SchoolRepository schoolRepository;
+    private final ExamRepository examRepository;
 
     @Override
     public List<ClassResponse> saveClass(ClassRequest request) {
         School school = schoolRepository.findById(request.getSchoolId())
                 .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.SCHOOL_NOT_FOUND));
+        Exam exam = examRepository.findById(request.getExamId()).orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
         return request.getClasses().stream()
                 .map(classRequest -> {
                     Class newClass = new Class();
                     newClass.setName(classRequest.getName());
                     newClass.setSchool(school);
+                    newClass.setExam(exam);
                     Class savedClass = classRepository.save(newClass);
                     return new ClassResponse(savedClass);
                 })
@@ -51,6 +56,14 @@ public class ClassImpl implements ClassService {
         School school = schoolRepository.findById(schoolId)
                 .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.SCHOOL_NOT_FOUND));
         return classRepository.findBySchoolAndStatusTrue(school).stream()
+                .map(ClassResponse::new)
+                .toList();
+    }
+
+    @Override
+    public List<ClassResponse> getAllClassesByExamId(Long examId) {
+        Exam exam = examRepository.findById(examId).orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
+        return classRepository.findByExamAndStatusTrue(exam).stream()
                 .map(ClassResponse::new)
                 .toList();
     }

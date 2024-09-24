@@ -13,6 +13,8 @@ public interface ClassService {
 
     List<ClassResponse> getAllClassesBySchoolId(Long schoolId);
 
+    List<ClassResponse> getAllClassesByExamId(Long examId);
+
     ClassResponse getClassById(Long classId);
 
     ClassResponse updateClass(Long classId, ClassListRequest request);

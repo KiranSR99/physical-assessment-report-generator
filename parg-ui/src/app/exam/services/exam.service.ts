@@ -21,6 +21,11 @@ export class ExamService {
     return this.http.get(`${this.apiUrl}/exam/getAllExams`);
   }
 
+  //Getting all exams of school
+  getAllExamsOfSchool(schoolId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/exam/getAllExamsOfSchool/${schoolId}`);
+  }
+
   //Getting exam by id
   getExamById(examId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/exam/getExamById/${examId}`);
