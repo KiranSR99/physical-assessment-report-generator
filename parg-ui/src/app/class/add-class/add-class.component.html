@@ -7,7 +7,7 @@
     <form [formGroup]="classForm" (ngSubmit)="onSubmit()">
         <div formArrayName="classes">
             <div *ngFor="let classGroup of classes.controls; let i = index" [formGroupName]="i" class="mb-3">
-                <label for="className-{{i}}" class="form-label">Class Name</label>
+                <label for="className-{{i}}" class="form-label custom-label">Class Name</label>
                 <div class="input-group">
                     <input type="text" id="className-{{i}}" formControlName="name" class="form-control"
                         placeholder="Enter class name" />
