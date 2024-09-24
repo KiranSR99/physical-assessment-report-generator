@@ -16,6 +16,7 @@ public class SchoolResponse {
     private String address;
     private String email;
     private String phone;
+    private String logo;
 
     public SchoolResponse(School savedSchool) {
         this.id = savedSchool.getSchoolId();
@@ -23,5 +24,6 @@ public class SchoolResponse {
         this.address = savedSchool.getAddress();
         this.email = savedSchool.getEmail();
         this.phone = savedSchool.getPhone();
+        this.logo = "http://localhost:8080/" + savedSchool.getLogo();
     }
 }

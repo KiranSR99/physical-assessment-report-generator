@@ -16,12 +16,14 @@ public class ClassResponse {
     private Long id;
     private String name;
     private SchoolResponse school;
+    private ExamResponse exam;
     private List<SectionResponse> sections;
 
     public ClassResponse(Class savedClass) {
         this.id = savedClass.getId();
         this.name = savedClass.getName();
         this.school = new SchoolResponse(savedClass.getSchool());
+        this.exam = new ExamResponse(savedClass.getExam());
         if (savedClass.getSections() != null) {
             savedClass.getSections().forEach(section -> this.sections.add(new SectionResponse(section)));
         }

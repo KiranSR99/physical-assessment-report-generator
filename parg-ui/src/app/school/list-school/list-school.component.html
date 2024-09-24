@@ -1,54 +1,17 @@
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Schools</h4>
-        <button class="btn btn-sm custom-button" routerLink="/school/add">Add School</button>
-    </div>
-    <hr>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        @for (school of schools; track school.id) {
-        <div class="col my-0 py-0">
-            <div class="card">
-                <div class="card-body position-relative">
-                    <div class="dropdown position-absolute top-0 end-0 me-2">
-                        <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item d-flex align-items-baseline" (click)="editSchool(school.id)">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                                <span class="px-2">Edit</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-baseline" (click)="deleteSchool(school.id)">
-                                <i class="fa-solid fa-trash"></i>
-                                <span class="px-2">Delete</span>
-                            </a>
-                        </ul>
-                    </div>
-                    
-                    <div class="details" (click)="moreDetails(school.id)">
-                        <div class="text-center">
-                            <img src="https://dummyimage.com/120x120/000/fff" alt="School Logo" class="school-logo mb-3">
-                            <h6 class="card-title">{{ school.name }}</h6>
-                        </div>
-                        <hr>
-                        <div class="my-2">
-                            <i class="fas fa-map-marker-alt me-2"></i>
-                            <span class="text-muted">{{ school.address }}</span>
-                        </div>
-                        <div class="my-2">
-                            <i class="fas fa-envelope me-2"></i>
-                            <span class="text-muted">{{ school.email }}</span>
-                        </div>
-                        <div class="my-2">
-                            <i class="fas fa-phone me-2"></i>
-                            <span class="text-muted">{{ school.phone }}</span>
-                        </div>
-                    </div>
-
-                </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">Schools</h4>
+    <button class="btn btn-sm custom-button" routerLink="/school/add">Add School</button>
+</div>
+<hr>
+<div class="row g-4">
+    @for (school of schools; track school.id) {
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card" (click)="schoolDetail(school.id)">
+            <div class="card-body d-flex align-items-center">
+                <img src="{{school.logo}}" alt="School Logo" class="school-logo me-3">
+                <h6 class="card-title mb-0">{{ school.name }}</h6>
             </div>
         </div>
-        }
     </div>
+    }
 </div>

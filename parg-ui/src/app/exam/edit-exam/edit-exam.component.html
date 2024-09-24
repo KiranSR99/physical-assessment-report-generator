@@ -1,0 +1,46 @@
+<div class="wrapper p-3">
+    <div class="row">
+        <div class="col">
+            <div class="float-end">
+                <i class="mdi mdi-window-close" (click)="modalClose()"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h5 class="text-center">Edit Exam</h5>
+        <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+            <div class="form-group mt-2">
+                <label class="custom-label">Exam Year</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    formControlName="year" 
+                    placeholder="E.g. 2080, 2081..."
+                    [ngClass]="{'is-invalid': examForm.controls['year'].invalid && (examForm.controls['year'].touched || examForm.controls['year'].dirty)}">
+                <div *ngIf="examForm.controls['year'].invalid && (examForm.controls['year'].touched || examForm.controls['year'].dirty)" class="invalid-feedback">
+                    <div *ngIf="examForm.controls['year'].errors?.['required']">Exam Year is required.</div>
+                    <div *ngIf="examForm.controls['year'].errors?.['pattern']">Please enter a valid year (e.g., 2080).</div>
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <label class="custom-label">Exam Name</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    formControlName="examName" 
+                    placeholder="E.g. First Exam, Final Exam..."
+                    [ngClass]="{'is-invalid': examForm.controls['examName'].invalid && (examForm.controls['examName'].touched || examForm.controls['examName'].dirty)}">
+                <div *ngIf="examForm.controls['examName'].invalid && (examForm.controls['examName'].touched || examForm.controls['examName'].dirty)" class="invalid-feedback">
+                    <div *ngIf="examForm.controls['examName'].errors?.['required']">Exam Name is required.</div>
+                </div>
+            </div>
+
+            <div class="float-end mt-3">
+                <button type="button" (click)="onClear()" class="btn btn-sm custom-button-outlined me-1">Clear</button>
+                <button type="submit" class="btn btn-sm custom-button">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

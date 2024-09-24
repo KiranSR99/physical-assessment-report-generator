@@ -1,0 +1,153 @@
+<div class="col-md-1">
+    <a href="javascript:history.back()" class="text-decoration-none d-flex align-items-center"
+        style="color: var(--primary-color);">
+        <i class="ph ph-arrow-left me-1 fs-5"></i>
+        <span>back</span>
+    </a>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-md-3 school-detail">
+        <div class="card p-4 border-0 position-relative">
+            <!-- Dropdown menu -->
+            <div class="dropdown position-absolute top-0 end-0 mt-2 me-2">
+                <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="editSchool(schoolDetails?.id)">
+                        <i class="fas fa-edit me-2"></i>
+                        <span>Edit</span>
+                    </a>
+                    <a class="dropdown-item" (click)="deleteSchool(schoolDetails?.id)">
+                        <i class="fas fa-trash me-2"></i>
+                        <span>Delete</span>
+                    </a>
+
+                </ul>
+            </div>
+
+            <div class="school-logo text-center">
+                <img src="{{schoolDetails?.logo}}" alt="{{schoolDetails?.name}}">
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">{{schoolDetails?.name}}</h6>
+                <div class="mt-4">
+                    <div class=" d-flex align-items-center">
+                        <i class="fas fa-location-dot fs-5 me-2"></i>
+                        <span title="{{schoolDetails?.address}}"
+                            class="text-muted text-truncate">{{schoolDetails?.address}}</span>
+                    </div>
+                    <div class="my-2 d-flex align-items-center">
+                        <i class="fas fa-envelope fs-5 me-2"></i>
+                        <span title="{{schoolDetails?.email}}"
+                            class="text-muted text-truncate">{{schoolDetails?.email}}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-phone fs-5 me-2 "></i>
+                        <span class="text-muted">{{schoolDetails?.phone}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col exam-detail">
+        <div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h6>Exam Details and Report</h6>
+                <button class="btn btn-sm custom-button" (click)="openAddExamModal()">Add Exam</button>
+            </div>
+            <div class="row g-2 mt-4">
+                <!-- Exam list -->
+                <div class="exam-list col-md-5">
+                    @for (exam of exams; track exam.id) {
+                    <div class="card mb-2 position-relative" (click)="selectExam(exam)">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-file me-2"></i>
+                                <p class="card-title mb-0">{{exam?.year + ' ' + exam?.examName}}</p>
+                            </div>
+
+                            <!-- Dropdown menu -->
+                            <div class="dropdown position-absolute top-0 end-0 mt-2 me-2">
+                                <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" (click)="editExam(exam?.id)">
+                                        <i class="fas fa-edit me-2"></i>
+                                        <span>Edit</span>
+                                    </a>
+                                    <a class="dropdown-item" (click)="deleteExam(exam?.id)">
+                                        <i class="fas fa-trash me-2"></i>
+                                        <span>Delete</span>
+                                    </a>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Exam details and classes -->
+                <div class="col-md-7">
+                    <div *ngIf="selectedExam" class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6>{{selectedExam.year + ' ' + selectedExam.examName}}</h6>
+                                <div class="d-flex ">
+                                    <button class="btn btn-sm custom-button me-1" (click)="addClassToExam()">Add Class</button>
+                                    <button class="btn btn-sm custom-button-outlined"><label for="fileSelect">Update Student Data</label></button>
+                                    <input type="file" name="fileSelect" id="fileSelect" class="d-none" />
+                                    
+                                </div>
+                            </div>
+                            <hr>
+                            <h6>Classes</h6>
+                            <ul class="list-group">
+                                @for (class of classes; track class.id) {
+                                <li class="list-group-item d-flex justify-content-between align-items-center" (click)="openStudentData()">
+                                    <!-- Conditional display of class name or input field -->
+                                    <span *ngIf="editableClassId !== class.id">{{ class.name }}</span>
+                                    <div *ngIf="editableClassId === class.id" class="d-flex align-items-center">
+                                        <input type="text" [(ngModel)]="editClassName"
+                                            (keydown.enter)="saveClass(class.id)" (blur)="saveClass(class.id)"
+                                            class="form-control" />
+                                        <div class="d-flex align-items-center ms-2">
+                                            <button class="btn me-2 p-0" (click)="cancelEdit()"><i
+                                                    class="mdi mdi-window-close text-danger fs-4"></i></button>
+                                            <button class="btn p-0" (click)="saveClass(class.id)"><i
+                                                    class="mdi mdi-check text-success fs-4"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <button class="btn btn-link text-dark p-0" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" (click)="editClass(class.id, class.name)">
+                                                    <i class="fas fa-edit me-2"></i>Edit</a></li>
+                                            <li><a class="dropdown-item" (click)="deleteClass(class.id)"><i
+                                                        class="fas fa-trash me-2"></i>Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

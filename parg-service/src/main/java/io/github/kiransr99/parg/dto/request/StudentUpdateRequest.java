@@ -10,8 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentUpdateRequest {
-    private String firstName;
-    private String lastName;
+    private String name;
     private LocalDate dateOfBirth;
     private Integer age;
     private String gender;

@@ -2,6 +2,12 @@ package io.github.kiransr99.parg.constant;
 
 public class SYSTEM_MESSAGE {
     public static final Exception STUDENT_ENROLLMENT_NOT_FOUND = new Exception("Student enrollment not found");
+    public static final Exception PHYSICAL_TEST_PERFORMANCE_NOT_FOUND = new Exception("Physical test performance not found");
+    public static final String PHYSICAL_TEST_PERFORMANCE_SAVED = "Physical test performance saved successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_UPDATED = "Physical test performance updated successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_DELETED = "Physical test performance deleted successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_FETCHED_BY_ID = "Physical test performance fetched successfully.";
+    public static final String PHYSICAL_TEST_PERFORMANCE_FETCHED = "All physical test performance fetched successfully.";
 
     private SYSTEM_MESSAGE() {}
     public static final String SCHOOL_SAVED = "School saved successfully.";
@@ -34,13 +40,13 @@ public class SYSTEM_MESSAGE {
     public static final String STUDENT_NOT_FOUND = "Student not found.";
     public static final String STUDENT_FETCHED_BY_ID = "Student fetched successfully.";
 
-    // Academic Year Message
-    public static final String ACADEMIC_YEAR_SAVED = "Academic year saved successfully.";
-    public static final String ACADEMIC_YEAR_FETCHED = "All academic year fetched successfully.";
-    public static final String ACADEMIC_YEAR_UPDATED = "Academic year updated successfully.";
-    public static final String ACADEMIC_YEAR_DELETED = "Academic year deleted successfully.";
-    public static final String ACADEMIC_YEAR_NOT_FOUND = "Academic year not found.";
-    public static final String ACADEMIC_YEAR_FETCHED_BY_ID = "Academic year fetched successfully.";
+    // Exam Message
+    public static final String EXAM_SAVED = "Exam saved successfully.";
+    public static final String ALL_EXAM_FETCHED = "All exam fetched successfully.";
+    public static final String EXAM_UPDATED = "Exam updated successfully.";
+    public static final String EXAM_DELETED = "Exam deleted successfully.";
+    public static final String EXAM_NOT_FOUND = "Exam not found.";
+    public static final String EXAM_FETCHED_BY_ID = "Exam fetched successfully.";
 
     // Physical Test Message
     public static final String PHYSICAL_TEST_SAVED = "Physical test saved successfully.";

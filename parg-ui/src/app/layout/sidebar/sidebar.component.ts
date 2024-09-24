@@ -16,7 +16,7 @@ export class SidebarComponent implements OnInit {
     {
       menuName: 'Dashboard',
       menuIcon: 'mdi mdi-view-dashboard',
-      menuRoute: '/dashboard',
+      menuRoute: '/',
       childMenus: []
     },
     {
@@ -25,39 +25,39 @@ export class SidebarComponent implements OnInit {
       menuRoute: '/school',
       childMenus: []
     },
-    {
-      menuName: 'Student Management',
-      menuIcon: 'mdi mdi-account-group',
-      childMenus: [
-        { menuName: 'Student List', menuRoute: '/students/list' },
-        { menuName: 'New Admission', menuRoute: '/students/admission' },
-        { menuName: 'Attendance', menuRoute: '/students/attendance' }
-      ]
-    },
-    {
-      menuName: 'Exam Management',
-      menuIcon: 'mdi mdi-clipboard-text',
-      childMenus: [
-        { menuName: 'Exam Schedule', menuRoute: '/exams/schedule' },
-        { menuName: 'Create Exam', menuRoute: '/exams/create' },
-        { menuName: 'Hall Allocation', menuRoute: '/exams/hall-allocation' }
-      ]
-    },
-    {
-      menuName: 'Result Management',
-      menuIcon: 'mdi mdi-chart-bar',
-      childMenus: [
-        { menuName: 'Result Entry', menuRoute: '/results/entry' },
-        { menuName: 'Result Analysis', menuRoute: '/results/analysis' },
-        { menuName: 'Publish Results', menuRoute: '/results/publish' }
-      ]
-    },
-    {
-      menuName: 'Reports',
-      menuIcon: 'mdi mdi-file-document',
-      menuRoute: '/reports',
-      childMenus: []
-    },
+    // {
+    //   menuName: 'Student Management',
+    //   menuIcon: 'mdi mdi-account-group',
+    //   childMenus: [
+    //     { menuName: 'Student List', menuRoute: '/students/list' },
+    //     { menuName: 'New Admission', menuRoute: '/students/admission' },
+    //     { menuName: 'Attendance', menuRoute: '/students/attendance' }
+    //   ]
+    // },
+    // {
+    //   menuName: 'Exam Management',
+    //   menuIcon: 'mdi mdi-clipboard-text',
+    //   childMenus: [
+    //     { menuName: 'Exam Schedule', menuRoute: '/exams/schedule' },
+    //     { menuName: 'Create Exam', menuRoute: '/exams/create' },
+    //     { menuName: 'Hall Allocation', menuRoute: '/exams/hall-allocation' }
+    //   ]
+    // },
+    // {
+    //   menuName: 'Result Management',
+    //   menuIcon: 'mdi mdi-chart-bar',
+    //   childMenus: [
+    //     { menuName: 'Result Entry', menuRoute: '/results/entry' },
+    //     { menuName: 'Result Analysis', menuRoute: '/results/analysis' },
+    //     { menuName: 'Publish Results', menuRoute: '/results/publish' }
+    //   ]
+    // },
+    // {
+    //   menuName: 'Reports',
+    //   menuIcon: 'mdi mdi-file-document',
+    //   menuRoute: '/reports',
+    //   childMenus: []
+    // },
     {
       menuName: 'Settings',
       menuIcon: 'mdi mdi-cog',

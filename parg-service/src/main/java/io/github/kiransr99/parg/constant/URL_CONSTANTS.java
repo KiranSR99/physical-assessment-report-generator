@@ -9,6 +9,16 @@ public class URL_CONSTANTS {
     public static final String DELETE_STUDENT_ENROLLMENT = "/deleteStudentEnrollment/{studentEnrollmentId}";
     public static final String GET_ALL_STUDENT_ENROLLMENTS = "/getAllStudentEnrollments";
 
+
+    //    physicalTestPerformanceMetric
+    public static final String PHYSICAL_TEST_PERFORMANCE_METRIC_URL = "/parg/api/v1/physicalTestPerformanceMetric";
+    public static final String SAVE_PHYSICAL_TEST_PERFORMANCE_METRIC = "/savePhysicalTestPerformanceMetric";
+    public static final String UPDATE_PHYSICAL_TEST_PERFORMANCE_METRIC = "/updatePhysicalTestPerformanceMetric/{physicalTestPerformanceMetricId}";
+    public static final String GET_PHYSICAL_TEST_PERFORMANCE_METRIC_BY_ID = "/getPhysicalTestPerformanceMetricById/{physicalTestPerformanceMetricId}";
+    public static final String DELETE_PHYSICAL_TEST_PERFORMANCE_METRIC = "/deletePhysicalTestPerformanceMetric/{physicalTestPerformanceMetricId}";
+    public static final String GET_ALL_PHYSICAL_TEST_PERFORMANCE_METRICS = "/getAllPhysicalTestPerformanceMetrics";
+
+
     private URL_CONSTANTS() {
     }
 
@@ -30,11 +40,12 @@ public class URL_CONSTANTS {
     public static final String DELETE_STUDENT = "/deleteStudent/{studentId}";
 
     // Academic Year URL
-    public static final String ACADEMIC_YEAR_URL = "/parg/api/v1/academicYear";
-    public static final String SAVE_ACADEMIC_YEAR = "/saveAcademicYear";
-    public static final String UPDATE_ACADEMIC_YEAR = "/updateAcademicYear/{academicYearId}";
-    public static final String GET_ACADEMIC_YEAR_BY_ID = "/getAcademicYearById/{academicYearId}";
-    public static final String DELETE_ACADEMIC_YEAR = "/deleteAcademicYear/{academicYearId}";
+    public static final String EXAM_URL = "/parg/api/v1/exam";
+    public static final String SAVE_EXAM = "/saveExam";
+    public static final String UPDATE_EXAM = "/updateExam/{examId}";
+    public static final String GET_ALL_EXAMS = "/getAllExams";
+    public static final String GET_EXAM_BY_ID = "/getExamById/{examId}";
+    public static final String DELETE_EXAM = "/deleteExam/{examId}";
 
     // CLASS URLS
     public static final String CLASS_URL = "/parg/api/v1/class";

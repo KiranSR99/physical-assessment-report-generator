@@ -11,15 +11,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class StudentResponse {
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String name;
     private LocalDate dateOfBirth;
     private Integer age;
     private String gender;
     public StudentResponse(Student student) {
         this.id = student.getId();
-        this.firstName = student.getFirstName();
-        this.lastName = student.getLastName();
+        this.name = student.getName();
         this.dateOfBirth = student.getDateOfBirth();
         this.age = student.getAge();
         this.gender = student.getGender();
