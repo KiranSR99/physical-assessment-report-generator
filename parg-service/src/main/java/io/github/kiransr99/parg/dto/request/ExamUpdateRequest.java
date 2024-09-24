@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AcademicYearUpdateRequest {
+public class ExamUpdateRequest {
+    private Long schoolId;
     private Integer year;
     private String examName;
 }
