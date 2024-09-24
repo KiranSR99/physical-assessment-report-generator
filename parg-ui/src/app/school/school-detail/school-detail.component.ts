@@ -209,4 +209,8 @@ export class SchoolDetailComponent implements OnInit {
     });
   }
 
+  openStudentData(): void{
+    this.router.navigate(['/school/exam/class/student']);
+  }
+
 }
