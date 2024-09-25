@@ -17,6 +17,7 @@ public class URL_CONSTANTS {
     public static final String GET_PHYSICAL_TEST_PERFORMANCE_METRIC_BY_ID = "/getPhysicalTestPerformanceMetricById/{physicalTestPerformanceMetricId}";
     public static final String DELETE_PHYSICAL_TEST_PERFORMANCE_METRIC = "/deletePhysicalTestPerformanceMetric/{physicalTestPerformanceMetricId}";
     public static final String GET_ALL_PHYSICAL_TEST_PERFORMANCE_METRICS = "/getAllPhysicalTestPerformanceMetrics";
+    public static final String EXCEL_URL = "/parg/api/v1/excel";
 
 
     private URL_CONSTANTS() {
