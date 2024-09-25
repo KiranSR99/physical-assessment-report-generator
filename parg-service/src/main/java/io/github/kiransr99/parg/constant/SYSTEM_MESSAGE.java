@@ -8,6 +8,7 @@ public class SYSTEM_MESSAGE {
     public static final String PHYSICAL_TEST_PERFORMANCE_DELETED = "Physical test performance deleted successfully.";
     public static final String PHYSICAL_TEST_PERFORMANCE_FETCHED_BY_ID = "Physical test performance fetched successfully.";
     public static final String PHYSICAL_TEST_PERFORMANCE_FETCHED = "All physical test performance fetched successfully.";
+    public static final String STUDENTS_UPLOADED = "Students uploaded successfully.";
 
     private SYSTEM_MESSAGE() {}
     public static final String SCHOOL_SAVED = "School saved successfully.";

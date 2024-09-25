@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class StudentEnrollmentRequest {
     public Long studentId;
+    private Long classId;
     public Long sectionId;
     public Long academicYearId;
     public String rollNumber;

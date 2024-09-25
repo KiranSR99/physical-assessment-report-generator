@@ -27,6 +27,10 @@ public class StudentEnrollment {
     private Section section;
 
     @ManyToOne
+    @JoinColumn(name = "class_id")
+    private Class className;
+
+    @ManyToOne
     @JoinColumn(name = "academic_year_id")
     private Exam exam;
 
