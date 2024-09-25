@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(URL_CONSTANTS.PHYSICAL_REPORT_URL)
@@ -24,6 +26,11 @@ public class PhysicalReportController extends BaseController {
     @PostMapping(URL_CONSTANTS.SAVE_PHYSICAL_REPORT)
     public ResponseEntity<GlobalApiResponse<PhysicalReportResponse>> savePhysicalReport(@Validated @RequestBody PhysicalReportRequest physicalReportRequest) {
         return successResponse(physicalReportService.savePhysicalReport(physicalReportRequest), SYSTEM_MESSAGE.PHYSICAL_REPORT_SAVED);
+    }
+
+    @PostMapping(URL_CONSTANTS.SAVE_PHYSICAL_REPORTS)
+    public ResponseEntity<GlobalApiResponse<List<PhysicalReportResponse>>> savePhysicalReports(@Validated @RequestBody List<PhysicalReportRequest> physicalReportRequests) {
+        return successResponse(physicalReportService.savePhysicalReports(physicalReportRequests), SYSTEM_MESSAGE.PHYSICAL_REPORT_SAVED);
     }
 
     @GetMapping(URL_CONSTANTS.GET_PHYSICAL_REPORT_BY_ID)

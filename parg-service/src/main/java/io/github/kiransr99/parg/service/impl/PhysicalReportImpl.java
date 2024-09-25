@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +32,24 @@ public class PhysicalReportImpl implements PhysicalReportService {
         PhysicalReport physicalReport = buildPhysicalReportFromRequest(physicalReportRequest, studentEnrollment);
         return new PhysicalReportResponse(physicalReportRepository.save(physicalReport));
     }
+
+    @Override
+    public List<PhysicalReportResponse> savePhysicalReports(List<PhysicalReportRequest> physicalReportRequests) {
+        log.info("Saving multiple students' physical reports");
+
+        // Iterate over each PhysicalReportRequest and build PhysicalReport objects
+        List<PhysicalReport> physicalReports = physicalReportRequests.stream().map(request -> {
+            StudentEnrollment studentEnrollment = findStudentEnrollmentById(request.getStudentEnrollmentId());
+            return buildPhysicalReportFromRequest(request, studentEnrollment);
+        }).toList();
+
+        // Save all the physical reports in the repository
+        List<PhysicalReport> savedPhysicalReports = physicalReportRepository.saveAll(physicalReports);
+
+        // Convert the saved PhysicalReport entities to response objects
+        return savedPhysicalReports.stream().map(PhysicalReportResponse::new).toList();
+    }
+
 
     @Override
     public Page<PhysicalReportResponse> getAllPhysicalReport(Pageable pageable) {

@@ -12,6 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(URL_CONSTANTS.STUDENT_URL)
@@ -22,6 +26,16 @@ public class StudentController extends BaseController {
     @PostMapping(URL_CONSTANTS.SAVE_STUDENT)
     public ResponseEntity<GlobalApiResponse<StudentResponse>> saveStudent (@Validated @RequestBody StudentRequest request){
         return successResponse(studentService.saveStudent(request), SYSTEM_MESSAGE.STUDENT_SAVED);
+    }
+
+    @PostMapping(URL_CONSTANTS.SAVE_STUDENTS)
+    public ResponseEntity<GlobalApiResponse<List<StudentResponse>>> saveStudents (@Validated @RequestBody List<StudentRequest> requests){
+        return successResponse(studentService.saveStudents(requests), SYSTEM_MESSAGE.STUDENT_SAVED);
+    }
+
+    @PostMapping("/{schoolId}/upload")
+    public ResponseEntity<GlobalApiResponse<List<StudentResponse>>> uploadExcel(@PathVariable Long schoolId, @RequestParam("file") MultipartFile file) throws IOException {
+        return successResponse(studentService.uploadExcel(schoolId, file), SYSTEM_MESSAGE.STUDENTS_UPLOADED);
     }
 
     @GetMapping(URL_CONSTANTS.GET_STUDENT_BY_ID)

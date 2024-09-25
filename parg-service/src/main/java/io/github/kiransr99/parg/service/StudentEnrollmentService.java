@@ -7,7 +7,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface StudentEnrollmentService {
-    StudentEnrollmentResponse saveStudentEnrollment(StudentEnrollmentRequest studentEnrollmentRequest);
+    // Now returns a list of responses, as we are enrolling multiple students at once.
+    List<StudentEnrollmentResponse> saveStudentEnrollment(StudentEnrollmentRequest studentEnrollmentRequest);
 
     StudentEnrollmentResponse getStudentEnrollment(Long studentEnrollmentId);
 
@@ -16,5 +17,4 @@ public interface StudentEnrollmentService {
     StudentEnrollmentResponse updateStudentEnrollment(Long studentEnrollmentId, StudentEnrollmentRequest studentEnrollmentRequest);
 
     List<StudentEnrollmentResponse> getAllStudentEnrollments(Pageable pageable);
-
 }

@@ -44,6 +44,33 @@ public class PhysicalTestPerformanceMetricMetricImpl implements PhysicalTestPerf
     }
 
     @Override
+    public List<PhysicalTestPerformanceMetricResponse> saveMultiplePhysicalTestPerformances(List<PhysicalTestPerformanceMetricRequest> requests) {
+        log.info("Saving multiple Physical Test Performances: {}", requests);
+
+        List<PhysicalTestPerformanceMetricResponse> responses = requests.stream().map(request -> {
+            // Fetch the required PhysicalTest and PhysicalReport for each request
+            PhysicalTest physicalTest = physicalTestRepository.findById(request.getPhysicalTestId()).orElseThrow(
+                    () -> new EntityNotFoundException(SYSTEM_MESSAGE.PHYSICAL_TEST_NOT_FOUND)
+            );
+            PhysicalReport physicalReport = physicalReportRepository.findById(request.getPhysicalReportId()).orElseThrow(
+                    () -> new EntityNotFoundException(SYSTEM_MESSAGE.PHYSICAL_REPORT_NOT_FOUND)
+            );
+
+            // Create a new PhysicalTestPerformanceMetric object for each request
+            PhysicalTestPerformanceMetric physicalTestPerformanceMetric = PhysicalTestPerformanceMetric.builder()
+                    .value(request.getValue())
+                    .physicalTest(physicalTest)
+                    .physicalReport(physicalReport)
+                    .build();
+
+            // Save the object and return its response
+            return new PhysicalTestPerformanceMetricResponse(physicalTestPerformanceMetricRepository.save(physicalTestPerformanceMetric));
+        }).toList();
+
+        return responses;
+    }
+
+    @Override
     public PhysicalTestPerformanceMetricResponse updatePhysicalTestPerformance(Long physicalTestPerformanceId , PhysicalTestPerformanceMetricRequest request) {
         log.info("Updating Physical Test Performance: {}", request);
         PhysicalTestPerformanceMetric physicalTestPerformanceMetric = physicalTestPerformanceMetricRepository.findById(physicalTestPerformanceId).orElseThrow(

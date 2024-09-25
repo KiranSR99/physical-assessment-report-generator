@@ -25,6 +25,11 @@ public class PhysicalTestPerformanceMetricController extends BaseController {
         return successResponse(physicalTestPerformanceMetricService.savePhysicalTestPerformance(request), SYSTEM_MESSAGE.PHYSICAL_TEST_PERFORMANCE_SAVED);
     }
 
+    @PostMapping(URL_CONSTANTS.SAVE_MULTIPLE_PHYSICAL_TEST_PERFORMANCE_METRICS)
+    public ResponseEntity<GlobalApiResponse<List<PhysicalTestPerformanceMetricResponse>>> saveMultiplePhysicalTestPerformanceMetrics(@RequestBody List<PhysicalTestPerformanceMetricRequest> requests) {
+        return successResponse(physicalTestPerformanceMetricService.saveMultiplePhysicalTestPerformances(requests), SYSTEM_MESSAGE.PHYSICAL_TEST_PERFORMANCE_SAVED);
+    }
+
     @PutMapping(URL_CONSTANTS.UPDATE_PHYSICAL_TEST_PERFORMANCE_METRIC)
     public ResponseEntity<GlobalApiResponse<PhysicalTestPerformanceMetricResponse>> updatePhysicalTestPerformanceMetric(@PathVariable Long physicalTestPerformanceMetricId,@RequestBody PhysicalTestPerformanceMetricRequest request) {
         return successResponse(physicalTestPerformanceMetricService.updatePhysicalTestPerformance(physicalTestPerformanceMetricId, request), SYSTEM_MESSAGE.PHYSICAL_TEST_PERFORMANCE_UPDATED);

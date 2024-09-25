@@ -13,10 +13,12 @@ public class URL_CONSTANTS {
     //    physicalTestPerformanceMetric
     public static final String PHYSICAL_TEST_PERFORMANCE_METRIC_URL = "/parg/api/v1/physicalTestPerformanceMetric";
     public static final String SAVE_PHYSICAL_TEST_PERFORMANCE_METRIC = "/savePhysicalTestPerformanceMetric";
+    public static final String SAVE_MULTIPLE_PHYSICAL_TEST_PERFORMANCE_METRICS = "/saveMultiplePhysicalTestPerformanceMetrics";
     public static final String UPDATE_PHYSICAL_TEST_PERFORMANCE_METRIC = "/updatePhysicalTestPerformanceMetric/{physicalTestPerformanceMetricId}";
     public static final String GET_PHYSICAL_TEST_PERFORMANCE_METRIC_BY_ID = "/getPhysicalTestPerformanceMetricById/{physicalTestPerformanceMetricId}";
     public static final String DELETE_PHYSICAL_TEST_PERFORMANCE_METRIC = "/deletePhysicalTestPerformanceMetric/{physicalTestPerformanceMetricId}";
     public static final String GET_ALL_PHYSICAL_TEST_PERFORMANCE_METRICS = "/getAllPhysicalTestPerformanceMetrics";
+    public static final String EXCEL_URL = "/parg/api/v1/excel";
 
 
     private URL_CONSTANTS() {
@@ -35,6 +37,7 @@ public class URL_CONSTANTS {
     // Student URL
     public static final String STUDENT_URL = "/parg/api/v1/student";
     public static final String SAVE_STUDENT = "/saveStudent";
+    public static final String SAVE_STUDENTS = "/saveStudents";
     public static final String UPDATE_STUDENT = "/updateStudent/{studentId}";
     public static final String GET_STUDENT_BY_ID = "/getStudentById/{studentId}";
     public static final String DELETE_STUDENT = "/deleteStudent/{studentId}";
@@ -85,6 +88,7 @@ public class URL_CONSTANTS {
     // Physical Report URL
     public static final String PHYSICAL_REPORT_URL = "/parg/api/v1/physicalReport";
     public static final String SAVE_PHYSICAL_REPORT = "/savePhysicalReport";
+    public static final String SAVE_PHYSICAL_REPORTS = "/savePhysicalReports";
     public static final String UPDATE_PHYSICAL_REPORT = "/updatePhysicalReport/{physicalReportId}";
     public static final String GET_PHYSICAL_REPORT_BY_ID = "/getPhysicalReportById/{physicalReportId}";
     public static final String DELETE_PHYSICAL_REPORT = "/deletePhysicalReport/{physicalReportId}";
