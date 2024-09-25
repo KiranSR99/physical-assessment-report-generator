@@ -8,6 +8,8 @@ import java.util.List;
 public interface PhysicalTestPerformanceMetricService {
     PhysicalTestPerformanceMetricResponse savePhysicalTestPerformance(PhysicalTestPerformanceMetricRequest request);
 
+    List<PhysicalTestPerformanceMetricResponse> saveMultiplePhysicalTestPerformances(List<PhysicalTestPerformanceMetricRequest> requests);
+
     PhysicalTestPerformanceMetricResponse updatePhysicalTestPerformance(Long physicalTestPerformanceMetricId, PhysicalTestPerformanceMetricRequest request);
 
     void deletePhysicalTestPerformance(Long id);

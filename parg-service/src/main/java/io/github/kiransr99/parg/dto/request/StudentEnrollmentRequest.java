@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class StudentEnrollmentRequest {
-    public Long studentId;
     private Long classId;
-    public Long sectionId;
-    public Long academicYearId;
-    public String rollNumber;
+    public Long examId;
+    private List<StudentEnrollmentListRequest> studentEnrollments;
 }

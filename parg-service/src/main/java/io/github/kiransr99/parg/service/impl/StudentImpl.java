@@ -4,8 +4,10 @@ import io.github.kiransr99.parg.constant.SYSTEM_MESSAGE;
 import io.github.kiransr99.parg.dto.request.StudentRequest;
 import io.github.kiransr99.parg.dto.request.StudentUpdateRequest;
 import io.github.kiransr99.parg.dto.response.StudentResponse;
+import io.github.kiransr99.parg.entity.Exam;
 import io.github.kiransr99.parg.entity.School;
 import io.github.kiransr99.parg.entity.Student;
+import io.github.kiransr99.parg.repository.ExamRepository;
 import io.github.kiransr99.parg.repository.SchoolRepository;
 import io.github.kiransr99.parg.repository.StudentRepository;
 import io.github.kiransr99.parg.service.StudentService;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,6 +33,8 @@ import java.util.List;
 public class StudentImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final SchoolRepository schoolRepository;
+    private final ExamRepository examRepository;
+
     @Override
     public StudentResponse saveStudent(StudentRequest studentRequest) {
         log.info("Saving student: {}", studentRequest);
@@ -39,6 +44,31 @@ public class StudentImpl implements StudentService {
         student.setAge(studentRequest.getAge());
         student.setGender(studentRequest.getGender());
         return new StudentResponse(studentRepository.save(student));
+    }
+
+    @Override
+    public List<StudentResponse> saveStudents(List<StudentRequest> studentRequests) {
+        log.info("Saving multiple students: {}", studentRequests);
+
+        // Map the StudentRequest objects to Student entities and save them
+        List<Student> students = studentRequests.stream()
+                .map(request -> {
+                    Student student = new Student();
+                    student.setName(request.getName());
+                    student.setDateOfBirth(request.getDateOfBirth());
+                    student.setAge(request.getAge());
+                    student.setGender(request.getGender());
+                    return student;
+                })
+                .collect(Collectors.toList());
+
+        // Save all the students at once using saveAll
+        List<Student> savedStudents = studentRepository.saveAll(students);
+
+        // Map the saved entities to StudentResponse and return the list
+        return savedStudents.stream()
+                .map(StudentResponse::new)
+                .collect(Collectors.toList());
     }
 
     @Override

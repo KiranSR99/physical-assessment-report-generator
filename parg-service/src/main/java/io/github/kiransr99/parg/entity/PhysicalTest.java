@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 
 @Entity
 @Builder
@@ -25,7 +26,7 @@ public class PhysicalTest {
 
     private String unit;
 
-    @ManyToOne
-    @JoinColumn(name = "physical_report_id")
-    private PhysicalReport physicalReport;
+    // List of Performance Metrics to link tests and reports
+    @OneToMany(mappedBy = "physicalTest", cascade = CascadeType.ALL)
+    private List<PhysicalTestPerformanceMetric> performanceMetrics;
 }

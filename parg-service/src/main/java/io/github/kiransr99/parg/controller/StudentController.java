@@ -28,6 +28,11 @@ public class StudentController extends BaseController {
         return successResponse(studentService.saveStudent(request), SYSTEM_MESSAGE.STUDENT_SAVED);
     }
 
+    @PostMapping(URL_CONSTANTS.SAVE_STUDENTS)
+    public ResponseEntity<GlobalApiResponse<List<StudentResponse>>> saveStudents (@Validated @RequestBody List<StudentRequest> requests){
+        return successResponse(studentService.saveStudents(requests), SYSTEM_MESSAGE.STUDENT_SAVED);
+    }
+
     @PostMapping("/{schoolId}/upload")
     public ResponseEntity<GlobalApiResponse<List<StudentResponse>>> uploadExcel(@PathVariable Long schoolId, @RequestParam("file") MultipartFile file) throws IOException {
         return successResponse(studentService.uploadExcel(schoolId, file), SYSTEM_MESSAGE.STUDENTS_UPLOADED);

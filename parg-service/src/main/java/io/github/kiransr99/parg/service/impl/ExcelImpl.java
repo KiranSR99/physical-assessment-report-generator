@@ -71,17 +71,17 @@ public class ExcelImpl implements ExcelService {
                 studentEnrollment.setClassName(studentClass);
 
                 // Section handling
-                Section section = studentClass.getSections()
-                        .stream()
-                        .filter(s -> s.getName().equals(row.getCell(3).getStringCellValue()))
-                        .findFirst()
-                        .orElseGet(() -> {
-                            Section newSection = new Section();
-                            newSection.setName(row.getCell(3).getStringCellValue());
-                            newSection.setClassName(studentClass);
-                            return sectionRepository.save(newSection);
-                        });
-                studentEnrollment.setSection(section);
+//                Section section = studentClass.getSections()
+//                        .stream()
+//                        .filter(s -> s.getName().equals(row.getCell(3).getStringCellValue()))
+//                        .findFirst()
+//                        .orElseGet(() -> {
+//                            Section newSection = new Section();
+//                            newSection.setName(row.getCell(3).getStringCellValue());
+//                            newSection.setClassName(studentClass);
+//                            return sectionRepository.save(newSection);
+//                        });
+                studentEnrollment.setSection(row.getCell(3).getStringCellValue());
 
                 student.setGender(row.getCell(4).getStringCellValue());
                 student.setDateOfBirth(row.getCell(5).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());

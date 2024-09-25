@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,32 +29,46 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
     private final StudentEnrollmentRepository studentEnrollmentRepository;
     private final ClassRepository classRepository;
     private final StudentRepository studentRepository;
-    private final SectionRepository sectionRepository;
     private final ExamRepository examRepository;
 
     @Override
-    public StudentEnrollmentResponse saveStudentEnrollment(StudentEnrollmentRequest studentEnrollmentRequest) {
-        log.info("Saving student enrollment: {}", studentEnrollmentRequest);
-        Student student = studentRepository.findById(studentEnrollmentRequest.getStudentId()).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_NOT_FOUND)
-        );
-        Class studentClass = classRepository.findById(studentEnrollmentRequest.getClassId()).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.CLASS_NOT_FOUND)
-        );
-        Section section = sectionRepository.findById(studentEnrollmentRequest.getSectionId()).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND)
-        );
-        Exam exam = examRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND)
-        );
-        StudentEnrollment studentEnrollment = new StudentEnrollment();
-        studentEnrollment.setStudent(student);
-        studentEnrollment.setClassName(studentClass);
-        studentEnrollment.setSection(section);
-        studentEnrollment.setExam(exam);
-        studentEnrollment.setRollNumber(studentEnrollmentRequest.getRollNumber());
-        StudentEnrollment savedStudentEnrollment = studentEnrollmentRepository.save(studentEnrollment);
-        return new StudentEnrollmentResponse(savedStudentEnrollment);
+    public List<StudentEnrollmentResponse> saveStudentEnrollment(StudentEnrollmentRequest studentEnrollmentRequest) {
+        log.info("Saving student enrollments for classId: {} and examId: {}", studentEnrollmentRequest.getClassId(), studentEnrollmentRequest.getExamId());
+
+        // Fetch the shared Class and Exam entities once
+        Class studentClass = classRepository.findById(studentEnrollmentRequest.getClassId())
+                .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.CLASS_NOT_FOUND));
+        Exam exam = examRepository.findById(studentEnrollmentRequest.getExamId())
+                .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
+
+        // Loop through the student enrollments
+        List<StudentEnrollment> enrollments = studentEnrollmentRequest.getStudentEnrollments().stream().map(request -> {
+            // Fetch the Student entity
+            Student student = studentRepository.findById(request.getStudentId())
+                    .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_NOT_FOUND));
+
+            // Fetch the Section entity (Assuming section is a unique string identifier)
+//            Section section = sectionRepository.findByName(request.getSection())
+//                    .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND));
+
+            // Create and populate the StudentEnrollment entity
+            StudentEnrollment studentEnrollment = new StudentEnrollment();
+            studentEnrollment.setStudent(student);
+            studentEnrollment.setClassName(studentClass);
+            studentEnrollment.setSection(request.getSection());
+            studentEnrollment.setExam(exam);
+            studentEnrollment.setRollNumber(request.getRollNumber());
+
+            return studentEnrollment;
+        }).collect(Collectors.toList());
+
+        // Save all enrollments in bulk
+        List<StudentEnrollment> savedEnrollments = studentEnrollmentRepository.saveAll(enrollments);
+
+        // Convert the saved enrollments to response DTOs
+        return savedEnrollments.stream()
+                .map(StudentEnrollmentResponse::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -84,19 +99,24 @@ public class StudentEnrollmentImpl implements StudentEnrollmentService {
         StudentEnrollment studentEnrollment = studentEnrollmentRepository.findById(studentEnrollmentId).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_ENROLLMENT_NOT_FOUND)
         );
+
+        // Update shared fields
         Class studentClass = classRepository.findById(studentEnrollmentRequest.getClassId()).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.CLASS_NOT_FOUND)
         );
-        Section section = sectionRepository.findById(studentEnrollmentRequest.getSectionId()).orElseThrow(
-                () -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND)
-        );
-        Exam exam = examRepository.findById(studentEnrollmentRequest.getAcademicYearId()).orElseThrow(
+        Exam exam = examRepository.findById(studentEnrollmentRequest.getExamId()).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND)
         );
-        studentEnrollment.setSection(section);
         studentEnrollment.setExam(exam);
         studentEnrollment.setClassName(studentClass);
-        studentEnrollment.setRollNumber(studentEnrollmentRequest.getRollNumber());
+
+        // Update individual fields (like roll number and section) if they are being updated
+        studentEnrollment.setRollNumber(studentEnrollmentRequest.getStudentEnrollments().get(0).getRollNumber());
+        studentEnrollment.setSection(studentEnrollmentRequest.getStudentEnrollments().get(0).getSection());
+
+//        Section section = sectionRepository.findByName(studentEnrollmentRequest.getStudentEnrollments().get(0).getSection())
+//                .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.SECTION_NOT_FOUND));
+
         StudentEnrollment savedStudentEnrollment = studentEnrollmentRepository.save(studentEnrollment);
         return new StudentEnrollmentResponse(savedStudentEnrollment);
     }

@@ -25,7 +25,7 @@ public class ExcelDetailsResponse {
         this.name = savedStudentEnrollment.getStudent().getName();
         this.rollNo = Integer.parseInt(savedStudentEnrollment.getRollNumber());
         this.grade = savedStudentEnrollment.getClassName().getName();
-        this.section = savedStudentEnrollment.getSection().getName();
+        this.section = savedStudentEnrollment.getSection();
         this.gender = savedStudentEnrollment.getStudent().getGender();
         this.dob = savedStudentEnrollment.getStudent().getDateOfBirth();
         this.age = savedStudentEnrollment.getStudent().getAge();

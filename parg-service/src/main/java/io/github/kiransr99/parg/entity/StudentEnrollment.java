@@ -1,5 +1,6 @@
 package io.github.kiransr99.parg.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +23,9 @@ public class StudentEnrollment {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne
-    @JoinColumn(name = "section_id")
-    private Section section;
+//    @ManyToOne
+//    @JoinColumn(name = "section_id")
+//    private Section section;
 
     @ManyToOne
     @JoinColumn(name = "class_id")
@@ -35,7 +36,9 @@ public class StudentEnrollment {
     private Exam exam;
 
     private String rollNumber;
+    private String section;
 
     @OneToMany(mappedBy = "studentEnrollment")
+    @JsonManagedReference
     private List<PhysicalReport> physicalReports;
 }
