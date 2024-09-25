@@ -18,8 +18,8 @@ import java.io.IOException;
 public class ExcelController extends BaseController {
     private final ExcelService excelService;
 
-    @PostMapping("/saveExcelData/{schoolId}")
-    public ResponseEntity<GlobalApiResponse<ExcelResponse>> saveExcelData(@PathVariable("schoolId") Long schoolId, @RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping("/saveExcelData/{examId}")
+    public ResponseEntity<GlobalApiResponse<ExcelResponse>> saveExcelData(@PathVariable("examId") Long schoolId, @RequestParam("file") MultipartFile file) throws IOException {
         return successResponse(excelService.saveExcelData(schoolId, file), "Excel data saved successfully");
     }
 }
