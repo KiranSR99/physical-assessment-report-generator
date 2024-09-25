@@ -22,6 +22,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -40,59 +41,55 @@ public class ExcelImpl implements ExcelService {
         );
         List<StudentEnrollment> studentEnrollmentList = new ArrayList<>();
         List<PhysicalReport> physicalReportList = new ArrayList<>();
-
         try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
-
             for (Row row : sheet) {
-                if (row.getRowNum() == 0) continue;  // Skip header row
+
+                if (row.getRowNum() == 0) continue;
+
                 StudentEnrollment studentEnrollment = new StudentEnrollment();
                 Student student = new Student();
-                log.info("Searching for class with name: {} and school: {}", getCellValue(row.getCell(2)), school.getName());
 
-                Class studentClass = classRepository.findByNameAndSchool(getCellValue(row.getCell(2)), school).orElseThrow(
+                // Handle class column value (Cell 2)
+                String className;
+                if (row.getCell(2).getCellType() == CellType.NUMERIC) {
+                    className = String.valueOf((int) row.getCell(2).getNumericCellValue());
+                } else if (row.getCell(2).getCellType() == CellType.STRING) {
+                    className = row.getCell(2).getStringCellValue().trim();
+                } else {
+                    throw new EntityNotFoundException("Invalid class name format");
+                }
+
+                Class studentClass = classRepository.findByNameAndSchool(className, school).orElseThrow(
                         () -> new EntityNotFoundException(SYSTEM_MESSAGE.CLASS_NOT_FOUND)
                 );
-                log.info("Searching for class with name: {} and school: {}", getCellValue(row.getCell(2)), school.getName());
+
                 PhysicalReport physicalReport = new PhysicalReport();
 
-                // Handle Roll Number (Cell 0)
-                studentEnrollment.setRollNumber(getCellValue(row.getCell(0)));
-
-                // Handle Name (Cell 1)
-                student.setName(getCellValue(row.getCell(1)));
+                studentEnrollment.setRollNumber(String.valueOf((int) row.getCell(0).getNumericCellValue()));
+                student.setName(row.getCell(1).getStringCellValue());
                 studentEnrollment.setClassName(studentClass);
 
-                // Handle Section (Cell 3 and 4)
+                // Section handling
                 Section section = studentClass.getSections()
                         .stream()
-                        .filter(s -> s.getName().equals(getCellValue(row.getCell(4))))
+                        .filter(s -> s.getName().equals(row.getCell(3).getStringCellValue()))
                         .findFirst()
                         .orElseGet(() -> {
                             Section newSection = new Section();
-                            newSection.setName(getCellValue(row.getCell(3)));
+                            newSection.setName(row.getCell(3).getStringCellValue());
                             newSection.setClassName(studentClass);
                             return sectionRepository.save(newSection);
                         });
                 studentEnrollment.setSection(section);
 
-                // Handle Gender (Cell 4)
-                student.setGender(getCellValue(row.getCell(4)));
+                student.setGender(row.getCell(4).getStringCellValue());
+                student.setDateOfBirth(row.getCell(5).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                student.setAge(calculateAge(student.getDateOfBirth()));
 
-                // Handle DOB (Cell 5)
-                if (row.getCell(5).getCellType() == CellType.NUMERIC) {
-                    student.setDateOfBirth(row.getCell(5).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                    student.setAge(calculateAge(student.getDateOfBirth()));
-                }
-
-                // Handle Height (Cell 6) and Weight (Cell 7)
-                physicalReport.setHeight(getNumericCellValue(row.getCell(6)));
-                physicalReport.setWeight(getNumericCellValue(row.getCell(7)));
-
-                if (physicalReport.getHeight() != null && physicalReport.getWeight() != null) {
-                    physicalReport.setBmi(physicalReport.getWeight().divide(
-                            physicalReport.getHeight().multiply(physicalReport.getHeight()), 2, RoundingMode.HALF_UP));
-                }
+                physicalReport.setHeight(BigDecimal.valueOf(row.getCell(6).getNumericCellValue()));
+                physicalReport.setWeight(BigDecimal.valueOf(row.getCell(7).getNumericCellValue()));
+                physicalReport.setBmi(physicalReport.getWeight().divide(physicalReport.getHeight().multiply(physicalReport.getHeight()), 2, RoundingMode.HALF_UP));
 
                 // Save all the data
                 studentRepository.save(student);
@@ -114,28 +111,4 @@ public class ExcelImpl implements ExcelService {
     private Integer calculateAge(LocalDate dateOfBirth) {
         return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
-
-    // Helper method to handle different cell types
-    private String getCellValue(Cell cell) {
-        if (cell == null) {
-            return null;
-        }
-
-        if (cell.getCellType() == CellType.STRING) {
-            return cell.getStringCellValue();
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            return String.valueOf((int) cell.getNumericCellValue());  // Handle numeric as String if required
-        } else {
-            return null;
-        }
-    }
-
-    // Helper method for numeric values
-    private BigDecimal getNumericCellValue(Cell cell) {
-        if (cell == null || cell.getCellType() != CellType.NUMERIC) {
-            return null;
-        }
-        return BigDecimal.valueOf(cell.getNumericCellValue());
-    }
-
 }
