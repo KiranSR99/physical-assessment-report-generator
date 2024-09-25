@@ -10,5 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 public class ClassRequest {
     private Long schoolId;
+    private Long examId;
     private List<ClassListRequest> classes;
 }

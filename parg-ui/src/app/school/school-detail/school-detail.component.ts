@@ -21,6 +21,9 @@ export class SchoolDetailComponent implements OnInit {
   selectedExam: any;
   classes: any;
 
+  editableClassId: any = null;
+  editClassName: string = '';
+
   constructor(
     private router: Router,
     private schoolService: SchoolService,
@@ -40,8 +43,8 @@ export class SchoolDetailComponent implements OnInit {
       }
     });
 
-    this.getAllExams();
-    this.getAllExamClasses();
+    this.getAllExamsOfSchool(this.schoolId);
+    // this.getAllExamClasses();
   }
 
   getSchoolDetailsById(schoolId: any): void {
@@ -79,14 +82,15 @@ export class SchoolDetailComponent implements OnInit {
       backdrop: 'static'
     });
 
+    modalRef.componentInstance.schoolId = this.schoolId;
+
     modalRef.componentInstance.examAdded.subscribe(() => {
-      // Refresh the list of exams when the event is emitted
-      this.getAllExams();
+      this.getAllExamsOfSchool(this.schoolId);
     });
   }
 
-  getAllExams(): void {
-    this.examService.getAllExams().subscribe({
+  getAllExamsOfSchool(schoolId: number): void {
+    this.examService.getAllExamsOfSchool(schoolId).subscribe({
       next: (response: any) => {
         this.exams = response.data;
       },
@@ -102,12 +106,13 @@ export class SchoolDetailComponent implements OnInit {
       size: 'md',
       backdrop: 'static'
     });
-  
+
+    modalRef.componentInstance.schoolId = this.schoolId;
     modalRef.componentInstance.examId = examId;
-  
+
     modalRef.result.then((result: any) => {
       if (result === 'success') {
-        this.getAllExams();
+        this.getAllExamsOfSchool(this.schoolId);
       }
     }).catch((error) => {
       console.log('Modal dismissed: ', error);
@@ -118,7 +123,7 @@ export class SchoolDetailComponent implements OnInit {
     this.examService.deleteExam(id).subscribe({
       next: (response: any) => {
         this.toast.showSuccess("Exam deleted successfully.");
-        this.getAllExams();
+        this.getAllExamsOfSchool(this.schoolId);
       },
       error: (error: any) => {
         console.log(error.error.message);
@@ -129,11 +134,11 @@ export class SchoolDetailComponent implements OnInit {
 
   selectExam(exam: any): void {
     this.selectedExam = exam;
-    // this.getExamClasses(exam.id);
+    this.getClassesByExamId(exam.id);
   }
 
-  getAllExamClasses(): void {
-    this.classService.getAllClasses().subscribe({
+  getClassesByExamId(examId: number): void {
+    this.classService.getClassesByExamId(examId).subscribe({
       next: (response: any) => {
         this.classes = response.data;
       },
@@ -151,14 +156,64 @@ export class SchoolDetailComponent implements OnInit {
     });
 
     modalRef.componentInstance.schoolId = this.schoolId;
+    modalRef.componentInstance.examId = this.selectedExam.id;
 
     modalRef.result.then((result: any) => {
       if (result === 'success') {
-        this.getAllExamClasses();
+        this.getClassesByExamId(this.selectedExam.id);
       }
     }).catch((error: any) => {
       console.log('Modal dismissed: ', error);
     });
+  }
+
+
+
+  // Function to toggle edit mode for a class
+  editClass(classId: any, currentName: string): void {
+    this.editableClassId = classId;
+    this.editClassName = currentName; // Set the initial value of the class name for editing
+  }
+
+  // Function to save the edited class name
+  saveClass(classId: any): void {
+    const className = {
+      "name": this.editClassName
+    }
+    // Make the API call to save the updated class name (this.editClassName)
+    this.classService.updateClass(classId, className).subscribe({
+      next: () => {
+        this.toast.showSuccess("Class updated successfully.");
+        // Refresh class list or update class name in local list
+        this.getClassesByExamId(this.selectedExam.id);
+        this.editableClassId = null; // Exit edit mode
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+
+  // Cancel editing mode
+  cancelEdit(): void {
+    this.editableClassId = null; // Exit edit mode without saving
+  }
+
+  //Deleting class
+  deleteClass(classId: any): void {
+    this.classService.deleteClass(classId).subscribe({
+      next: (response: any) => {
+        this.toast.showSuccess("Class deleted successfully.");
+        this.getClassesByExamId(this.selectedExam.id);
+      },
+      error: (error: any) => {
+        console.log(error.error.message);
+      }
+    });
+  }
+
+  openStudentData(): void{
+    this.router.navigate(['/school/exam/class/student']);
   }
 
 }

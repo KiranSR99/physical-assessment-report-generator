@@ -20,10 +20,7 @@ public class Student {
     private Long id;
 
     @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
+    private String name;
 
     private LocalDate dateOfBirth;
     private Integer age;

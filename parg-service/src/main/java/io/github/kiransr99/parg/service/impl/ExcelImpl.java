@@ -48,9 +48,6 @@ public class ExcelImpl implements ExcelService {
                 if (row.getRowNum() == 0) continue;  // Skip header row
                 StudentEnrollment studentEnrollment = new StudentEnrollment();
                 Student student = new Student();
-//                Class studentClass = classRepository.findByNameAndSchool(getCellValue(row.getCell(2)), school).orElseThrow(
-//                        () -> new EntityNotFoundException(SYSTEM_MESSAGE.CLASS_NOT_FOUND)
-//                );
                 log.info("Searching for class with name: {} and school: {}", getCellValue(row.getCell(2)), school.getName());
 
                 Class studentClass = classRepository.findByNameAndSchool(getCellValue(row.getCell(2)), school).orElseThrow(
@@ -63,8 +60,7 @@ public class ExcelImpl implements ExcelService {
                 studentEnrollment.setRollNumber(getCellValue(row.getCell(0)));
 
                 // Handle Name (Cell 1)
-                student.setFirstName(getCellValue(row.getCell(1)));
-                student.setLastName(getCellValue(row.getCell(1)));
+                student.setName(getCellValue(row.getCell(1)));
                 studentEnrollment.setClassName(studentClass);
 
                 // Handle Section (Cell 3 and 4)

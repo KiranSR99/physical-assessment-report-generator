@@ -28,6 +28,10 @@ export class ClassService {
     return this.http.get(`${this.apiUrl}/class/getClassBySchoolId/${schoolId}`);
   }
 
+  getClassesByExamId(examId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/class/getClassesByExamId/${examId}`);
+  }
+
   updateClass(id: number, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/class/updateClass/${id}`, data);
   }

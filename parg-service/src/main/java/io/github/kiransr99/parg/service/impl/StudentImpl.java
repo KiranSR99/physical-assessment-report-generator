@@ -34,8 +34,7 @@ public class StudentImpl implements StudentService {
     public StudentResponse saveStudent(StudentRequest studentRequest) {
         log.info("Saving student: {}", studentRequest);
         Student student = new Student();
-        student.setFirstName(studentRequest.getFirstName());
-        student.setLastName(studentRequest.getLastName());
+        student.setName(studentRequest.getName());
         student.setDateOfBirth(studentRequest.getDateOfBirth());
         student.setAge(studentRequest.getAge());
         student.setGender(studentRequest.getGender());
@@ -57,8 +56,7 @@ public class StudentImpl implements StudentService {
         Student student = studentRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_NOT_FOUND)
         );
-        student.setFirstName(studentUpdateRequest.getFirstName());
-        student.setLastName(studentUpdateRequest.getLastName());
+        student.setName(studentUpdateRequest.getName());
         student.setDateOfBirth(studentUpdateRequest.getDateOfBirth());
         student.setAge(studentUpdateRequest.getAge());
         student.setGender(studentUpdateRequest.getGender());
@@ -86,8 +84,7 @@ public class StudentImpl implements StudentService {
                 if (row.getRowNum() == 0) continue; // Skip header row
 
                 StudentRequest studentRequest = new StudentRequest();
-                studentRequest.setFirstName(row.getCell(0).getStringCellValue());
-                studentRequest.setLastName(row.getCell(1).getStringCellValue());
+                studentRequest.setName(row.getCell(0).getStringCellValue());
                 studentRequest.setDateOfBirth(row.getCell(2).getDateCellValue().toInstant()
                         .atZone(ZoneId.systemDefault()).toLocalDate());
                 studentRequest.setAge((int) row.getCell(3).getNumericCellValue());

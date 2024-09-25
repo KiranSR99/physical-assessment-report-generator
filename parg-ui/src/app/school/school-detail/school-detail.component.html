@@ -37,11 +37,13 @@
                 <div class="mt-4">
                     <div class=" d-flex align-items-center">
                         <i class="fas fa-location-dot fs-5 me-2"></i>
-                        <span title="{{schoolDetails?.address}}" class="text-muted text-truncate">{{schoolDetails?.address}}</span>
+                        <span title="{{schoolDetails?.address}}"
+                            class="text-muted text-truncate">{{schoolDetails?.address}}</span>
                     </div>
                     <div class="my-2 d-flex align-items-center">
                         <i class="fas fa-envelope fs-5 me-2"></i>
-                        <span title="{{schoolDetails?.email}}" class="text-muted text-truncate">{{schoolDetails?.email}}</span>
+                        <span title="{{schoolDetails?.email}}"
+                            class="text-muted text-truncate">{{schoolDetails?.email}}</span>
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-phone fs-5 me-2 "></i>
@@ -70,7 +72,6 @@
                                 <i class="fas fa-file me-2"></i>
                                 <p class="card-title mb-0">{{exam?.year + ' ' + exam?.examName}}</p>
                             </div>
-
 
                             <!-- Dropdown menu -->
                             <div class="dropdown position-absolute top-0 end-0 mt-2 me-2">
@@ -101,16 +102,44 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
                                 <h6>{{selectedExam.year + ' ' + selectedExam.examName}}</h6>
-                                <button class="btn btn-sm custom-button"
-                                    (click)="addClassToExam()">Add Class</button>
+                                <div class="d-flex ">
+                                    <button class="btn btn-sm custom-button me-1" (click)="addClassToExam()">Add Class</button>
+                                    <button class="btn btn-sm custom-button-outlined"><label for="fileSelect">Update Student Data</label></button>
+                                    <input type="file" name="fileSelect" id="fileSelect" class="d-none" />
+                                    
+                                </div>
                             </div>
                             <hr>
                             <h6>Classes</h6>
                             <ul class="list-group">
                                 @for (class of classes; track class.id) {
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{class.name}}
-                                    <!-- <span class="badge bg-primary rounded-pill" style="font-weight: 300 !important;">{{ 20 + 2 * class.id }}</span> -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center" (click)="openStudentData()">
+                                    <!-- Conditional display of class name or input field -->
+                                    <span *ngIf="editableClassId !== class.id">{{ class.name }}</span>
+                                    <div *ngIf="editableClassId === class.id" class="d-flex align-items-center">
+                                        <input type="text" [(ngModel)]="editClassName"
+                                            (keydown.enter)="saveClass(class.id)" (blur)="saveClass(class.id)"
+                                            class="form-control" />
+                                        <div class="d-flex align-items-center ms-2">
+                                            <button class="btn me-2 p-0" (click)="cancelEdit()"><i
+                                                    class="mdi mdi-window-close text-danger fs-4"></i></button>
+                                            <button class="btn p-0" (click)="saveClass(class.id)"><i
+                                                    class="mdi mdi-check text-success fs-4"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <button class="btn btn-link text-dark p-0" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" (click)="editClass(class.id, class.name)">
+                                                    <i class="fas fa-edit me-2"></i>Edit</a></li>
+                                            <li><a class="dropdown-item" (click)="deleteClass(class.id)"><i
+                                                        class="fas fa-trash me-2"></i>Delete</a></li>
+                                        </ul>
+                                    </div>
                                 </li>
                                 }
                             </ul>

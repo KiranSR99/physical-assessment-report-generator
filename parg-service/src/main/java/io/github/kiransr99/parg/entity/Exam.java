@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -20,6 +19,13 @@ public class Exam {
     private Long id;
     @Column(nullable = false)
     private Integer year;
+
+    @ManyToOne
+    @JoinColumn(name = "school_id")
+    private School school;
+
+    @OneToMany(mappedBy = "exam")
+    private List<Class> classes;
 
     private String examName;
 }

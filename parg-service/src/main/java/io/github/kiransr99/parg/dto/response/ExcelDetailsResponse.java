@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +22,7 @@ public class ExcelDetailsResponse {
     private BigDecimal weight;
 
     public ExcelDetailsResponse(StudentEnrollment savedStudentEnrollment, PhysicalReport physicalReport) {
-        this.name = savedStudentEnrollment.getStudent().getFirstName() + " " + savedStudentEnrollment.getStudent().getLastName();
+        this.name = savedStudentEnrollment.getStudent().getName();
         this.rollNo = Integer.parseInt(savedStudentEnrollment.getRollNumber());
         this.grade = savedStudentEnrollment.getClassName().getName();
         this.section = savedStudentEnrollment.getSection().getName();
