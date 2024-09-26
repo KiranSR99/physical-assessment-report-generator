@@ -3,12 +3,16 @@ package io.github.kiransr99.parg.service.impl;
 import io.github.kiransr99.parg.constant.SYSTEM_MESSAGE;
 import io.github.kiransr99.parg.dto.request.StudentRequest;
 import io.github.kiransr99.parg.dto.request.StudentUpdateRequest;
+import io.github.kiransr99.parg.dto.response.GameResponse;
+import io.github.kiransr99.parg.dto.response.StudentCompleteDataResponse;
 import io.github.kiransr99.parg.dto.response.StudentResponse;
 import io.github.kiransr99.parg.entity.Exam;
 import io.github.kiransr99.parg.entity.School;
 import io.github.kiransr99.parg.entity.Student;
+import io.github.kiransr99.parg.entity.StudentEnrollment;
 import io.github.kiransr99.parg.repository.ExamRepository;
 import io.github.kiransr99.parg.repository.SchoolRepository;
+import io.github.kiransr99.parg.repository.StudentEnrollmentRepository;
 import io.github.kiransr99.parg.repository.StudentRepository;
 import io.github.kiransr99.parg.service.StudentService;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,12 +22,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +42,7 @@ public class StudentImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final SchoolRepository schoolRepository;
     private final ExamRepository examRepository;
+    private final StudentEnrollmentRepository studentEnrollmentRepository;
 
     @Override
     public StudentResponse saveStudent(StudentRequest studentRequest) {
@@ -78,6 +87,26 @@ public class StudentImpl implements StudentService {
                 () -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_NOT_FOUND)
         );
         return new StudentResponse(student);
+    }
+
+    @Override
+    public List<StudentResponse> getAllStudentsByExamId(Long examId) {
+        List<StudentEnrollment> enrollments = studentEnrollmentRepository.findByExamId(examId);
+        return enrollments.stream()
+                .map( enrollment -> {
+                    Student student = enrollment.getStudent();
+                    return new StudentResponse(student);
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudentResponse> getAllStudentsByClassId(Long classId) {
+        List<StudentEnrollment> enrollments = studentEnrollmentRepository.findByClassNameId(classId);
+        return enrollments.stream()
+                .map(enrollment -> {
+                    Student student = enrollment.getStudent();
+                    return new StudentResponse(student);
+                }).collect(Collectors.toList());
     }
 
     @Override
@@ -129,6 +158,42 @@ public class StudentImpl implements StudentService {
         }
         return studentResponses;
     }
+
+    @Override
+    public List<StudentCompleteDataResponse> getStudentCompleteDataByClassId(Long classId) {
+        log.info("Fetching complete data for students in class id: {}", classId);
+
+        List<Object[]> results = studentRepository.findStudentCompleteDataByClassId(classId);
+
+        return results.stream()
+                .collect(Collectors.groupingBy(row -> (String) row[0])) // Group by roll number
+                .values().stream()
+                .map(group -> {
+                    Object[] firstRow = group.get(0); // Get the first row for static data
+                    List<GameResponse> games = group.stream()
+                            .map(row -> new GameResponse((String) row[13], (BigDecimal) row[14])) // map to GameResponse
+                            .collect(Collectors.toList());
+
+                    return new StudentCompleteDataResponse(
+                            (String) firstRow[0], // roll number
+                            (String) firstRow[1], // name
+                            (String) firstRow[2], // class name
+                            (String) firstRow[3], // section
+                            ((Date) firstRow[4]), // date of birth
+                            (int) firstRow[5], // age
+                            (String) firstRow[6], // gender
+                            (BigDecimal) firstRow[7], // height
+                            (BigDecimal) firstRow[8], // weight
+                            (BigDecimal) firstRow[9], // bmi
+                            (String) firstRow[10], // bmi level
+                            (String) firstRow[11], // percentile
+                            (String) firstRow[12], // comment
+                            games // games (physical tests)
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+
 
 
 }
