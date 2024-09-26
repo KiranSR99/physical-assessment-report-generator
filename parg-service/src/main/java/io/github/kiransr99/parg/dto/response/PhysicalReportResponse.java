@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PhysicalReportResponse {
+    private Long id;
     private Long studentEnrollmentId;
     private BigDecimal height;
     private BigDecimal weight;
@@ -22,6 +23,7 @@ public class PhysicalReportResponse {
     private String comment;
 
     public PhysicalReportResponse(PhysicalReport physicalReport) {
+        this.id = physicalReport.getId();
         this.studentEnrollmentId = physicalReport.getStudentEnrollment().getId();
         this.height = physicalReport.getHeight();
         this.weight = physicalReport.getWeight();
