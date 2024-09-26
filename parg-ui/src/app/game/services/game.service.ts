@@ -11,7 +11,11 @@ export class GameService {
 
   constructor(private http: HttpClient) { }
 
-  getAllGamesData(): Observable<any> {
+  saveGames(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/physicalTestPerformanceMetric/saveMultiplePhysicalTestPerformanceMetrics`, data);
+  }
+
+  getAllGamesData(): Observable<any> {  
     return this.http.get(`${this.apiUrl}/physicalTestPerformanceMetric/getAllPhysicalTestPerformanceMetrics`);
   }
 }

@@ -1,0 +1,102 @@
+<form [formGroup]="studentsForm" (ngSubmit)="submitForm()">
+    <div formArrayName="students">
+      <div *ngFor="let student of getStudentsArray().controls; let i = index" [formGroupName]="i">
+        <div>
+          <label>Name</label>
+          <input formControlName="name" />
+        </div>
+        <div>
+          <label>Date of Birth</label>
+          <input formControlName="dateOfBirth" type="date" />
+        </div>
+        <div>
+          <label>Age</label>
+          <input formControlName="age" type="number" />
+        </div>
+        <div>
+          <label>Gender</label>
+          <input formControlName="gender" />
+        </div>
+      </div>
+    </div>
+  
+    <div formGroupName="studentEnrollments">
+      <div>
+        <label>Class ID</label>
+        <input formControlName="classId" type="number" />
+      </div>
+      <div>
+        <label>Exam ID</label>
+        <input formControlName="examId" type="number" />
+      </div>
+      <div formArrayName="studentEnrollments">
+        <div *ngFor="let enrollment of getStudentEnrollmentsArray().controls; let j = index" [formGroupName]="j">
+          <div>
+            <label>Student ID</label>
+            <input formControlName="studentId" type="number" />
+          </div>
+          <div>
+            <label>Roll Number</label>
+            <input formControlName="rollNumber" />
+          </div>
+          <div>
+            <label>Section</label>
+            <input formControlName="section" />
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div formArrayName="physicalReports">
+      <div *ngFor="let report of getPhysicalReportsArray().controls; let k = index" [formGroupName]="k">
+        <div>
+          <label>Student Enrollment ID</label>
+          <input formControlName="studentEnrollmentId" type="number" />
+        </div>
+        <div>
+          <label>Height</label>
+          <input formControlName="height" type="number" />
+        </div>
+        <div>
+          <label>Weight</label>
+          <input formControlName="weight" type="number" />
+        </div>
+        <div>
+          <label>BMI</label>
+          <input formControlName="bmi" type="number" />
+        </div>
+        <div>
+          <label>BMI Level</label>
+          <input formControlName="bmiLevel" />
+        </div>
+        <div>
+          <label>Percentile</label>
+          <input formControlName="percentile" />
+        </div>
+        <div>
+          <label>Comment</label>
+          <input formControlName="comment" />
+        </div>
+      </div>
+    </div>
+  
+    <div formArrayName="physicalTestPerformanceMetrics">
+      <div *ngFor="let metric of getPhysicalTestPerformanceMetricsArray().controls; let l = index" [formGroupName]="l">
+        <div>
+          <label>Physical Test ID</label>
+          <input formControlName="physicalTestId" type="number" />
+        </div>
+        <div>
+          <label>Physical Report ID</label>
+          <input formControlName="physicalReportId" type="number" />
+        </div>
+        <div>
+          <label>Value</label>
+          <input formControlName="value" type="number" />
+        </div>
+      </div>
+    </div>
+  
+    <button type="submit">Save</button>
+  </form>
+  <button (click)="addStudent()">Add Another Student</button>
