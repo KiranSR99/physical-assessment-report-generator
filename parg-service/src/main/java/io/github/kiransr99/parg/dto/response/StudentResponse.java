@@ -19,7 +19,7 @@ public class StudentResponse {
         this.id = student.getId();
         this.name = student.getName();
         this.dateOfBirth = student.getDateOfBirth();
-        this.age = student.getAge();
+        this.age = student.getDateOfBirth().until(LocalDate.now()).getYears();
         this.gender = student.getGender();
     }
 }

@@ -28,7 +28,7 @@ public class ExcelDetailsResponse {
         this.section = savedStudentEnrollment.getSection();
         this.gender = savedStudentEnrollment.getStudent().getGender();
         this.dob = savedStudentEnrollment.getStudent().getDateOfBirth();
-        this.age = savedStudentEnrollment.getStudent().getAge();
+        this.age = savedStudentEnrollment.getStudent().getDateOfBirth().until(LocalDate.now()).getYears();
         this.height = physicalReport.getHeight();
         this.weight = physicalReport.getWeight();
     }

@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Service
@@ -88,7 +90,7 @@ public class PhysicalReportImpl implements PhysicalReportService {
 
     private StudentEnrollment findStudentEnrollmentById(Long studentEnrollmentId) {
         return studentEnrollmentRepository.findById(studentEnrollmentId).orElseThrow(
-                () -> new EntityNotFoundException("Student Enrollment not found")
+                () -> new EntityNotFoundException(SYSTEM_MESSAGE.STUDENT_ENROLLMENT_NOT_FOUND)
         );
     }
 
@@ -96,9 +98,10 @@ public class PhysicalReportImpl implements PhysicalReportService {
         BigDecimal height = request.getHeight();
         BigDecimal weight = request.getWeight();
         String bmi = bmiCalculator.calculateBMI(weight, height);
+        Double ageInMonths = calculateAgeInMonths(studentEnrollment.getStudent().getDateOfBirth());
         BMIPercentile percentile = bmiCalculator.findPercentile(
                 studentEnrollment.getStudent().getGender().equalsIgnoreCase("male") ? 1 : 2,
-                studentEnrollment.getStudent().getAge(),
+                ageInMonths,
                 new BigDecimal(bmi)
         );
         String bmiLevel = bmiCalculator.determineBMILevel(percentile);
@@ -119,9 +122,10 @@ public class PhysicalReportImpl implements PhysicalReportService {
         BigDecimal height = request.getHeight();
         BigDecimal weight = request.getWeight();
         String bmi = bmiCalculator.calculateBMI(weight, height);
+        Double ageInMonths = calculateAgeInMonths(studentEnrollment.getStudent().getDateOfBirth());
         BMIPercentile percentile = bmiCalculator.findPercentile(
                 studentEnrollment.getStudent().getGender().equalsIgnoreCase("male") ? 1 : 2,
-                studentEnrollment.getStudent().getAge(),
+                ageInMonths,
                 new BigDecimal(bmi)
         );
         String bmiLevel = bmiCalculator.determineBMILevel(percentile);
@@ -134,5 +138,10 @@ public class PhysicalReportImpl implements PhysicalReportService {
         physicalReport.setBmiLevel(bmiLevel);
         physicalReport.setPercentile(percentile.getDescription());
         physicalReport.setComment(comment);
+    }
+
+    private Double calculateAgeInMonths(LocalDate dateOfBirth) {
+        Period period = Period.between(dateOfBirth, LocalDate.now());
+        return period.getYears() * 12 + period.getMonths() + period.getDays() / 30.0;
     }
 }

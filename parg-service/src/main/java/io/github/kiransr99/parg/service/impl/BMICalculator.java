@@ -59,11 +59,10 @@ public class BMICalculator {
 
     public String determineBMILevel(BMIPercentile percentile) {
         return switch (percentile) {
-            case BELOW_3RD, P3_TO_P5 -> "Underweight";
-            case P5_TO_P10, P10_TO_P25 -> "Normal weight";
-            case P25_TO_P50, P50_TO_P75 -> "Overweight";
-            case P75_TO_P85, P85_TO_P90, P90_TO_P95, P95_TO_P97, ABOVE_97TH -> "Obese";
-            default -> "Unknown BMI Level";
+            case P3_TO_P5, P5_TO_P10, P10_TO_P25 -> "Underweight";
+            case P25_TO_P50, P50_TO_P75 -> "Normal weight";
+            case P75_TO_P85, P85_TO_P90, P90_TO_P95, P95_TO_P97 -> "Overweight";
+            default -> "Obese";
         };
     }
 

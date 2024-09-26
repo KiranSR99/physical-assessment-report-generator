@@ -23,7 +23,6 @@ public class Student {
     private String name;
 
     private LocalDate dateOfBirth;
-    private Integer age;
     private String gender;
 
     @OneToMany(mappedBy = "student")
