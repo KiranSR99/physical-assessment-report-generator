@@ -21,7 +21,7 @@ public class StudentEnrollmentController extends BaseController {
     private final StudentEnrollmentService studentEnrollmentService;
 
     @PostMapping(URL_CONSTANTS.SAVE_STUDENT_ENROLLMENT)
-    public ResponseEntity<GlobalApiResponse<StudentEnrollmentResponse>> saveStudentEnrollment(StudentEnrollmentRequest studentEnrollmentRequest) {
+    public ResponseEntity<GlobalApiResponse<List<StudentEnrollmentResponse>>> saveStudentEnrollment(@RequestBody StudentEnrollmentRequest studentEnrollmentRequest) {
         return successResponse(studentEnrollmentService.saveStudentEnrollment(studentEnrollmentRequest), "Student enrollment saved successfully");
     }
 

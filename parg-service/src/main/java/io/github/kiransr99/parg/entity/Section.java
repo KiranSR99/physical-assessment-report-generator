@@ -29,14 +29,9 @@ public class Section {
     @JoinColumn(name = "school_id")
     private School school;
 
-    @OneToMany(mappedBy = "section")
-    private List<StudentEnrollment> studentEnrollments;
+//    @OneToMany(mappedBy = "section")
+//    private List<StudentEnrollment> studentEnrollments;
 
     private boolean status = true;
 
-    public Section(Class className, String sectionName, School school) {
-        this.className = className;
-        this.name = sectionName;
-        this.school = school;
-    }
 }

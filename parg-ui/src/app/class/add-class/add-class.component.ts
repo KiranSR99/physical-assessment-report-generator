@@ -10,7 +10,8 @@ import { ToastService } from '../../services/toast-service.service';
   styleUrls: ['./add-class.component.scss']
 })
 export class AddClassComponent implements OnInit {
-  @Input() schoolId: any;
+  @Input() schoolId: number = 0;
+  @Input() examId: number = 0;
   classForm: FormGroup = new FormGroup({});
 
   constructor(
@@ -27,6 +28,7 @@ export class AddClassComponent implements OnInit {
   initializeForm(): void {
     this.classForm = this.formBuilder.group({
       schoolId: [this.schoolId, Validators.required],
+      examId: [this.examId, Validators.required],
       classes: this.formBuilder.array([this.createClassGroup()])
     });
   }
@@ -62,7 +64,7 @@ export class AddClassComponent implements OnInit {
     }
 
     this.classService.addClasses(this.classForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.toast.showSuccess('Classes added successfully.');
         this.activeModal.close('success');
       },

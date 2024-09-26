@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '../../services/toast-service.service';
@@ -10,6 +10,7 @@ import { ExamService } from '../services/exam.service';
   styleUrls: ['./add-exam.component.scss']
 })
 export class AddExamComponent implements OnInit {
+  @Input() schoolId: number = 0;
   examForm: FormGroup = new FormGroup({});
   submitted = false;
 
@@ -29,6 +30,7 @@ export class AddExamComponent implements OnInit {
 
   initializeForm(): void {
     this.examForm = this.formBuilder.group({
+      schoolId: [this.schoolId, Validators.required],
       year: ['', [Validators.required, Validators.pattern(/^(20\d{2})$/)]],
       examName: ['', Validators.required]
     });

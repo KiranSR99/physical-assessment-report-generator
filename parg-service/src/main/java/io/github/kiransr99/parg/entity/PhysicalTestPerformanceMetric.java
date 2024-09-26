@@ -21,10 +21,11 @@ public class PhysicalTestPerformanceMetric {
     @Column(precision = 10, scale = 2)
     private BigDecimal value;
 
-    @OneToOne
-    private PhysicalTest physicalTest;
+    @ManyToOne
+    @JoinColumn(name = "physical_test_id", nullable = false)
+    private PhysicalTest physicalTest; // Reference to PhysicalTest
 
-    @OneToOne
-    private PhysicalReport physicalReport;
-
+    @ManyToOne
+    @JoinColumn(name = "physical_report_id", nullable = false)
+    private PhysicalReport physicalReport; // Reference to PhysicalReport
 }

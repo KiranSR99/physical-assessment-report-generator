@@ -9,6 +9,7 @@ import java.util.List;
 public interface ExamService {
     ExamResponse createExam(ExamRequest examRequest);
     List<ExamResponse> getAllExams();
+    List<ExamResponse> getAllExamsOfSchool(Long schoolId);
     ExamResponse getExam(Long id);
     ExamResponse updateExam(Long id, ExamUpdateRequest examUpdateRequest);
     void deleteExam(Long id);

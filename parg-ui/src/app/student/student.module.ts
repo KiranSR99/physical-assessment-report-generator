@@ -6,6 +6,7 @@ import { AddStudentComponent } from './add-student/add-student.component';
 import { ListStudentComponent } from './list-student/list-student.component';
 import { EditStudentComponent } from './edit-student/edit-student.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AgGridAngular } from 'ag-grid-angular';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     StudentRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgGridAngular
   ]
 })
 export class StudentModule { }

@@ -46,6 +46,16 @@ public class ExamImpl implements ExamService {
     }
 
     @Override
+    public List<ExamResponse> getAllExamsOfSchool(Long schoolId) {
+        log.info("Getting all exams of a school...");
+        List<Exam> exams = examRepository.findAllExamBySchoolId(schoolId);
+        log.info("All exams found.");
+        return exams.stream()
+                .map(ExamResponse::new)
+                .toList();
+    }
+
+    @Override
     public ExamResponse getExam(Long id) {
         log.info("Fetching academic year with id: {}", id);
         Exam exam = examRepository.findById(id).orElseThrow(
