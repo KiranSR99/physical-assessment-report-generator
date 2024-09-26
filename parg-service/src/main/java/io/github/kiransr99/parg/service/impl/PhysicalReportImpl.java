@@ -6,6 +6,7 @@ import io.github.kiransr99.parg.dto.request.PhysicalReportUpdateRequest;
 import io.github.kiransr99.parg.dto.response.PhysicalReportResponse;
 import io.github.kiransr99.parg.entity.PhysicalReport;
 import io.github.kiransr99.parg.entity.StudentEnrollment;
+import io.github.kiransr99.parg.enums.BMIPercentile;
 import io.github.kiransr99.parg.repository.PhysicalReportRepository;
 import io.github.kiransr99.parg.repository.StudentEnrollmentRepository;
 import io.github.kiransr99.parg.service.PhysicalReportService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -24,6 +26,7 @@ import java.util.List;
 public class PhysicalReportImpl implements PhysicalReportService {
     private final PhysicalReportRepository physicalReportRepository;
     private final StudentEnrollmentRepository studentEnrollmentRepository;
+    private final BMICalculator bmiCalculator;
 
     @Override
     public PhysicalReportResponse savePhysicalReport(PhysicalReportRequest physicalReportRequest) {
@@ -37,19 +40,15 @@ public class PhysicalReportImpl implements PhysicalReportService {
     public List<PhysicalReportResponse> savePhysicalReports(List<PhysicalReportRequest> physicalReportRequests) {
         log.info("Saving multiple students' physical reports");
 
-        // Iterate over each PhysicalReportRequest and build PhysicalReport objects
         List<PhysicalReport> physicalReports = physicalReportRequests.stream().map(request -> {
             StudentEnrollment studentEnrollment = findStudentEnrollmentById(request.getStudentEnrollmentId());
             return buildPhysicalReportFromRequest(request, studentEnrollment);
         }).toList();
 
-        // Save all the physical reports in the repository
         List<PhysicalReport> savedPhysicalReports = physicalReportRepository.saveAll(physicalReports);
 
-        // Convert the saved PhysicalReport entities to response objects
         return savedPhysicalReports.stream().map(PhysicalReportResponse::new).toList();
     }
-
 
     @Override
     public Page<PhysicalReportResponse> getAllPhysicalReport(Pageable pageable) {
@@ -94,24 +93,46 @@ public class PhysicalReportImpl implements PhysicalReportService {
     }
 
     private PhysicalReport buildPhysicalReportFromRequest(PhysicalReportRequest request, StudentEnrollment studentEnrollment) {
+        BigDecimal height = request.getHeight();
+        BigDecimal weight = request.getWeight();
+        String bmi = bmiCalculator.calculateBMI(weight, height);
+        BMIPercentile percentile = bmiCalculator.findPercentile(
+                studentEnrollment.getStudent().getGender().equalsIgnoreCase("male") ? 1 : 2,
+                studentEnrollment.getStudent().getAge(),
+                new BigDecimal(bmi)
+        );
+        String bmiLevel = bmiCalculator.determineBMILevel(percentile);
+        String comment = bmiCalculator.generateComment(percentile);
+
         return PhysicalReport.builder()
                 .studentEnrollment(studentEnrollment)
-                .height(request.getHeight())
-                .weight(request.getWeight())
-                .bmi(request.getBmi())
-                .bmiLevel(request.getBmiLevel())
-                .percentile(request.getPercentile())
-                .comment(request.getComment())
+                .height(height)
+                .weight(weight)
+                .bmi(new BigDecimal(bmi))
+                .bmiLevel(bmiLevel)
+                .percentile(percentile.getDescription())
+                .comment(comment)
                 .build();
     }
 
     private void updatePhysicalReportFromRequest(PhysicalReport physicalReport, PhysicalReportUpdateRequest request, StudentEnrollment studentEnrollment) {
+        BigDecimal height = request.getHeight();
+        BigDecimal weight = request.getWeight();
+        String bmi = bmiCalculator.calculateBMI(weight, height);
+        BMIPercentile percentile = bmiCalculator.findPercentile(
+                studentEnrollment.getStudent().getGender().equalsIgnoreCase("male") ? 1 : 2,
+                studentEnrollment.getStudent().getAge(),
+                new BigDecimal(bmi)
+        );
+        String bmiLevel = bmiCalculator.determineBMILevel(percentile);
+        String comment = bmiCalculator.generateComment(percentile);
+
         physicalReport.setStudentEnrollment(studentEnrollment);
-        physicalReport.setHeight(request.getHeight());
-        physicalReport.setWeight(request.getWeight());
-        physicalReport.setBmi(request.getBmi());
-        physicalReport.setBmiLevel(request.getBmiLevel());
-        physicalReport.setPercentile(request.getPercentile());
-        physicalReport.setComment(request.getComment());
+        physicalReport.setHeight(height);
+        physicalReport.setWeight(weight);
+        physicalReport.setBmi(new BigDecimal(bmi));
+        physicalReport.setBmiLevel(bmiLevel);
+        physicalReport.setPercentile(percentile.getDescription());
+        physicalReport.setComment(comment);
     }
 }

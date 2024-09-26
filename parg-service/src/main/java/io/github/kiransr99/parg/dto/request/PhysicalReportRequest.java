@@ -12,9 +12,4 @@ public class PhysicalReportRequest {
     private Long studentEnrollmentId;
     private BigDecimal height;
     private BigDecimal weight;
-    private BigDecimal bmi;
-
-    private String bmiLevel;
-    private String percentile;
-    private String comment;
 }

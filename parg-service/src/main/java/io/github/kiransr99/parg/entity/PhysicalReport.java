@@ -38,7 +38,6 @@ public class PhysicalReport {
     private String percentile;
     private String comment;
 
-    // List of Performance Metrics to link tests and reports
     @OneToMany(mappedBy = "physicalReport", cascade = CascadeType.ALL)
-    private List<PhysicalTestPerformanceMetric> performanceMetrics; // Links to PhysicalTest
+    private List<PhysicalTestPerformanceMetric> performanceMetrics;
 }

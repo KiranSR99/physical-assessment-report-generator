@@ -4,6 +4,7 @@ import io.github.kiransr99.parg.constant.SYSTEM_MESSAGE;
 import io.github.kiransr99.parg.dto.response.ExcelResponse;
 import io.github.kiransr99.parg.entity.*;
 import io.github.kiransr99.parg.entity.Class;
+import io.github.kiransr99.parg.enums.BMIPercentile;
 import io.github.kiransr99.parg.repository.*;
 import io.github.kiransr99.parg.service.ExcelService;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,15 +29,15 @@ import java.util.List;
 @Slf4j
 public class ExcelImpl implements ExcelService {
     private final StudentRepository studentRepository;
-    private final SchoolRepository schoolRepository;
     private final ClassRepository classRepository;
     private final StudentEnrollmentRepository studentEnrollmentRepository;
-    private final SectionRepository sectionRepository;
     private final PhysicalReportRepository physicalReportRepository;
     private final PhysicalTestRepository physicalTestRepository;
     private final PhysicalTestPerformanceRepository physicalTestPerformanceRepository;
     private final PhysicalTestPerformanceMetricRepository physicalTestPerformanceMetricRepository;
     private final ExamRepository examRepository;
+    private final BMIDataRepository bmiDataRepository;
+    private final BMICalculator bmiCalculator;
 
     @Override
     public ExcelResponse saveExcelData(Long examId, MultipartFile file) throws IOException {
@@ -54,14 +55,7 @@ public class ExcelImpl implements ExcelService {
                 for (Row row : sheet) {
                     if (row.getRowNum() == 0) continue;  // Skip header row
 
-                    StudentEnrollment studentEnrollment = parseStudentData(row, school, exam);
-                    PhysicalReport physicalReport = createPhysicalReport(row, studentEnrollment);
-
-                    processPhysicalTestData(row, physicalTestHeader, physicalReport);
-                    saveData(studentEnrollment, physicalReport);
-
-                    studentEnrollmentList.add(studentEnrollment);
-                    physicalReportList.add(physicalReport);
+                    processRow(row, school, exam, physicalTestHeader, studentEnrollmentList, physicalReportList);
                 }
             }
         } catch (IOException e) {
@@ -71,7 +65,21 @@ public class ExcelImpl implements ExcelService {
         return new ExcelResponse(studentEnrollmentList, physicalReportList);
     }
 
-    // Helper methods for refactoring
+    private void processRow(Row row, School school, Exam exam, List<String> physicalTestHeader,
+                            List<StudentEnrollment> studentEnrollmentList, List<PhysicalReport> physicalReportList) {
+        try {
+            StudentEnrollment studentEnrollment = parseStudentData(row, school, exam);
+            PhysicalReport physicalReport = createPhysicalReport(row, studentEnrollment);
+
+            processPhysicalTestData(row, physicalTestHeader, physicalReport);
+            saveData(studentEnrollment, physicalReport);
+
+            studentEnrollmentList.add(studentEnrollment);
+            physicalReportList.add(physicalReport);
+        } catch (Exception e) {
+            log.error("Error processing row {}: {}", row.getRowNum(), e.getMessage());
+        }
+    }
 
     private Exam getExamById(Long examId) {
         return examRepository.findById(examId).orElseThrow(
@@ -133,11 +141,40 @@ public class ExcelImpl implements ExcelService {
     private PhysicalReport createPhysicalReport(Row row, StudentEnrollment studentEnrollment) {
         PhysicalReport physicalReport = new PhysicalReport();
         physicalReport.setStudentEnrollment(studentEnrollment);
-        physicalReport.setHeight(BigDecimal.valueOf(row.getCell(6).getNumericCellValue()));
-        physicalReport.setWeight(BigDecimal.valueOf(row.getCell(7).getNumericCellValue()));
-        physicalReport.setBmi(physicalReport.getWeight().divide(
-                physicalReport.getHeight().multiply(physicalReport.getHeight()), 2, RoundingMode.HALF_UP
-        ));
+
+        // Extract height and weight from the row
+        BigDecimal height = BigDecimal.valueOf(row.getCell(6).getNumericCellValue());
+        BigDecimal weight = BigDecimal.valueOf(row.getCell(7).getNumericCellValue());
+        physicalReport.setHeight(height);
+        physicalReport.setWeight(weight);
+        log.info("Height: {}, Weight: {}", height, weight);
+
+        // Calculate BMI
+        BigDecimal bmi = new BigDecimal(bmiCalculator.calculateBMI(weight, height));
+        log.info("BMI: {}", bmi);
+        physicalReport.setBmi(bmi);
+
+        // Calculate Percentile
+//        log gender, age, bmi
+        log.info("Age: {}, Gender: {}, BMI: {}", studentEnrollment.getStudent().getAge(), studentEnrollment.getStudent().getGender(), bmi);
+
+        BMIPercentile percentile = bmiCalculator.findPercentile(
+                studentEnrollment.getStudent().getGender().equalsIgnoreCase("male") ? 1 : 2,
+                studentEnrollment.getStudent().getAge(),
+                bmi
+        );
+        log.info("Percentile: {}", percentile);
+        physicalReport.setPercentile(percentile.getDescription());
+
+        // Determine BMI Level
+        String bmiLevel = bmiCalculator.determineBMILevel(percentile);
+        log.info("BMI Level: {}", bmiLevel);
+        physicalReport.setBmiLevel(bmiLevel);
+
+        // Generate Comment
+        String comment = bmiCalculator.generateComment(percentile);
+        log.info("Comment: {}", comment);
+        physicalReport.setComment(comment);
 
         return physicalReport;
     }
@@ -173,4 +210,5 @@ public class ExcelImpl implements ExcelService {
     private Integer calculateAge(LocalDate dateOfBirth) {
         return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
+
 }
