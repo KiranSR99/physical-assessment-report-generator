@@ -115,7 +115,6 @@ public class ExcelImpl implements ExcelService {
 
         student.setGender(row.getCell(4).getStringCellValue());
         student.setDateOfBirth(row.getCell(5).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        student.setAge(calculateAge(student.getDateOfBirth()));
 
         studentRepository.save(student);  // Save student
         studentEnrollment.setStudent(student);
@@ -155,14 +154,14 @@ public class ExcelImpl implements ExcelService {
         physicalReport.setBmi(bmi);
 
         // Calculate Percentile
-//        log gender, age, bmi
-        log.info("Age: {}, Gender: {}, BMI: {}", studentEnrollment.getStudent().getAge(), studentEnrollment.getStudent().getGender(), bmi);
-
+        Double ageInMonths = calculateAgeInMonths(studentEnrollment.getStudent().getDateOfBirth());
         BMIPercentile percentile = bmiCalculator.findPercentile(
                 studentEnrollment.getStudent().getGender().equalsIgnoreCase("male") ? 1 : 2,
-                studentEnrollment.getStudent().getAge(),
+                ageInMonths,
                 bmi
         );
+        log.info("Age: {}, Gender: {}, BMI: {}", ageInMonths, studentEnrollment.getStudent().getGender(), bmi);
+
         log.info("Percentile: {}", percentile);
         physicalReport.setPercentile(percentile.getDescription());
 
@@ -177,6 +176,11 @@ public class ExcelImpl implements ExcelService {
         physicalReport.setComment(comment);
 
         return physicalReport;
+    }
+
+    private Double calculateAgeInMonths(LocalDate dateOfBirth) {
+        Period period = Period.between(dateOfBirth, LocalDate.now());
+        return period.getYears() * 12 + period.getMonths() + period.getDays() / 30.0;
     }
 
     private void processPhysicalTestData(Row row, List<String> physicalTestHeader, PhysicalReport physicalReport) {

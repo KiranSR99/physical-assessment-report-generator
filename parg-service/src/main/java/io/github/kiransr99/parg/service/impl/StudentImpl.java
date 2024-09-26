@@ -50,7 +50,6 @@ public class StudentImpl implements StudentService {
         Student student = new Student();
         student.setName(studentRequest.getName());
         student.setDateOfBirth(studentRequest.getDateOfBirth());
-        student.setAge(studentRequest.getAge());
         student.setGender(studentRequest.getGender());
         return new StudentResponse(studentRepository.save(student));
     }
@@ -65,11 +64,10 @@ public class StudentImpl implements StudentService {
                     Student student = new Student();
                     student.setName(request.getName());
                     student.setDateOfBirth(request.getDateOfBirth());
-                    student.setAge(request.getAge());
                     student.setGender(request.getGender());
                     return student;
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         // Save all the students at once using saveAll
         List<Student> savedStudents = studentRepository.saveAll(students);
@@ -117,7 +115,6 @@ public class StudentImpl implements StudentService {
         );
         student.setName(studentUpdateRequest.getName());
         student.setDateOfBirth(studentUpdateRequest.getDateOfBirth());
-        student.setAge(studentUpdateRequest.getAge());
         student.setGender(studentUpdateRequest.getGender());
         return new StudentResponse(studentRepository.save(student));
     }
@@ -172,7 +169,7 @@ public class StudentImpl implements StudentService {
                     Object[] firstRow = group.get(0); // Get the first row for static data
                     List<GameResponse> games = group.stream()
                             .map(row -> new GameResponse((String) row[13], (BigDecimal) row[14])) // map to GameResponse
-                            .collect(Collectors.toList());
+                            .toList();
 
                     return new StudentCompleteDataResponse(
                             (String) firstRow[0], // roll number
@@ -191,7 +188,7 @@ public class StudentImpl implements StudentService {
                             games // games (physical tests)
                     );
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
