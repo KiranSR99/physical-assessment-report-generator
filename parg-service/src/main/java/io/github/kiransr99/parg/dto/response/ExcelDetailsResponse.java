@@ -20,6 +20,10 @@ public class ExcelDetailsResponse {
     private int age;
     private BigDecimal height;
     private BigDecimal weight;
+    private BigDecimal bmi;
+    private String bmiLevel;
+    private String bmiPercentile;
+    private String comment;
 
     public ExcelDetailsResponse(StudentEnrollment savedStudentEnrollment, PhysicalReport physicalReport) {
         this.name = savedStudentEnrollment.getStudent().getName();
@@ -31,5 +35,9 @@ public class ExcelDetailsResponse {
         this.age = savedStudentEnrollment.getStudent().getDateOfBirth().until(LocalDate.now()).getYears();
         this.height = physicalReport.getHeight();
         this.weight = physicalReport.getWeight();
+        this.bmi = physicalReport.getBmi();
+        this.bmiLevel = physicalReport.getBmiLevel();
+        this.bmiPercentile = physicalReport.getPercentile();
+        this.comment = physicalReport.getComment();
     }
 }
