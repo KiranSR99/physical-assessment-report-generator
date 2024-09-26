@@ -9,6 +9,7 @@ import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AgGridAngular } from 'ag-grid-angular';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     NgbModule,
     ToastrModule.forRoot(
       
-    )
+    ),
+    AgGridAngular
   
   ],
   providers: [

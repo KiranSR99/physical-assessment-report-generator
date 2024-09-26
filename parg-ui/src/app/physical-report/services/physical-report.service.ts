@@ -1,18 +1,17 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environment/environment';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService {
+export class PhysicalReportService {
   apiUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
-  getStudentCompleteDataByClassId(classId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/student/getStudentCompleteData/${classId}`);
+  getAllPhysicalReportData(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/physicalReport/getAllPhysicalReports?page=0&size=10`);
   }
-
 }

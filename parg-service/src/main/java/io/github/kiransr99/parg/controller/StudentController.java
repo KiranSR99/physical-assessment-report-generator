@@ -6,6 +6,7 @@ import io.github.kiransr99.parg.controller.base.BaseController;
 import io.github.kiransr99.parg.dto.GlobalApiResponse;
 import io.github.kiransr99.parg.dto.request.StudentRequest;
 import io.github.kiransr99.parg.dto.request.StudentUpdateRequest;
+import io.github.kiransr99.parg.dto.response.StudentCompleteDataResponse;
 import io.github.kiransr99.parg.dto.response.StudentResponse;
 import io.github.kiransr99.parg.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,16 @@ public class StudentController extends BaseController {
         return successResponse(studentService.getStudent(studentId), SYSTEM_MESSAGE.STUDENT_FETCHED_BY_ID);
     }
 
+    @GetMapping(URL_CONSTANTS.GET_ALL_STUDENTS_BY_EXAM_ID)
+    public ResponseEntity<GlobalApiResponse<List<StudentResponse>>> getAllStudentsByExamId (@PathVariable Long examId){
+        return successResponse(studentService.getAllStudentsByExamId(examId), SYSTEM_MESSAGE.ALL_EXAM_FETCHED);
+    }
+
+    @GetMapping(URL_CONSTANTS.GET_ALL_STUDENTS_BY_CLASS_ID)
+    public ResponseEntity<GlobalApiResponse<List<StudentResponse>>> getAllStudentsByClassId (@PathVariable Long classId){
+        return successResponse(studentService.getAllStudentsByClassId(classId), "Students fetched according to Class Id successfully.");
+    }
+
     @PutMapping(URL_CONSTANTS.UPDATE_STUDENT)
     public ResponseEntity<GlobalApiResponse<StudentResponse>> updateStudent (@PathVariable Long studentId, @Validated @RequestBody StudentUpdateRequest studentUpdateRequest){
         return successResponse(studentService.updateStudent(studentId, studentUpdateRequest), SYSTEM_MESSAGE.STUDENT_UPDATED);
@@ -52,6 +63,11 @@ public class StudentController extends BaseController {
     public ResponseEntity<GlobalApiResponse<String>> deleteStudent (@PathVariable Long studentId){
         studentService.deleteStudent(studentId);
         return successResponse(SYSTEM_MESSAGE.STUDENT_DELETED);
+    }
+
+    @GetMapping("/getStudentCompleteData/{classId}")
+    public ResponseEntity<GlobalApiResponse<List<StudentCompleteDataResponse>>> getStudentCompleteData(@PathVariable Long classId){
+        return successResponse(studentService.getStudentCompleteDataByClassId(classId), "Students fetched according to Class Id successfully.");
     }
 
 }
