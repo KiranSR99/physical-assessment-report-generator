@@ -6,13 +6,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService {
+export class GameService {
   apiUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
-  getStudentCompleteDataByClassId(classId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/student/getStudentCompleteData/${classId}`);
+  getAllGamesData(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/physicalTestPerformanceMetric/getAllPhysicalTestPerformanceMetrics`);
   }
-
 }

@@ -40,6 +40,8 @@ public class URL_CONSTANTS {
     public static final String SAVE_STUDENTS = "/saveStudents";
     public static final String UPDATE_STUDENT = "/updateStudent/{studentId}";
     public static final String GET_STUDENT_BY_ID = "/getStudentById/{studentId}";
+    public static final String GET_ALL_STUDENTS_BY_EXAM_ID = "/getAllStudentsByExamId/{examId}";
+    public static final String GET_ALL_STUDENTS_BY_CLASS_ID = "/getAllStudentsByClassId/{classId}";
     public static final String DELETE_STUDENT = "/deleteStudent/{studentId}";
 
     // Exam URL
