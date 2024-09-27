@@ -21,9 +21,8 @@ public class Student {
 
     @Column(nullable = false)
     private String name;
-
-    private LocalDate dateOfBirth;
     private Integer age;
+    private LocalDate dateOfBirth;
     private String gender;
 
     @OneToMany(mappedBy = "student")

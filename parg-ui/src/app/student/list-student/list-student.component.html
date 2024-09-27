@@ -1,2 +1,7 @@
-<ag-grid-angular [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef" class="ag-theme-quartz"
-    style="height: 82vh; width: 100%;"></ag-grid-angular>
+<button class="btn btn-sm custom-button mb-2" (click)="addStudentRow()">Add Student Data</button>
+
+<ag-grid-angular #agGrid [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef"
+    class="ag-theme-quartz" style="height: 82vh; width: 100%;" >
+</ag-grid-angular>
+
+<button class="btn btn-sm custom-button mt-1" (click)="saveAllStudents()">Save All Students</button>
