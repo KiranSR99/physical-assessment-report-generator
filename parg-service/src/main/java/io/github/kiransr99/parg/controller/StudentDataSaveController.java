@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/student-data")
+@RequestMapping("/parg/api/v1/student-data")
 @RequiredArgsConstructor
 public class StudentDataSaveController extends BaseController {
     private final StudentDataSaveService studentDataSaveService;
