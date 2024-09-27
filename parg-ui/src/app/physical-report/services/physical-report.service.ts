@@ -11,6 +11,10 @@ export class PhysicalReportService {
 
   constructor(private http: HttpClient) { }
 
+  savePhysicalReports(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/physicalReport/savePhysicalReports`, data);
+  }
+
   getAllPhysicalReportData(): Observable<any> {
     return this.http.get(`${this.apiUrl}/physicalReport/getAllPhysicalReports?page=0&size=10`);
   }

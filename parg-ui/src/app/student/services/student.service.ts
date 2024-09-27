@@ -15,4 +15,8 @@ export class StudentService {
     return this.http.get(`${this.apiUrl}/student/getStudentCompleteData/${classId}`);
   }
 
+  saveStudents(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/student/saveStudents`, data);
+  }
+
 }

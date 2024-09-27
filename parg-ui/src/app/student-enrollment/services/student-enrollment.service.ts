@@ -11,6 +11,10 @@ export class StudentEnrollmentService {
 
   constructor(private http: HttpClient) { }
 
+  saveStudentEnrollment(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/studentEnrollment/saveStudentEnrollment`, data);
+  }
+
   getAllStudentEnrollmentData(): Observable<any> {
     return this.http.get(`${this.apiUrl}/studentEnrollment/getAllStudentEnrollments?page=0&size=10`);
   }

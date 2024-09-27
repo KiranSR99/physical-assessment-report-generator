@@ -50,6 +50,7 @@ public class StudentImpl implements StudentService {
         Student student = new Student();
         student.setName(studentRequest.getName());
         student.setDateOfBirth(studentRequest.getDateOfBirth());
+        student.setAge(studentRequest.getAge());
         student.setGender(studentRequest.getGender());
         return new StudentResponse(studentRepository.save(student));
     }
@@ -64,6 +65,7 @@ public class StudentImpl implements StudentService {
                     Student student = new Student();
                     student.setName(request.getName());
                     student.setDateOfBirth(request.getDateOfBirth());
+                    student.setAge(request.getAge());
                     student.setGender(request.getGender());
                     return student;
                 })
