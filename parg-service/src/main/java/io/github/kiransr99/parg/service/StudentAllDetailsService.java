@@ -2,7 +2,7 @@ package io.github.kiransr99.parg.service;
 
 import io.github.kiransr99.parg.dto.request.GameRequest;
 import io.github.kiransr99.parg.dto.request.StudentAllDetailsRequest;
-import io.github.kiransr99.parg.dto.response.StudentCompleteDataResponse;
+import io.github.kiransr99.parg.dto.request.StudentAllDetailsUpdateRequest;
 import io.github.kiransr99.parg.entity.*;
 import io.github.kiransr99.parg.entity.Class;
 import io.github.kiransr99.parg.repository.*;
@@ -75,4 +75,75 @@ public class StudentAllDetailsService {
         }
 
     }
+
+
+    public void updateMultipleStudents(List<StudentAllDetailsUpdateRequest> studentAllDetailsUpdateRequests) {
+        for (StudentAllDetailsUpdateRequest request : studentAllDetailsUpdateRequests) {
+            updateStudentDetails(request);
+        }
+    }
+
+    public void updateStudentDetails(StudentAllDetailsUpdateRequest request) {
+        Student student = studentRepository.findById(request.getStudentId())
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        student.setName(request.getName());
+        student.setDateOfBirth(request.getDateOfBirth());
+        student.setGender(request.getGender());
+        studentRepository.save(student);
+
+        StudentEnrollment enrollment = studentEnrollmentRepository.findByStudentId(student.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Student Enrollment not found"));
+        Class studentClass = classRepository.findByName(request.getClassName());
+        Exam exam = examRepository.findById(request.getExamId())
+                .orElseThrow(() -> new IllegalArgumentException("Exam not found"));
+        enrollment.setClassName(studentClass);
+        enrollment.setExam(exam);
+        enrollment.setSection(request.getSection());
+        enrollment.setRollNumber(request.getRollNumber());
+        studentEnrollmentRepository.save(enrollment);
+
+        PhysicalReport physicalReport = physicalReportRepository.findByStudentEnrollmentId(enrollment.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Physical Report not found"));
+        physicalReport.setHeight(request.getHeight());
+        physicalReport.setWeight(request.getWeight());
+        physicalReport.setBmi(request.getBmi());
+        physicalReport.setBmiLevel(request.getBmiLevel());
+        physicalReport.setPercentile(request.getPercentile());
+        physicalReport.setComment(request.getComment());
+        physicalReportRepository.save(physicalReport);
+
+        for (GameRequest gameRequest : request.getGames()) {
+            PhysicalTest physicalTest = physicalTestRepository.findById(gameRequest.getGameId())
+                    .orElseThrow(() -> new EntityNotFoundException("Physical Test not found"));
+            PhysicalTestPerformanceMetric metric = physicalTestPerformanceMetricRepository.findByPhysicalTestIdAndPhysicalReportId(physicalTest.getId(), physicalReport.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Physical Test Performance Metric not found"));
+            metric.setValue(gameRequest.getValue());
+            physicalTestPerformanceMetricRepository.save(metric);
+        }
+    }
+
+
+    public void deleteMultipleStudents(List<Long> studentIds) {
+        for (Long studentId : studentIds) {
+            deleteStudentDetails(studentId);
+        }
+    }
+
+    public void deleteStudentDetails(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        studentRepository.delete(student);
+
+        StudentEnrollment enrollment = studentEnrollmentRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student Enrollment not found"));
+        studentEnrollmentRepository.delete(enrollment);
+
+        PhysicalReport physicalReport = physicalReportRepository.findByStudentEnrollmentId(enrollment.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Physical Report not found"));
+        physicalReportRepository.delete(physicalReport);
+
+        List<PhysicalTestPerformanceMetric> metrics = physicalTestPerformanceMetricRepository.findByPhysicalReportId(physicalReport.getId());
+        physicalTestPerformanceMetricRepository.deleteAll(metrics);
+    }
+
 }
