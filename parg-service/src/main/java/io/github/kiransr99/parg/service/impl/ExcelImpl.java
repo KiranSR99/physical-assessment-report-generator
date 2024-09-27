@@ -211,8 +211,4 @@ public class ExcelImpl implements ExcelService {
         physicalReportRepository.save(physicalReport);
     }
 
-    private Integer calculateAge(LocalDate dateOfBirth) {
-        return Period.between(dateOfBirth, LocalDate.now()).getYears();
-    }
-
 }
