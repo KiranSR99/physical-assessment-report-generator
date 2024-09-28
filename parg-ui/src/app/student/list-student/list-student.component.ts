@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ColDef, GridApi } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { StudentService } from '../services/student.service';
 import { SaveCompleteService } from '../../services/save-complete.service';
+import { ClassService } from '../../class/services/class.service';
+import { GameService } from '../../game/services/game.service';
+import { ToastService } from '../../services/toast-service.service';
 
 @Component({
   selector: 'app-list-student',
@@ -18,8 +20,9 @@ export class ListStudentComponent implements OnInit {
   classId: number = 0;
   rowData: any[] = [];
   colDefs: ColDef[] = [];
-  
-  studentDetailsForm: FormGroup = new FormGroup({});
+  examId: number = 0;
+  newStudentData: any[] = [];
+  games: any[] = [];
 
   defaultColDef = {
     flex: 1,
@@ -30,135 +33,60 @@ export class ListStudentComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private studentService: StudentService,
-    private fb: FormBuilder,
-    private saveCompleteService: SaveCompleteService
-  ) {
-    this.studentDetailsForm = this.fb.group({
-      studentDetails: this.fb.array([])
-    });
-  }
+    private classService: ClassService,
+    private saveCompleteService: SaveCompleteService,
+    private gameService: GameService,
+    private toastService: ToastService
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       this.classId = params['classId'];
     });
-    this.getStudentCompleteDataByClassId(this.classId);
+    this.getClassDetailsByClassId(this.classId);
+    this.getAllGamesByClassId(this.classId);
   }
 
-  get studentDetailsFormArray() {
-    return this.studentDetailsForm.get('studentDetails') as FormArray;
-  }
-
-  createStudentDetailsForm(student: any): FormGroup {
-    return this.fb.group({
-      examId: [student.examId || 0],
-      rollNumber: [student.rollNumber || '', Validators.required],
-      name: [student.name || '', Validators.required],
-      className: [student.className || '', Validators.required],
-      section: [student.section || '', Validators.required],
-      dateOfBirth: [student.dateOfBirth || '', Validators.required],
-      age: [student.age || 0, Validators.required],
-      gender: [student.gender || '', Validators.required],
-      height: [student.height || 0, Validators.required],
-      weight: [student.weight || 0, Validators.required],
-      bmi: [student.bmi || 0],
-      bmiLevel: [student.bmiLevel || ''],
-      percentile: [student.percentile || ''],
-      comment: [student.comment || ''],
-      games: this.fb.array(
-        (student.games || []).map((game: any) => this.createGameForm(game))
-      )
-    });
-  }
-
-  createGameForm(game: any = { gameId: 0, value: 0 }): FormGroup {
-    return this.fb.group({
-      gameId: [game.gameId, Validators.required],
-      value: [game.value, Validators.required]
-    });
-  }
-
-  getStudentCompleteDataByClassId(classId: any): void {
-    this.studentService.getStudentCompleteDataByClassId(classId).subscribe({
+  getClassDetailsByClassId(classId: any): void {
+    this.classService.getClassById(classId).subscribe({
       next: (response: any) => {
-        this.studentCompleteData = response.data;
-        this.populateStudentDetailsForm(this.studentCompleteData);
-        this.generateTableData(this.studentCompleteData);
+        this.examId = response.data.exam.id;
+        this.getStudentCompleteDataByClassId(this.classId);
+      },
+      error: (error: any) => {
+        console.error('Error fetching class details:', error);
+        this.toastService.showError('Failed to fetch class details');
       }
     });
   }
 
-  populateStudentDetailsForm(studentCompleteData: any[]): void {
-    const studentsArray = this.studentDetailsFormArray;
-    studentsArray.clear();
-
-    studentCompleteData.forEach(student => {
-      studentsArray.push(this.createStudentDetailsForm(student));
+  getAllGamesByClassId(classId: any): void {
+    this.gameService.getAllGamesByClassId(classId).subscribe({
+      next: (response: any) => {
+        this.games = response.data;
+        this.generateColumnDefs();
+      },
+      error: (error: any) => {
+        console.error('Error fetching games:', error);
+        this.toastService.showError('Failed to fetch games');
+      }
     });
   }
 
-  addStudentRow() {
-    const newStudent = {
-      examId: 1,
-      rollNumber: '',
-      name: '',
-      className: '',
-      section: '',
-      dateOfBirth: '',
-      age: 0,
-      gender: '',
-      height: 0,
-      weight: 0,
-      bmi: 0,
-      bmiLevel: '',
-      percentile: '',
-      comment: '',
-      games: [
-        { gameId: 102, value: 0 },
-        { gameId: 103, value: 0 }
-      ]
-    };
-
-    this.rowData = [...this.rowData, newStudent];
-    this.studentDetailsFormArray.push(this.createStudentDetailsForm(newStudent));
-
-    // Update the grid's data
-    if (this.agGrid && this.agGrid.api) {
-      this.agGrid.api.applyTransaction({ add: [newStudent] });
-    }
+  getStudentCompleteDataByClassId(classId: any): void {
+    this.saveCompleteService.getStudentCompleteDataByClassId(classId).subscribe({
+      next: (response: any) => {
+        this.studentCompleteData = response.data;
+        this.generateTableData(this.studentCompleteData);
+      },
+      error: (error: any) => {
+        console.error('Error fetching student data:', error);
+        this.toastService.showError('Failed to fetch student data');
+      }
+    });
   }
 
-  generateTableData(studentCompleteData: any[]): void {
-    const gamesSet = new Set<string>();
-    const transformedData: any[] = [];
-
-    studentCompleteData.forEach((student) => {
-      const studentRow: { [key: string]: any } = {
-        rollNumber: student.rollNumber,
-        name: student.name,
-        className: student.className,
-        section: student.section,
-        dateOfBirth: student.dateOfBirth,
-        age: student.age,
-        gender: student.gender,
-        height: student.height,
-        weight: student.weight,
-        bmi: student.bmi,
-        bmiLevel: student.bmiLevel,
-        percentile: student.percentile,
-        comment: student.comment
-      };
-
-      student.games.forEach((game: any) => {
-        studentRow[game.gameName] = game.gameValue;
-        gamesSet.add(game.gameName);
-      });
-
-      transformedData.push(studentRow);
-    });
-
-    this.rowData = transformedData;
-
+  generateColumnDefs(): void {
     this.colDefs = [
       { field: "rollNumber", headerName: "Roll" },
       { field: "name", headerName: "Name" },
@@ -174,69 +102,127 @@ export class ListStudentComponent implements OnInit {
       { field: "percentile", headerName: "Percentile" },
       { field: "comment", headerName: "Comment" }
     ];
-
-    gamesSet.forEach((gameName) => {
+  
+    this.games.forEach((game: any) => {
       this.colDefs.push({
-        field: gameName,
-        headerName: gameName,
+        field: game.physicalTestName,
+        headerName: game.physicalTestName,
+        valueGetter: (params: any) => {
+          const gameData = params.data.games.find((g: any) => g.gameId === game.physicalTestId);
+          return gameData ? gameData.value : '';  // Return the game value if it exists
+        },
+        valueSetter: (params: any) => {
+          console.log('Setting value for:', params);  // Log the params to check the values
+          const gameIndex = params.data.games.findIndex((g: any) => g.gameId === game.physicalTestId);
+          if (gameIndex > -1) {
+            params.data.games[gameIndex].value = params.newValue;
+          } else {
+            params.data.games.push({ gameId: game.physicalTestId, value: params.newValue });
+          }
+          return true;
+        }
+        
       });
     });
   }
+  
+
+  generateTableData(studentCompleteData: any[]): void {
+    this.rowData = studentCompleteData.map(student => ({
+      ...student,
+      games: student.games.map((game: any) => ({
+        gameId: this.getGameIdByName(game.gameName),  // Get gameId by gameName
+        value: game.gameValue  // Keep the gameValue
+      }))
+    }));
+  }
+
+  getGameIdByName(gameName: string): number | undefined {
+    const game = this.games.find(g => g.physicalTestName === gameName);
+    return game ? game.physicalTestId : undefined;
+  }
+
+  addStudentRow() {
+    const newStudent = {
+      examId: this.examId,
+      classId: this.classId,
+      rollNumber: '',
+      name: '',
+      className: '',
+      section: '',
+      dateOfBirth: '',
+      age: null,
+      gender: '',
+      height: null,
+      weight: null,
+      bmi: null,
+      bmiLevel: '',
+      percentile: '',
+      comment: '',
+      games: this.games.map(game => ({
+        gameId: game.physicalTestId,
+        value: null
+      })),
+      isNew: true
+    };
+  
+    this.rowData = [...this.rowData, newStudent];
+    this.newStudentData.push(newStudent);
+  
+    if (this.agGrid && this.agGrid.api) {
+      this.agGrid.api.applyTransaction({ add: [newStudent] });
+    }
+  }  
+  
 
   saveAllStudents() {
     const gridApi: GridApi = this.agGrid.api;
     const allRowData: any[] = [];
-    gridApi.forEachNode((node) => allRowData.push(node.data));
-
-    const gamesColumnNames = this.colDefs
-      .filter(col => col.field !== 'examId' && col.field !== 'rollNumber' && col.field !== 'name' && col.field !== 'className' && col.field !== 'section' && col.field !== 'dateOfBirth' && col.field !== 'age' && col.field !== 'gender' && col.field !== 'height' && col.field !== 'weight' && col.field !== 'bmi' && col.field !== 'bmiLevel' && col.field !== 'percentile' && col.field !== 'comment')
-      .map(col => col.field);
-
-    const studentsToSave = allRowData.map(student => {
-      const games = gamesColumnNames.map((gameName: any) => ({
-        gameId: this.getGameIdByName(gameName), // Map the game name to the corresponding gameId
-        value: parseFloat(student[gameName]) || 0  // Ensure value is a number
-      }));
-
-      return {
-        examId: student.examId,
-        rollNumber: student.rollNumber,
-        name: student.name,
-        className: student.className,
-        section: student.section,
-        dateOfBirth: student.dateOfBirth,
-        age: student.age,
-        gender: student.gender,
-        height: student.height,
-        weight: student.weight,
-        bmi: student.bmi,
-        bmiLevel: student.bmiLevel,
-        percentile: student.percentile,
-        comment: student.comment,
-        games: games // Attach the correct game data
-      };
-    });
-
-    console.log('Data being sent to server:', JSON.stringify(studentsToSave, null, 2));
-
-    this.saveCompleteService.saveAllDetails(studentsToSave).subscribe({
-      next: (response) => {
-        console.log('Data saved successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error saving data:', error);
+    
+    gridApi.forEachNode((node) => {
+      if (node.data.isNew) {
+        allRowData.push(node.data);
       }
     });
+  
+    const studentsToSave = allRowData.map(student => ({
+      examId: this.examId,
+      classId: this.classId,
+      rollNumber: student.rollNumber,
+      name: student.name,
+      className: student.className,
+      section: student.section,
+      dateOfBirth: student.dateOfBirth,
+      age: student.age,
+      gender: student.gender,
+      height: student.height,
+      weight: student.weight,
+      bmi: student.bmi,
+      bmiLevel: student.bmiLevel,
+      percentile: student.percentile,
+      comment: student.comment,
+      games: student.games.map((game: any) => ({
+        gameId: game.gameId,
+        value: game.value !== null ? Number(game.value) : 0  // Send actual value or 0
+      }))
+    }));
+  
+    if (studentsToSave.length > 0) {
+      this.saveCompleteService.saveAllDetails(studentsToSave).subscribe({
+        next: () => {
+          this.toastService.showSuccess('Students saved successfully');
+          this.getStudentCompleteDataByClassId(this.classId);
+          this.newStudentData = [];
+        },
+        error: (error: any) => {
+          console.error('Error saving students:', error);
+          this.toastService.showError('Failed to save students');  // Show error message only on failure
+        }
+      });
+    } else {
+      this.toastService.showInfo('No new students to save');
+    }
   }
-
-  getGameIdByName(gameName: string): number {
-    // Add a mapping of game names to gameIds
-    const gameIdMapping: { [key: string]: number } = {
-      'Flamingo Balance': 102,
-      'Plate Tapping': 103,
-      // Add other game names and their corresponding IDs
-    };
-
-    return gameIdMapping[gameName] || 0; // Return 0 if no mapping found
-  }
+  
+  
 }

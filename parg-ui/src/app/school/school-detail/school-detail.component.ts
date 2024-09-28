@@ -8,6 +8,7 @@ import { ExamService } from '../../exam/services/exam.service';
 import { EditExamComponent } from '../../exam/edit-exam/edit-exam.component';
 import { AddClassComponent } from '../../class/add-class/add-class.component';
 import { ClassService } from '../../class/services/class.service';
+import { EditClassComponent } from '../../class/edit-class/edit-class.component';
 
 @Component({
   selector: 'app-school-detail',
@@ -175,6 +176,17 @@ export class SchoolDetailComponent implements OnInit {
     this.editClassName = currentName; // Set the initial value of the class name for editing
   }
 
+  openUpdateClassModal(classData: any): void {
+    const modalRef = this.modalService.open(EditClassComponent);
+    modalRef.componentInstance.classData = classData;
+
+    modalRef.result.then((result) => {
+      if (result === 'success') {
+        this.getClassesByExamId(this.selectedExam.id);
+      }
+    });
+  }
+
   // Function to save the edited class name
   saveClass(classId: any): void {
     const className = {
@@ -212,8 +224,13 @@ export class SchoolDetailComponent implements OnInit {
     });
   }
 
-  openStudentData(classId: any): void{
+  openStudentData(classId: any): void {
     this.router.navigate([`/school/exam/class/${classId}/student`]);
   }
+
+  stopEventPropagation(event: Event): void {
+    event.stopPropagation();
+  }
+
 
 }

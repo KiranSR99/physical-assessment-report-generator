@@ -45,9 +45,11 @@ public class StudentAllDetailsService {
         // Save Student Enrollment
         Class studentClass = classRepository.findById(request.getClassId())
                 .orElseThrow(() -> new IllegalArgumentException("Class not found"));
+        Exam exam = examRepository.findById(request.getExamId()).orElseThrow(() -> new IllegalArgumentException("Exam not found"));
         StudentEnrollment enrollment = new StudentEnrollment();
         enrollment.setStudent(student);
         enrollment.setClassName(studentClass);
+        enrollment.setExam(exam);
         enrollment.setSection(request.getSection());
         enrollment.setRollNumber(request.getRollNumber());
         studentEnrollmentRepository.save(enrollment);
@@ -94,11 +96,9 @@ public class StudentAllDetailsService {
 
         StudentEnrollment enrollment = studentEnrollmentRepository.findByStudentId(student.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Student Enrollment not found"));
-        Class studentClass = classRepository.findByName(request.getClassName());
-        Exam exam = examRepository.findById(request.getExamId())
-                .orElseThrow(() -> new IllegalArgumentException("Exam not found"));
+        Class studentClass = classRepository.findById(request.getClassId())
+                .orElseThrow(() -> new IllegalArgumentException("Class not found"));
         enrollment.setClassName(studentClass);
-        enrollment.setExam(exam);
         enrollment.setSection(request.getSection());
         enrollment.setRollNumber(request.getRollNumber());
         studentEnrollmentRepository.save(enrollment);

@@ -27,4 +27,14 @@ export class SaveCompleteService {
     return this.http.post<any>(`${this.apiUrl}/student-data/save-all-details`, data);
   }
 
+  //get the complete data
+  getStudentCompleteDataByClassId(classId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/student/getStudentCompleteData/${classId}`);
+  }
+
+  //update the complete data
+  updateAllDetails(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/student-data/update-multiple-students`, data);
+  }
+
 }

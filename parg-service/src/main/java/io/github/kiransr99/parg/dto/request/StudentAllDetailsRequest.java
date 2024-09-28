@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentAllDetailsRequest {
     private Long classId;
+    private Long examId;
     private String rollNumber;
     private String name;
     private String className;
