@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(URL_CONSTANTS.PHYSICAL_TEST_URL)
@@ -28,6 +30,11 @@ public class PhysicalTestController extends BaseController {
     @GetMapping(URL_CONSTANTS.GET_PHYSICAL_TEST_BY_ID)
     public ResponseEntity<GlobalApiResponse<PhysicalTestResponse>> getPhysicalTest(@PathVariable Long physicalTestId) {
         return successResponse(physicalTestService.getPhysicalTest(physicalTestId), SYSTEM_MESSAGE.PHYSICAL_TEST_FETCHED_BY_ID);
+    }
+
+    @GetMapping("/getAllByClassId/{classId}")
+    public ResponseEntity<GlobalApiResponse<List<PhysicalTestResponse>>> getAllByClassId(@PathVariable Long classId) {
+        return successResponse(physicalTestService.getPhysicalTestsByClassId(classId), "All Physical Tests fetched according to class id.");
     }
 
     @GetMapping(URL_CONSTANTS.GET_ALL_PHYSICAL_TESTS)

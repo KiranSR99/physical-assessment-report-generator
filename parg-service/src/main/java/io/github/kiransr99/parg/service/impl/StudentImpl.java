@@ -162,36 +162,40 @@ public class StudentImpl implements StudentService {
     public List<StudentCompleteDataResponse> getStudentCompleteDataByClassId(Long classId) {
         log.info("Fetching complete data for students in class id: {}", classId);
 
+        // Retrieve raw data from the repository
         List<Object[]> results = studentRepository.findStudentCompleteDataByClassId(classId);
 
+        // Group the results by studentId (first element in the result array)
         return results.stream()
-                .collect(Collectors.groupingBy(row -> (String) row[0])) // Group by roll number
+                .collect(Collectors.groupingBy(row -> (Long) row[0])) // Group by studentId
                 .values().stream()
                 .map(group -> {
                     Object[] firstRow = group.get(0); // Get the first row for static data
                     List<GameResponse> games = group.stream()
-                            .map(row -> new GameResponse((String) row[13], (BigDecimal) row[14])) // map to GameResponse
+                            .map(row -> new GameResponse((String) row[14], (BigDecimal) row[15])) // map to GameResponse
                             .toList();
 
                     return new StudentCompleteDataResponse(
-                            (String) firstRow[0], // roll number
-                            (String) firstRow[1], // name
-                            (String) firstRow[2], // class name
-                            (String) firstRow[3], // section
-                            ((Date) firstRow[4]), // date of birth
-                            (int) firstRow[5], // age
-                            (String) firstRow[6], // gender
-                            (BigDecimal) firstRow[7], // height
-                            (BigDecimal) firstRow[8], // weight
-                            (BigDecimal) firstRow[9], // bmi
-                            (String) firstRow[10], // bmi level
-                            (String) firstRow[11], // percentile
-                            (String) firstRow[12], // comment
-                            games // games (physical tests)
+                            (Long) firstRow[0],  // studentId
+                            (String) firstRow[1],  // roll number
+                            (String) firstRow[2],  // name
+                            (String) firstRow[3],  // class name
+                            (String) firstRow[4],  // section
+                            ((Date) firstRow[5]),  // date of birth
+                            (int) firstRow[6],  // age
+                            (String) firstRow[7],  // gender
+                            (BigDecimal) firstRow[8],  // height
+                            (BigDecimal) firstRow[9],  // weight
+                            (BigDecimal) firstRow[10],  // bmi
+                            (String) firstRow[11],  // bmi level
+                            (String) firstRow[12],  // percentile
+                            (String) firstRow[13],  // comment
+                            games  // games (physical tests)
                     );
                 })
                 .toList();
     }
+
 
 
 

@@ -26,7 +26,11 @@ public class PhysicalTest {
 
     private String unit;
 
-    // List of Performance Metrics to link tests and reports
+    // One-to-Many relationship for performance metrics
     @OneToMany(mappedBy = "physicalTest", cascade = CascadeType.ALL)
     private List<PhysicalTestPerformanceMetric> performanceMetrics;
+
+    // Many-to-Many relationship with Class
+    @ManyToMany(mappedBy = "physicalTests") // This maps the relationship to the owning side (Class entity)
+    private List<Class> classes;
 }

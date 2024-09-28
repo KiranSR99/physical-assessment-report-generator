@@ -14,6 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -38,6 +41,16 @@ public class PhysicalTestImpl implements PhysicalTestService {
         );
         return new PhysicalTestResponse(physicalTest);
     }
+
+    @Override
+    public List<PhysicalTestResponse> getPhysicalTestsByClassId(Long classId) {
+        log.info("Fetching physical tests by class id: {}", classId);
+        List<PhysicalTest> tests = physicalTestRepository.findByClassesId(classId);
+        return tests.stream()
+                .map(PhysicalTestResponse::new)
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public Page<PhysicalTestResponse> getAllPhysicalTests(Pageable pageable) {

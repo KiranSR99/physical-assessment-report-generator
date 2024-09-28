@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentAllDetailsUpdateRequest {
     private Long studentId;
-    private Long examId;
+    private Long classId;
     private String rollNumber;
     private String name;
     private String className;
