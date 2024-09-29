@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,7 @@ public class PhysicalReport {
     private String percentile;
     private String comment;
 
-    @OneToMany(mappedBy = "physicalReport", cascade = CascadeType.ALL)
-    private List<PhysicalTestPerformanceMetric> performanceMetrics;
+    @OneToMany(mappedBy = "physicalReport", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<PhysicalTestPerformanceMetric> performanceMetrics = new ArrayList<>();
+
 }

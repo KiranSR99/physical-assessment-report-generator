@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -71,15 +70,21 @@ public class ExcelImpl implements ExcelService {
             StudentEnrollment studentEnrollment = parseStudentData(row, school, exam);
             PhysicalReport physicalReport = createPhysicalReport(row, studentEnrollment);
 
-            processPhysicalTestData(row, physicalTestHeader, physicalReport);
-            saveData(studentEnrollment, physicalReport);
+            // Save student enrollment and physical report before processing test data
+            studentEnrollmentRepository.save(studentEnrollment);
+            physicalReportRepository.save(physicalReport);
 
+            processPhysicalTestData(row, physicalTestHeader, physicalReport);
+
+            // Add to list after successful save
             studentEnrollmentList.add(studentEnrollment);
             physicalReportList.add(physicalReport);
+            physicalReportRepository.save(physicalReport);
         } catch (Exception e) {
             log.error("Error processing row {}: {}", row.getRowNum(), e.getMessage());
         }
     }
+
 
     private Exam getExamById(Long examId) {
         return examRepository.findById(examId).orElseThrow(
@@ -194,21 +199,22 @@ public class ExcelImpl implements ExcelService {
     }
 
     private void savePhysicalTestPerformance(PhysicalReport physicalReport, Row row, int j, PhysicalTest physicalTest) {
+        // Create and save performance record
         PhysicalTestPerformance performance = new PhysicalTestPerformance();
         performance.setPhysicalReport(physicalReport);
         performance.setPhysicalTest(physicalTest);
-        physicalTestPerformanceRepository.save(performance);
+        physicalTestPerformanceRepository.save(performance);  // Ensure this is being saved correctly
 
+        // Create and save the metric
         PhysicalTestPerformanceMetric metric = new PhysicalTestPerformanceMetric();
         metric.setPhysicalReport(physicalReport);
         metric.setPhysicalTest(physicalTest);
         metric.setValue(BigDecimal.valueOf(row.getCell(j).getNumericCellValue()));
-        physicalTestPerformanceMetricRepository.save(metric);
+        physicalTestPerformanceMetricRepository.save(metric);  // Ensure this is being saved correctly
+
+        // Add the metric to the report's list
+        physicalReport.getPerformanceMetrics().add(metric);
     }
 
-    private void saveData(StudentEnrollment studentEnrollment, PhysicalReport physicalReport) {
-        studentEnrollmentRepository.save(studentEnrollment);
-        physicalReportRepository.save(physicalReport);
-    }
 
 }
