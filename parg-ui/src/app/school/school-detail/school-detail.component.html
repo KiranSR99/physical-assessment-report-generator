@@ -76,7 +76,7 @@
                             <!-- Dropdown menu -->
                             <div class="dropdown position-absolute top-0 end-0 mt-2 me-2">
                                 <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    data-bs-toggle="dropdown" aria-expanded="false" (click)="stopEventPropagation($event)">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -130,11 +130,11 @@
 
                                     <div class="dropdown">
                                         <button class="btn btn-link text-dark p-0" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            data-bs-toggle="dropdown" aria-expanded="false" (click)="stopEventPropagation($event)">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" (click)="editClass(class.id, class.name)">
+                                            <li><a class="dropdown-item" (click)="openUpdateClassModal(class)">
                                                     <i class="fas fa-edit me-2"></i>Edit</a></li>
                                             <li><a class="dropdown-item" (click)="deleteClass(class.id)"><i
                                                         class="fas fa-trash me-2"></i>Delete</a></li>

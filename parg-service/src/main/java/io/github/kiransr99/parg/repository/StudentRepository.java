@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    @Query(value = "SELECT se.roll_number, s.name, c.name AS class_name, se.section, s.date_of_birth, s.age, s.gender, " +
+    @Query(value = "SELECT s.id, se.roll_number, s.name, c.name AS class_name, se.section, s.date_of_birth, s.age, s.gender, " +
             "pr.height, pr.weight, pr.bmi, pr.bmi_level, pr.percentile, pr.comment, pt.name AS physical_test_name, ptm.value AS physical_test_value " +
             "FROM student_enrollment se " +
             "JOIN student s ON se.student_id = s.id " +

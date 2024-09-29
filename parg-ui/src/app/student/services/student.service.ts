@@ -11,10 +11,6 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  getStudentCompleteDataByClassId(classId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/student/getStudentCompleteData/${classId}`);
-  }
-
   saveStudents(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/student/saveStudents`, data);
   }

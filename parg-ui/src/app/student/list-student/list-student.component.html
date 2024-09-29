@@ -1,7 +1,19 @@
-<button class="btn btn-sm custom-button mb-2" (click)="addStudentRow()">Add Student Data</button>
-
-<ag-grid-angular #agGrid [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef"
-    class="ag-theme-quartz" style="height: 82vh; width: 100%;" >
-</ag-grid-angular>
-
-<button class="btn btn-sm custom-button mt-1" (click)="saveAllStudents()">Save All Students</button>
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-sm custom-button float-end" (click)="addStudentRow()">Add Student Data</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ag-grid-angular #agGrid [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef"
+                class="ag-theme-quartz" style="height: 70vh; width: 100%;">
+            </ag-grid-angular>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <button class="btn btn-sm custom-button float-end" (click)="saveAllStudents()">Save All Students</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Left column: List of games -->
+        <div class="col-md-6">
+            <h2>Games List</h2>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col" *ngFor="let game of games">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ game.physicalTestName }}</h5>
+                            <p class="card-text">{{ game.physicalTestDescription }}</p>
+                            <p class="card-text"><small class="text-muted">Unit: {{ game.physicalTestUnit }}</small></p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    id="dropdownMenuButton{{ game.physicalTestId }}" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" (click)="editGame(game)">Edit</a></li>
+                                    <li><a class="dropdown-item" (click)="deleteGame(game.physicalTestId)">Delete</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right column: Add/Edit game form -->
+        <div class="col-md-6">
+            <h2>{{ isEditing ? 'Edit Game' : 'Add New Game' }}</h2>
+            <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="physicalTestName" class="form-label">Game Name</label>
+                    <input type="text" class="form-control" id="physicalTestName" formControlName="physicalTestName"
+                        placeholder="Enter game name">
+                    <div *ngIf="gameForm.get('physicalTestName')?.invalid && (gameForm.get('physicalTestName')?.dirty || gameForm.get('physicalTestName')?.touched)"
+                        class="text-danger">
+                        Game name is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="physicalTestDescription" class="form-label">Description</label>
+                    <textarea class="form-control" id="physicalTestDescription"
+                        formControlName="physicalTestDescription" rows="3"
+                        placeholder="Enter game description"></textarea>
+                    <div *ngIf="gameForm.get('physicalTestDescription')?.invalid && (gameForm.get('physicalTestDescription')?.dirty || gameForm.get('physicalTestDescription')?.touched)"
+                        class="text-danger">
+                        Game description is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="physicalTestUnit" class="form-label">Unit</label>
+                    <input type="text" class="form-control" id="physicalTestUnit" formControlName="physicalTestUnit"
+                        placeholder="Enter game unit">
+                    <div *ngIf="gameForm.get('physicalTestUnit')?.invalid && (gameForm.get('physicalTestUnit')?.dirty || gameForm.get('physicalTestUnit')?.touched)"
+                        class="text-danger">
+                        Game unit is required.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ isEditing ? 'Update Game' : 'Add Game' }}</button>
+                <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

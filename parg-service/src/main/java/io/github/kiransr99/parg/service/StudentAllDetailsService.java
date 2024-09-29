@@ -3,6 +3,7 @@ package io.github.kiransr99.parg.service;
 import io.github.kiransr99.parg.dto.request.GameRequest;
 import io.github.kiransr99.parg.dto.request.StudentAllDetailsRequest;
 import io.github.kiransr99.parg.dto.request.StudentAllDetailsUpdateRequest;
+import io.github.kiransr99.parg.dto.response.StudentCompleteDataResponse;
 import io.github.kiransr99.parg.entity.*;
 import io.github.kiransr99.parg.entity.Class;
 import io.github.kiransr99.parg.repository.*;
@@ -41,8 +42,9 @@ public class StudentAllDetailsService {
         student.setGender(request.getGender());
         studentRepository.save(student);
 
-        //Save Student Enrollment
-        Class studentClass = classRepository.findByName(request.getClassName());
+        // Save Student Enrollment
+        Class studentClass = classRepository.findById(request.getClassId())
+                .orElseThrow(() -> new IllegalArgumentException("Class not found"));
         Exam exam = examRepository.findById(request.getExamId()).orElseThrow(() -> new IllegalArgumentException("Exam not found"));
         StudentEnrollment enrollment = new StudentEnrollment();
         enrollment.setStudent(student);
@@ -52,7 +54,7 @@ public class StudentAllDetailsService {
         enrollment.setRollNumber(request.getRollNumber());
         studentEnrollmentRepository.save(enrollment);
 
-        //Save Physical Report
+        // Save Physical Report
         PhysicalReport physicalReport = new PhysicalReport();
         physicalReport.setStudentEnrollment(enrollment);
         physicalReport.setHeight(request.getHeight());
@@ -63,9 +65,10 @@ public class StudentAllDetailsService {
         physicalReport.setComment(request.getComment());
         physicalReportRepository.save(physicalReport);
 
-        //Save Physical Test Performance Metric
-        for(GameRequest gameRequest: request.getGames()){
-            PhysicalTest physicalTest = physicalTestRepository.findById(gameRequest.getGameId()).orElseThrow(() -> new EntityNotFoundException("Physical Test not found."));
+        // Save Physical Test Performance Metric
+        for (GameRequest gameRequest : request.getGames()) {
+            PhysicalTest physicalTest = physicalTestRepository.findById(gameRequest.getGameId())
+                    .orElseThrow(() -> new EntityNotFoundException("Physical Test not found."));
 
             PhysicalTestPerformanceMetric metric = new PhysicalTestPerformanceMetric();
             metric.setPhysicalTest(physicalTest);
@@ -93,11 +96,9 @@ public class StudentAllDetailsService {
 
         StudentEnrollment enrollment = studentEnrollmentRepository.findByStudentId(student.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Student Enrollment not found"));
-        Class studentClass = classRepository.findByName(request.getClassName());
-        Exam exam = examRepository.findById(request.getExamId())
-                .orElseThrow(() -> new IllegalArgumentException("Exam not found"));
+        Class studentClass = classRepository.findById(request.getClassId())
+                .orElseThrow(() -> new IllegalArgumentException("Class not found"));
         enrollment.setClassName(studentClass);
-        enrollment.setExam(exam);
         enrollment.setSection(request.getSection());
         enrollment.setRollNumber(request.getRollNumber());
         studentEnrollmentRepository.save(enrollment);

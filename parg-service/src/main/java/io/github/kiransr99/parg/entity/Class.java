@@ -18,6 +18,7 @@ public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
 
@@ -33,4 +34,13 @@ public class Class {
     private List<Section> sections = new ArrayList<>();
 
     private boolean status = true;
+
+    // Many-to-Many relationship with PhysicalTest
+    @ManyToMany
+    @JoinTable(
+            name = "class_physical_test", // Join table name
+            joinColumns = @JoinColumn(name = "class_id"), // Foreign key for Class entity
+            inverseJoinColumns = @JoinColumn(name = "physical_test_id") // Foreign key for PhysicalTest entity
+    )
+    private List<PhysicalTest> physicalTests = new ArrayList<>();
 }
