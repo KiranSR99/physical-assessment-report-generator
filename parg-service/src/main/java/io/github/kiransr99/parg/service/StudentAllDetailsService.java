@@ -3,9 +3,8 @@ package io.github.kiransr99.parg.service;
 import io.github.kiransr99.parg.dto.request.GameRequest;
 import io.github.kiransr99.parg.dto.request.StudentAllDetailsRequest;
 import io.github.kiransr99.parg.dto.request.StudentAllDetailsUpdateRequest;
-import io.github.kiransr99.parg.dto.response.StudentCompleteDataResponse;
-import io.github.kiransr99.parg.entity.*;
 import io.github.kiransr99.parg.entity.Class;
+import io.github.kiransr99.parg.entity.*;
 import io.github.kiransr99.parg.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +29,7 @@ public class StudentAllDetailsService {
 
     public void saveAllStudentDetails(List<StudentAllDetailsRequest> studentAllDetailsRequests) {
         for (StudentAllDetailsRequest studentAllDetailsRequest : studentAllDetailsRequests) {
-            saveStudentDetails( studentAllDetailsRequest);
+            saveStudentDetails(studentAllDetailsRequest);
         }
     }
 
@@ -131,20 +131,50 @@ public class StudentAllDetailsService {
     }
 
     public void deleteStudentDetails(Long studentId) {
+        log.info("Deleting student with ID: {}", studentId);
+
+        // Fetch and delete the student entity
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+        log.info("Student found: {}. Proceeding with deletion of related entities.", student.getName());
+
+        // Fetch student enrollment
+        Optional<StudentEnrollment> enrollmentOpt = studentEnrollmentRepository.findByStudentId(studentId);
+
+        if (enrollmentOpt.isPresent()) {
+            StudentEnrollment enrollment = enrollmentOpt.get();
+            log.info("Student enrollment found for student ID: {}. Proceeding with deletion.", studentId);
+
+            // Fetch and delete physical report
+            Optional<PhysicalReport> physicalReportOpt = physicalReportRepository.findByStudentEnrollmentId(enrollment.getId());
+            if (physicalReportOpt.isPresent()) {
+                PhysicalReport physicalReport = physicalReportOpt.get();
+                log.info("Physical report found for enrollment ID: {}. Deleting related metrics.", enrollment.getId());
+
+                // Fetch and delete physical test performance metrics
+                List<PhysicalTestPerformanceMetric> metrics = physicalTestPerformanceMetricRepository.findByPhysicalReportId(physicalReport.getId());
+                if (!metrics.isEmpty()) {
+                    physicalTestPerformanceMetricRepository.deleteAll(metrics);
+                    log.info("Deleted {} physical test performance metrics for physical report ID: {}", metrics.size(), physicalReport.getId());
+                }
+
+                // Delete physical report
+                physicalReportRepository.delete(physicalReport);
+                log.info("Deleted physical report with ID: {}", physicalReport.getId());
+            }
+
+            // Delete student enrollment
+            studentEnrollmentRepository.delete(enrollment);
+            log.info("Deleted student enrollment with ID: {}", enrollment.getId());
+        } else {
+            log.warn("Student enrollment not found for student ID: {}. Continuing deletion.", studentId);
+        }
+
+        // Delete the student entity itself
         studentRepository.delete(student);
-
-        StudentEnrollment enrollment = studentEnrollmentRepository.findByStudentId(studentId)
-                .orElseThrow(() -> new EntityNotFoundException("Student Enrollment not found"));
-        studentEnrollmentRepository.delete(enrollment);
-
-        PhysicalReport physicalReport = physicalReportRepository.findByStudentEnrollmentId(enrollment.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Physical Report not found"));
-        physicalReportRepository.delete(physicalReport);
-
-        List<PhysicalTestPerformanceMetric> metrics = physicalTestPerformanceMetricRepository.findByPhysicalReportId(physicalReport.getId());
-        physicalTestPerformanceMetricRepository.deleteAll(metrics);
+        log.info("Deleted student with ID: {}", studentId);
     }
+
 
 }

@@ -7,6 +7,7 @@ import { ListStudentComponent } from './list-student/list-student.component';
 import { EditStudentComponent } from './edit-student/edit-student.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { AgGridAngular } from 'ag-grid-angular';
     CommonModule,
     StudentRoutingModule,
     ReactiveFormsModule,
-    AgGridAngular
+    AgGridAngular,
+    NgbTooltipModule
   ]
 })
 export class StudentModule { }

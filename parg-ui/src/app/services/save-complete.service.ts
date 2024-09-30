@@ -37,4 +37,19 @@ export class SaveCompleteService {
     return this.http.put<any>(`${this.apiUrl}/student-data/update-multiple-students`, data);
   }
 
+  //delete the complete data
+  // Delete the complete data
+  deleteAllDetails(data: any): Observable<any> {
+    const options = {
+      body: data // Pass the body here for DELETE request
+    };
+    return this.http.delete<any>(`${this.apiUrl}/student-data/delete-multiple-students`, options);
+  }
+
+  //generate bmi details
+  generateBMIDetails(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/bmi/bmi-details`, data);
+  }
+
+
 }
