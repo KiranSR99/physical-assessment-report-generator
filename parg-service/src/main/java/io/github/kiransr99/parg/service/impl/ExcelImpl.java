@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +49,14 @@ public class ExcelImpl implements ExcelService {
         List<PhysicalReport> physicalReportList = new ArrayList<>();
 
         try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            // Loop over each sheet
             for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                 Sheet sheet = workbook.getSheetAt(i);
+
+                // Extract the headers for the current sheet
                 List<String> physicalTestHeader = extractPhysicalTestHeaders(sheet);
 
+                // Process rows in the current sheet
                 for (Row row : sheet) {
                     if (row.getRowNum() == 0) continue;  // Skip header row
 
@@ -61,8 +67,12 @@ public class ExcelImpl implements ExcelService {
             log.error("Error reading Excel file", e);
             throw e;
         }
+
         return new ExcelResponse(studentEnrollmentList, physicalReportList);
     }
+
+
+
 
     private void processRow(Row row, School school, Exam exam, List<String> physicalTestHeader,
                             List<StudentEnrollment> studentEnrollmentList, List<PhysicalReport> physicalReportList) {
@@ -94,32 +104,64 @@ public class ExcelImpl implements ExcelService {
 
     private List<String> extractPhysicalTestHeaders(Sheet sheet) {
         List<String> physicalTestHeader = new ArrayList<>();
-        Row headerRow = sheet.getRow(0);
+        Row headerRow = sheet.getRow(0); // Assume first row contains headers
         int totalCells = headerRow.getPhysicalNumberOfCells();
-        log.info("Total Cells: {}", totalCells);
+        log.info("Total Cells in sheet '{}': {}", sheet.getSheetName(), totalCells);
 
-        for (int j = 8; j < totalCells; j++) {
+        for (int j = 8; j < totalCells; j++) { // Assume physical test headers start from cell index 8
             String header = headerRow.getCell(j).getStringCellValue();
             physicalTestHeader.add(header);
-            log.info("Header Row Cell Data: {}", header);
+            log.info("Header for sheet '{}', cell {}: {}", sheet.getSheetName(), j, header);
         }
+
         return physicalTestHeader;
     }
+
 
     private StudentEnrollment parseStudentData(Row row, School school, Exam exam) {
         StudentEnrollment studentEnrollment = new StudentEnrollment();
         studentEnrollment.setExam(exam);
 
         Student student = new Student();
-        studentEnrollment.setRollNumber(String.valueOf((int) row.getCell(0).getNumericCellValue()));
-        student.setName(row.getCell(1).getStringCellValue());
+        Cell rollNumberCell = row.getCell(0);
+        if (rollNumberCell != null && rollNumberCell.getCellType() == CellType.NUMERIC) {
+            studentEnrollment.setRollNumber(String.valueOf((int) rollNumberCell.getNumericCellValue()));
+        }
+
+        Cell nameCell = row.getCell(1);
+        if (nameCell != null && nameCell.getCellType() == CellType.STRING) {
+            student.setName(nameCell.getStringCellValue());
+        }
 
         Class studentClass = parseClass(row.getCell(2), school);
         studentEnrollment.setClassName(studentClass);
-        studentEnrollment.setSection(row.getCell(3).getStringCellValue());
 
-        student.setGender(row.getCell(4).getStringCellValue());
-        student.setDateOfBirth(row.getCell(5).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        Cell sectionCell = row.getCell(3);
+        if (sectionCell != null && sectionCell.getCellType() == CellType.STRING) {
+            studentEnrollment.setSection(sectionCell.getStringCellValue());
+        }
+
+        Cell genderCell = row.getCell(4);
+        if (genderCell != null && genderCell.getCellType() == CellType.STRING) {
+            student.setGender(genderCell.getStringCellValue());
+        }
+
+        Cell dobCell = row.getCell(5);
+        if (dobCell != null) {
+            if (dobCell.getCellType() == CellType.NUMERIC) {
+                student.setDateOfBirth(dobCell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            } else if (dobCell.getCellType() == CellType.STRING) {
+                String dobString = dobCell.getStringCellValue();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                try {
+                    student.setDateOfBirth(LocalDate.parse(dobString, formatter));
+                } catch (DateTimeParseException e) {
+                    log.error("Error parsing date of birth: {}", dobString, e);
+                }
+            }
+        }
+
+
 
         studentRepository.save(student);  // Save student
         studentEnrollment.setStudent(student);
@@ -147,14 +189,22 @@ public class ExcelImpl implements ExcelService {
         physicalReport.setStudentEnrollment(studentEnrollment);
 
         // Extract height and weight from the row
-        BigDecimal height = BigDecimal.valueOf(row.getCell(6).getNumericCellValue());
-        BigDecimal weight = BigDecimal.valueOf(row.getCell(7).getNumericCellValue());
-        physicalReport.setHeight(height);
-        physicalReport.setWeight(weight);
-        log.info("Height: {}, Weight: {}", height, weight);
+        Cell heightCell = row.getCell(6);
+        Cell weightCell = row.getCell(7);
+        if (heightCell != null && heightCell.getCellType() == CellType.NUMERIC) {
+            BigDecimal height = BigDecimal.valueOf(heightCell.getNumericCellValue());
+            physicalReport.setHeight(height);
+        }
+
+        if (weightCell != null && weightCell.getCellType() == CellType.NUMERIC) {
+            BigDecimal weight = BigDecimal.valueOf(weightCell.getNumericCellValue());
+            physicalReport.setWeight(weight);
+        }
+
+        log.info("Height: {}, Weight: {}", physicalReport.getHeight(), physicalReport.getWeight());
 
         // Calculate BMI
-        BigDecimal bmi = new BigDecimal(bmiCalculator.calculateBMI(weight, height));
+        BigDecimal bmi = new BigDecimal(bmiCalculator.calculateBMI(physicalReport.getWeight(), physicalReport.getHeight()));
         log.info("BMI: {}", bmi);
         physicalReport.setBmi(bmi);
 
@@ -190,13 +240,17 @@ public class ExcelImpl implements ExcelService {
 
     private void processPhysicalTestData(Row row, List<String> physicalTestHeader, PhysicalReport physicalReport) {
         for (int j = 8; j < row.getPhysicalNumberOfCells(); j++) {
-            String testName = physicalTestHeader.get(j - 8);
-            PhysicalTest physicalTest = physicalTestRepository.findByName(testName).orElse(null);
-            if (physicalTest != null) {
-                savePhysicalTestPerformance(physicalReport, row, j, physicalTest);
+            Cell testCell = row.getCell(j);
+            if (testCell != null && testCell.getCellType() == CellType.NUMERIC) {
+                String testName = physicalTestHeader.get(j - 8);
+                PhysicalTest physicalTest = physicalTestRepository.findByName(testName).orElse(null);
+                if (physicalTest != null) {
+                    savePhysicalTestPerformance(physicalReport, row, j, physicalTest);
+                }
             }
         }
     }
+
 
     private void savePhysicalTestPerformance(PhysicalReport physicalReport, Row row, int j, PhysicalTest physicalTest) {
         // Create and save performance record
