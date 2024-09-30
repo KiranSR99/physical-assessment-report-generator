@@ -20,9 +20,11 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "LEFT JOIN physical_report pr ON se.id = pr.student_enrollment_id " +
             "LEFT JOIN physical_test_performance_metric ptm ON pr.id = ptm.physical_report_id " +
             "LEFT JOIN physical_test pt ON ptm.physical_test_id = pt.id " +
-            "WHERE c.id = :classId",
+            "WHERE c.id = :classId " +
+            "ORDER BY se.roll_number ASC",
             nativeQuery = true)
     List<Object[]> findStudentCompleteDataByClassId(@Param("classId") Long classId);
+
 
 
 }

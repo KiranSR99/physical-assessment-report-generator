@@ -25,6 +25,6 @@ public class Student {
     private LocalDate dateOfBirth;
     private String gender;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<StudentEnrollment> enrollments;
 }
