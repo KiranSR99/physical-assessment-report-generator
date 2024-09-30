@@ -38,7 +38,7 @@ public class StudentEnrollment {
     private String rollNumber;
     private String section;
 
-    @OneToMany(mappedBy = "studentEnrollment")
+    @OneToMany(mappedBy = "studentEnrollment", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<PhysicalReport> physicalReports;
 }
