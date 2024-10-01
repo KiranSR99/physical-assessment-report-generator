@@ -8,13 +8,15 @@ import { EditStudentComponent } from './edit-student/edit-student.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImportStudentsComponent } from './import-students/import-students.component';
 
 
 @NgModule({
   declarations: [
     AddStudentComponent,
     ListStudentComponent,
-    EditStudentComponent
+    EditStudentComponent,
+    ImportStudentsComponent
   ],
   imports: [
     CommonModule,

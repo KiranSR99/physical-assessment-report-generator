@@ -9,6 +9,8 @@ import { EditExamComponent } from '../../exam/edit-exam/edit-exam.component';
 import { AddClassComponent } from '../../class/add-class/add-class.component';
 import { ClassService } from '../../class/services/class.service';
 import { EditClassComponent } from '../../class/edit-class/edit-class.component';
+import { SaveCompleteService } from '../../services/save-complete.service';
+import { ImportStudentsComponent } from '../../student/import-students/import-students.component';
 
 @Component({
   selector: 'app-school-detail',
@@ -32,7 +34,8 @@ export class SchoolDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private examService: ExamService,
-    private classService: ClassService
+    private classService: ClassService,
+    private saveCompleteService: SaveCompleteService
   ) { }
 
   ngOnInit() {
@@ -230,6 +233,16 @@ export class SchoolDetailComponent implements OnInit {
 
   stopEventPropagation(event: Event): void {
     event.stopPropagation();
+  }
+
+  openModalToImportStudents(): void {
+    const modalRef = this.modalService.open(ImportStudentsComponent, {
+      size: 'md',
+      centered: true,
+      backdrop: 'static'
+    });
+
+    modalRef.componentInstance.examId = this.selectedExam.id;
   }
 
 

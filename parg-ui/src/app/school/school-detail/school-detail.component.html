@@ -104,8 +104,7 @@
                                 <h6>{{selectedExam.year + ' ' + selectedExam.examName}}</h6>
                                 <div class="d-flex ">
                                     <button class="btn btn-sm custom-button me-1" (click)="addClassToExam()">Add Class</button>
-                                    <button class="btn btn-sm custom-button-outlined"><label for="fileSelect">Update Student Data</label></button>
-                                    <input type="file" name="fileSelect" id="fileSelect" class="d-none" />
+                                    <button class="btn btn-sm custom-button-outlined" (click)="openModalToImportStudents()">Import Student Details</button>
                                     
                                 </div>
                             </div>

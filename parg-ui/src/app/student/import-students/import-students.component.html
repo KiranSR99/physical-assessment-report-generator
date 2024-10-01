@@ -1,0 +1,31 @@
+<div class="container p-4">
+
+    <div class="row">
+        <div class="col">
+            <div class="float-end">
+                <i class="mdi mdi-window-close" (click)="modalClose()"></i>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="mb-4">Import Student Details</h5>
+    <div class="drop-zone mb-4 p-4" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)">
+        <p class="text-center mb-2">Drag and drop your Excel file here</p>
+        <p class="text-center">or</p>
+        <div class="text-center">
+            <label for="fileInput" class="btn btn-sm custom-button-outlined">
+                Choose File
+            </label>
+            <input type="file" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx, .xls" class="d-none">
+        </div>
+    </div>
+    <div *ngIf="file" class="mb-4">
+        <p>Selected file: {{ file.name }}</p>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-sm custom-button" (click)="onProceed()" [disabled]="!file">
+            Proceed
+        </button>
+    </div>
+</div>

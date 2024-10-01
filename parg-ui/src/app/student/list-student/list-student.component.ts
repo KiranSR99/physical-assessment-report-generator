@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ColDef, GridApi } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { StudentService } from '../services/student.service';
@@ -7,6 +7,7 @@ import { SaveCompleteService } from '../../services/save-complete.service';
 import { ClassService } from '../../class/services/class.service';
 import { GameService } from '../../game/services/game.service';
 import { ToastService } from '../../services/toast-service.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-list-student',
@@ -43,7 +44,9 @@ export class ListStudentComponent implements OnInit {
     private classService: ClassService,
     private saveCompleteService: SaveCompleteService,
     private gameService: GameService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router,
+    private loader: NgxUiLoaderService
   ) { }
 
   ngOnInit() {
@@ -101,9 +104,9 @@ export class ListStudentComponent implements OnInit {
       { field: "name", headerName: "Name" },
       { field: "className", headerName: "Class" },
       { field: "section", headerName: "Section" },
-      { 
-        field: "dateOfBirth", 
-        headerName: "DOB", 
+      {
+        field: "dateOfBirth",
+        headerName: "DOB",
         valueSetter: (params: any) => {
           params.data.dateOfBirth = params.newValue;
           this.calculateAge(params.data);
@@ -111,8 +114,8 @@ export class ListStudentComponent implements OnInit {
         }
       },
       { field: "age", headerName: "Age", editable: false },
-      { 
-        field: "gender", 
+      {
+        field: "gender",
         headerName: "Gender",
         cellEditor: 'agSelectCellEditor',
         cellEditorParams: {
@@ -124,8 +127,8 @@ export class ListStudentComponent implements OnInit {
           return true;
         }
       },
-      { 
-        field: "height", 
+      {
+        field: "height",
         headerName: "Height",
         valueSetter: (params: any) => {
           params.data.height = params.newValue;
@@ -133,8 +136,8 @@ export class ListStudentComponent implements OnInit {
           return true;
         }
       },
-      { 
-        field: "weight", 
+      {
+        field: "weight",
         headerName: "Weight",
         valueSetter: (params: any) => {
           params.data.weight = params.newValue;
@@ -318,13 +321,13 @@ export class ListStudentComponent implements OnInit {
     const gridApi: GridApi = this.agGrid.api;
     const rowsToRemove = this.rowData.filter(row => row.isNew);
     gridApi.applyTransaction({ remove: rowsToRemove });
-    
+
     // Update rowData to remove the cleared rows
     this.rowData = this.rowData.filter(row => !row.isNew);
-    
+
     // Clear the newStudentData array
     this.newStudentData = [];
-    
+
     // this.toastService.showInfo('Cleared newly added students');
   }
 
@@ -398,5 +401,16 @@ export class ListStudentComponent implements OnInit {
       }
     });
   }
+
+
+
+
+  goToReportCenter() {
+    this.loader.start(); // Start the loader
+    this.router.navigate([`/school/exam/class/${this.classId}/report-card`]).then(() => {
+      this.loader.stop(); // Stop the loader after navigation
+    });
+  }
+
 
 }

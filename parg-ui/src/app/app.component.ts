@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AppComponent {
   title = 'parg-ui';
+
+  constructor() {}
+
+  
 }

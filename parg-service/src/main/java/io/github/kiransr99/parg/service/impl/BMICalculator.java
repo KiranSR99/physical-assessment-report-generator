@@ -18,13 +18,21 @@ import java.util.Optional;
 public class BMICalculator {
     private final BMIDataRepository bmiDataRepository;
 
-    public String calculateBMI(BigDecimal weight, BigDecimal height) {
-        if (weight == null || height == null || weight.compareTo(BigDecimal.ZERO) <= 0 || height.compareTo(BigDecimal.ZERO) <= 0) {
+    public String calculateBMI(BigDecimal weight, BigDecimal heightInInches) {
+        // Check if weight and height are valid
+        if (weight == null || heightInInches == null || weight.compareTo(BigDecimal.ZERO) <= 0 || heightInInches.compareTo(BigDecimal.ZERO) <= 0) {
             return "Invalid weight or height. They must be positive numbers.";
         }
-        BigDecimal bmi = weight.divide(height.multiply(height), 2, RoundingMode.HALF_UP);
+
+        // Convert height from inches to meters
+        BigDecimal heightInMeters = heightInInches.multiply(new BigDecimal("0.0254"));
+
+        // Calculate BMI: weight / (height * height), with rounding to 2 decimal places
+        BigDecimal bmi = weight.divide(heightInMeters.multiply(heightInMeters), 2, RoundingMode.HALF_UP);
+
         return bmi.toString();
     }
+
 
     public BMIPercentile findPercentile(int sex, double age, BigDecimal bmi) {
         Optional<BMIData> bmiDataOptional = bmiDataRepository.findClosestBySexAndAge(sex, age);

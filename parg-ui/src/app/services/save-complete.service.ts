@@ -51,5 +51,10 @@ export class SaveCompleteService {
     return this.http.post<any>(`${this.apiUrl}/bmi/bmi-details`, data);
   }
 
+  //saving student details by reading from excel file
+  saveExcelData(examId: number, data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/excel/saveExcelData/${examId}`, data);
+  }
+
 
 }
