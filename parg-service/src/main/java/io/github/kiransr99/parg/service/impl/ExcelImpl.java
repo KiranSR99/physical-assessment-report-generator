@@ -161,7 +161,7 @@ public class ExcelImpl implements ExcelService {
             }
         }
 
-
+        student.setAge(student.getDateOfBirth().until(LocalDate.now()).getYears());
 
         studentRepository.save(student);  // Save student
         studentEnrollment.setStudent(student);
@@ -254,10 +254,10 @@ public class ExcelImpl implements ExcelService {
 
     private void savePhysicalTestPerformance(PhysicalReport physicalReport, Row row, int j, PhysicalTest physicalTest) {
         // Create and save performance record
-        PhysicalTestPerformance performance = new PhysicalTestPerformance();
-        performance.setPhysicalReport(physicalReport);
-        performance.setPhysicalTest(physicalTest);
-        physicalTestPerformanceRepository.save(performance);  // Ensure this is being saved correctly
+//        PhysicalTestPerformance performance = new PhysicalTestPerformance();
+//        performance.setPhysicalReport(physicalReport);
+//        performance.setPhysicalTest(physicalTest);
+//        physicalTestPerformanceRepository.save(performance);  // Ensure this is being saved correctly
 
         // Create and save the metric
         PhysicalTestPerformanceMetric metric = new PhysicalTestPerformanceMetric();

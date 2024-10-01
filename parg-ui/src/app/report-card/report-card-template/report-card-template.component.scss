@@ -1,0 +1,223 @@
+.wrapper {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    padding: 30px;
+    // border: 1px solid #000;
+    // box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    page-break-after: always;
+    background-color: #fff;
+    font-family: 'Bahnschrift', sans-serif;
+
+    .report-card-outer {
+        width: 100%;
+        height: 100%;
+        border: 3px solid var(--primary-color);
+        border-radius: 4px;
+        padding: 2px;
+
+        .report-card {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            border: 1px solid var(--primary-color);
+
+            .org-header {
+                border-bottom: 3px solid var(--secondary-color);
+
+                .org-logo {
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    border: 3px solid var(--primary-color);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        width: 80%;
+                        height: 80%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+                }
+
+                .info {
+                    h5 {
+                        background-color: var(--primary-color);
+                        border-radius: 50px;
+                        color: #fff !important;
+                        padding: 5px 2px;
+                    }
+
+                    .school-name {
+                        font-size: 24px !important;
+                    }
+                }
+            }
+
+            .student-details {
+                .col {
+                    p {
+                        font-weight: 400;
+                        margin: 2px 0 !important;
+                    }
+                }
+            }
+
+            .physical-assessment {
+                .col-md-10 {
+                    background-color: #d9d9d9;
+                    border: 2px solid #000;
+                }
+            }
+
+            .physical-report {
+
+                table {
+
+                    th,
+                    td {
+                        padding: 0;
+                    }
+
+                    td {
+                        font-weight: 400;
+                    }
+                }
+
+                .table-secondary {
+                    background-color: #D9D9D9;
+                }
+
+                th,
+                td {
+                    border: 2px solid #000;
+                }
+
+                .line {
+                    height: 1px;
+                    background: #000;
+                    width: 100%;
+                    margin-top: 22px;
+                }
+
+                .remarks {
+                    border-bottom: 3px solid var(--secondary-color);
+
+                    p {
+                        font-size: 15px !important;
+                        font-weight: 300;
+                        margin-top: 10px;
+                        text-align: justify;
+                        line-height: 1.2 !important;
+                    }
+                }
+
+                .desc{
+                    .col:last-child{
+                        padding-right: 12px !important;
+                    }
+
+                    .info{
+                        border: 1px solid #000;
+                        padding: 8px;
+                        height: 220px;
+
+                        h6{
+                            font-size: 15px !important;
+                        }
+
+                        p{
+                            font-size: 13px !important;
+                            line-height: 1.35 !important;
+                            text-align: justify;
+                            font-weight: 300;
+                        }
+                    }
+                }
+
+            }
+
+            .signs{
+                border-bottom: 3px solid var(--secondary-color);
+                margin-top: 60px;
+
+                .sign{
+                    width: 120px;
+                    text-align: center;
+
+                    .line{
+                        width: 100%;
+                        height: 2px;
+                        background: #000;
+                    }
+
+                    p{
+                        font-size: 15px !important;
+                        font-weight: 400;
+                        margin-top: 5px;
+                    }
+                }
+
+                .middle{
+                    top: -47%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+
+            .infos{
+                .info{
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+}
+
+
+//Giving dots before and after the title
+.title {
+    h6 {
+        display: inline-block;
+        position: relative;
+        padding: 0 10px;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #000;
+            border-radius: 50%;
+            top: 40%;
+            transform: translateY(-50%);
+        }
+
+        &::before {
+            left: 0;
+            margin-right: 5px;
+        }
+
+        &::after {
+            right: 0;
+            margin-left: 5px;
+        }
+    }
+}
+
+
+
+
+@media print {
+    .wrapper {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+}

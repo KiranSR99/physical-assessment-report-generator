@@ -1,1 +1,9 @@
-<app-base></app-base>
+<ngx-ui-loader [fgsTemplate]="loader"></ngx-ui-loader>
+
+<ng-template #loader>
+    <app-loader></app-loader>
+</ng-template>
+
+<div ngxUiLoaderBlurred [blur]="3" style="height: 100%;">
+    <app-base></app-base>
+</div>

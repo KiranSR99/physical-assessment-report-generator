@@ -1,0 +1,18 @@
+.drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    transition: border 0.3s ease-in-out;
+}
+
+.drop-zone.dragover {
+    border-color: var(--secondary-color);
+    background-color: #f8f9fa;
+}
+
+i{
+    font-size: 24px;
+    color: var(--primary-color);
+    cursor: pointer;
+}
