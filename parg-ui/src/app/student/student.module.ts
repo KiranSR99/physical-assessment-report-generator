@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImportStudentsComponent } from './import-students/import-students.component';
+import { GroupStudentComponent } from './group-student/group-student.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ImportStudentsComponent } from './import-students/import-students.compo
     AddStudentComponent,
     ListStudentComponent,
     EditStudentComponent,
-    ImportStudentsComponent
+    ImportStudentsComponent,
+    GroupStudentComponent
   ],
   imports: [
     CommonModule,

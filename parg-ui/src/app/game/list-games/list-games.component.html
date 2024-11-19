@@ -7,24 +7,31 @@
                 <div class="col" *ngFor="let game of games">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">{{ game.physicalTestName }}</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">{{ game.physicalTestName }}</h5>
+                                <!-- Dropdown menu -->
+                                <div class="dropdown ">
+                                    <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" >
+                                            <i class="fas fa-edit me-2"></i>
+                                            <span (click)="editGame(game)">Edit</span>
+                                        </a>
+                                        <a class="dropdown-item">
+                                            <i class="fas fa-trash me-2"></i>
+                                            <span (click)="deleteGame(game.physicalTestId)">Delete</span>
+                                        </a>
+
+                                    </ul>
+                                </div>
+                            </div>
                             <p class="card-text">{{ game.physicalTestDescription }}</p>
                             <p class="card-text text-muted">Unit: {{ game.physicalTestUnit }}</p>
                         </div>
-                        <div class="card-footer">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button"
-                                    id="dropdownMenuButton{{ game.physicalTestId }}" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Actions
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" (click)="editGame(game)">Edit</a></li>
-                                    <li><a class="dropdown-item" (click)="deleteGame(game.physicalTestId)">Delete</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -35,7 +42,7 @@
             <h4>{{ isEditing ? 'Edit Game' : 'Add New Game' }}</h4>
             <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
-                    <label for="physicalTestName" class="form-label">Game Name</label>
+                    <label for="physicalTestName" class="form-label custom-label">Game Name</label>
                     <input type="text" class="form-control" id="physicalTestName" formControlName="physicalTestName"
                         placeholder="Enter game name">
                     <div *ngIf="gameForm.get('physicalTestName')?.invalid && (gameForm.get('physicalTestName')?.dirty || gameForm.get('physicalTestName')?.touched)"
@@ -44,9 +51,9 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="physicalTestDescription" class="form-label">Description</label>
+                    <label for="physicalTestDescription" class="form-label custom-label">Description</label>
                     <textarea class="form-control" id="physicalTestDescription"
-                        formControlName="physicalTestDescription" rows="3"
+                        formControlName="physicalTestDescription" rows="5"
                         placeholder="Enter game description"></textarea>
                     <div *ngIf="gameForm.get('physicalTestDescription')?.invalid && (gameForm.get('physicalTestDescription')?.dirty || gameForm.get('physicalTestDescription')?.touched)"
                         class="text-danger">
@@ -54,7 +61,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="physicalTestUnit" class="form-label">Unit</label>
+                    <label for="physicalTestUnit" class="form-label custom-label">Unit</label>
                     <input type="text" class="form-control" id="physicalTestUnit" formControlName="physicalTestUnit"
                         placeholder="Enter game unit">
                     <div *ngIf="gameForm.get('physicalTestUnit')?.invalid && (gameForm.get('physicalTestUnit')?.dirty || gameForm.get('physicalTestUnit')?.touched)"
@@ -62,8 +69,8 @@
                         Game unit is required.
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">{{ isEditing ? 'Update Game' : 'Add Game' }}</button>
-                <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()">Cancel</button>
+                <button type="submit" class="btn btn-sm custom-button">{{ isEditing ? 'Update Game' : 'Add Game' }}</button>
+                <button type="button" class="btn btn-sm custom-button-outlined ms-2" (click)="resetForm()">Cancel</button>
             </form>
         </div>
     </div>

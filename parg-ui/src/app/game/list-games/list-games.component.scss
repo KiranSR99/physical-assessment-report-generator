@@ -1,32 +1,32 @@
 .card {
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
+.dropdown {
+    button {
+        i {
+            color: var(--secondary-color);
+        }
+    }
 
-.card-footer {
-    background-color: transparent;
-    border-top: none;
-}
+    .dropdown-menu {
+        min-width: 100px;
 
-.dropdown-toggle::after {
-    display: none;
-}
+        .dropdown-item {
+            cursor: pointer;
+            font-weight: 300;
 
-.dropdown-menu {
-    min-width: 100px;
-}
+            i {
+                color: var(--secondary-color);
 
-.dropdown-item {
-    cursor: pointer;
-}
-
-.dropdown-item:hover {
-    background-color: #f8f9fa;
+            }
+        }
+    }
 }
 
 form {
@@ -34,29 +34,8 @@ form {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-}
-
-.btn-secondary:hover {
-    background-color: #545b62;
-    border-color: #545b62;
-}
-
-
-.dropdown{
-    z-index: 1000;
+    textarea {
+        font-weight: 300;
+    }
 }

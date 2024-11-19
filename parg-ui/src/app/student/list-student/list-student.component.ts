@@ -403,14 +403,20 @@ export class ListStudentComponent implements OnInit {
   }
 
 
-
-
   goToReportCenter() {
-    this.loader.start(); // Start the loader
+    this.loader.start();
     this.router.navigate([`/school/exam/class/${this.classId}/report-card`]).then(() => {
-      this.loader.stop(); // Stop the loader after navigation
+      this.loader.stop();
     });
   }
 
+
+  //Group the students using algorithm
+  groupStudents(): void {
+    this.loader.start();
+    this.router.navigate([`/school/exam/class/${this.classId}/clusters`]).then(() => {
+      this.loader.stop();
+    });
+  }
 
 }
