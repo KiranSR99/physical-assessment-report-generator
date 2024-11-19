@@ -1,0 +1,90 @@
+<div>
+    <div class="col-md-1 mt-2">
+        <a href="javascript:history.back()" class="text-decoration-none d-flex align-items-center"
+            style="color: var(--primary-color);">
+            <i class="ph ph-arrow-left me-1 fs-5"></i>
+            <span>back</span>
+        </a>
+    </div>
+    <hr>
+
+    <div class="container-fluid p-4">
+        <div class="row mb-3">
+            <div class="col-12">
+                <h4 class="text-center">Student BMI Clustering Analysis</h4>
+            </div>
+        </div>
+
+        <div *ngIf="clusteredStudentData && clusteredStudentData.length > 0" class="row row-cols-1 row-cols-md-2 g-4">
+            <!-- BMI Category Cards -->
+            <div class="col" *ngFor="let group of clusteredStudentData">
+                <div class="card h-100 shadow-sm">
+                    <!-- Card Header with Dynamic Color and Name -->
+                    <div class="card-header" [ngClass]="group.categoryColor">
+                        <h5 class="card-title text-white mb-0 d-flex justify-content-between align-items-center">
+                            {{ group.categoryName }}
+                            <span class="badge bg-light text-dark">{{ group.groupData.length }}</span>
+                        </h5>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body p-2">
+                        <div *ngIf="group.groupData.length === 0" class="text-center text-muted small">
+                            No students in this category
+                        </div>
+
+                        <!-- Student Data Table -->
+                        <div *ngIf="group.groupData.length > 0" class="overflow-auto" style="max-height: 250px;">
+                            <table class="table table-sm table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="small">Name</th>
+                                        <th class="small">Age</th>
+                                        <th class="small">Gender</th>
+                                        <th class="small">BMI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let student of group.groupData" class="small">
+                                        <td>{{ student.name }}</td>
+                                        <td>{{ student.age }}</td>
+                                        <td>{{ student.gender | titlecase }}</td>
+                                        <td>{{ student.bmi | number:'1.2-2' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Category Statistics -->
+                        <div *ngIf="group.groupData.length > 0" class="mt-2 text-center">
+                            <div class="row small">
+                                <div class="col-4">
+                                    <small class="text-muted d-block">Total</small>
+                                    <strong>{{ group.groupData.length }}</strong>
+                                </div>
+                                <div class="col-4">
+                                    <small class="text-muted d-block">Avg Age</small>
+                                    <strong>{{ calculateAverageAge(group.groupData) | number:'1.1-1' }}</strong>
+                                </div>
+                                <div class="col-4">
+                                    <small class="text-muted d-block">Avg BMI</small>
+                                    <strong>{{ calculateAverageBMI(group.groupData) | number:'1.2-2' }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Data Placeholder -->
+        <div *ngIf="!clusteredStudentData || clusteredStudentData.length === 0" class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info small">
+                    <i class="ph ph-info-circle me-2"></i>
+                    No clustering data available.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

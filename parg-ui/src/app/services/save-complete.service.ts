@@ -11,10 +11,6 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class SaveCompleteService {
-  students: any;
-  studentEnrollments: any;
-  games: any;
-  physicalReports: any;
 
   apiUrl = environment.baseUrl;
 
