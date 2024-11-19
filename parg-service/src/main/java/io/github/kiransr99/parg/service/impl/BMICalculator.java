@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
 
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -24,42 +23,24 @@ public class BMICalculator {
             return "Invalid weight or height. They must be positive numbers.";
         }
 
-        // Convert height from inches to meters
-        BigDecimal heightInMeters = heightInInches.multiply(new BigDecimal("0.0254"));
-
         // Calculate BMI: weight / (height * height), with rounding to 2 decimal places
-        BigDecimal bmi = weight.divide(heightInMeters.multiply(heightInMeters), 2, RoundingMode.HALF_UP);
+        BigDecimal bmi = weight.divide(heightInInches.multiply(heightInInches), 2, RoundingMode.HALF_UP);
 
         return bmi.toString();
     }
-
 
     public BMIPercentile findPercentile(int sex, double age, BigDecimal bmi) {
         Optional<BMIData> bmiDataOptional = bmiDataRepository.findClosestBySexAndAge(sex, age);
         if (bmiDataOptional.isPresent()) {
             BMIData bmiData = bmiDataOptional.get();
-            if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP3())) < 0) {
-                return BMIPercentile.BELOW_3RD;
-            } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP5())) < 0) {
-                return BMIPercentile.P3_TO_P5;
-            } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP10())) < 0) {
-                return BMIPercentile.P5_TO_P10;
-            } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP25())) < 0) {
-                return BMIPercentile.P10_TO_P25;
-            } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP50())) < 0) {
-                return BMIPercentile.P25_TO_P50;
-            } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP75())) < 0) {
-                return BMIPercentile.P50_TO_P75;
+            if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP5())) < 0) {
+                return BMIPercentile.LESS_THAN_5TH;
             } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP85())) < 0) {
-                return BMIPercentile.P75_TO_P85;
-            } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP90())) < 0) {
-                return BMIPercentile.P85_TO_P90;
+                return BMIPercentile.P5_TO_P84;
             } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP95())) < 0) {
-                return BMIPercentile.P90_TO_P95;
-            } else if (bmi.compareTo(BigDecimal.valueOf(bmiData.getP97())) < 0) {
-                return BMIPercentile.P95_TO_P97;
+                return BMIPercentile.P85_TO_P94;
             } else {
-                return BMIPercentile.ABOVE_97TH;
+                return BMIPercentile.GREATER_THAN_95TH;
             }
         }
         return BMIPercentile.UNKNOWN;
@@ -67,15 +48,23 @@ public class BMICalculator {
 
     public String determineBMILevel(BMIPercentile percentile) {
         return switch (percentile) {
-            case P3_TO_P5, P5_TO_P10, P10_TO_P25 -> "Underweight";
-            case P25_TO_P50, P50_TO_P75 -> "Normal weight";
-            case P75_TO_P85, P85_TO_P90, P90_TO_P95, P95_TO_P97 -> "Overweight";
-            default -> "Obese";
+            case LESS_THAN_5TH -> "Underweight";
+            case P5_TO_P84 -> "Healthy";
+            case P85_TO_P94 -> "Overweight";
+            case GREATER_THAN_95TH -> "Obese";
+            default -> "Unknown";
         };
     }
 
     public String generateComment(BMIPercentile percentile) {
-        String bmiLevel = determineBMILevel(percentile);
-        return "BMI Level: " + bmiLevel + ", Percentile: " + percentile.getDescription();
+        String comment;
+        switch (percentile) {
+            case LESS_THAN_5TH -> comment = "Eat more frequently. Eat five to six smaller meals during the day rather than two or three large meals.";
+            case P5_TO_P84 -> comment = "Continue good discipline in eating habits and physical fitness.";
+            case P85_TO_P94 -> comment = "Cut down on carbohydrates, intake proteins and vegetables. Also, work out often.";
+            case GREATER_THAN_95TH -> comment = "Limit energy intake from total fats and sugars. Increase consumption of fruits and vegetables, as well as legumes, and engage in regular physical activity for 60 minutes a day.";
+            default -> comment = "No specific recommendation.";
+        }
+        return comment;
     }
 }
