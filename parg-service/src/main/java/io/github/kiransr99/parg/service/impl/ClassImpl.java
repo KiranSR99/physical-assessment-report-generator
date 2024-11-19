@@ -6,9 +6,11 @@ import io.github.kiransr99.parg.dto.request.ClassRequest;
 import io.github.kiransr99.parg.dto.response.ClassResponse;
 import io.github.kiransr99.parg.entity.Class;
 import io.github.kiransr99.parg.entity.Exam;
+import io.github.kiransr99.parg.entity.PhysicalTest;
 import io.github.kiransr99.parg.entity.School;
 import io.github.kiransr99.parg.repository.ClassRepository;
 import io.github.kiransr99.parg.repository.ExamRepository;
+import io.github.kiransr99.parg.repository.PhysicalTestRepository; // Add PhysicalTestRepository
 import io.github.kiransr99.parg.repository.SchoolRepository;
 import io.github.kiransr99.parg.service.ClassService;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,18 +27,26 @@ public class ClassImpl implements ClassService {
     private final ClassRepository classRepository;
     private final SchoolRepository schoolRepository;
     private final ExamRepository examRepository;
+    private final PhysicalTestRepository physicalTestRepository; // Add PhysicalTestRepository
 
     @Override
     public List<ClassResponse> saveClass(ClassRequest request) {
         School school = schoolRepository.findById(request.getSchoolId())
                 .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.SCHOOL_NOT_FOUND));
-        Exam exam = examRepository.findById(request.getExamId()).orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
+        Exam exam = examRepository.findById(request.getExamId())
+                .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
+
         return request.getClasses().stream()
                 .map(classRequest -> {
                     Class newClass = new Class();
                     newClass.setName(classRequest.getName());
                     newClass.setSchool(school);
                     newClass.setExam(exam);
+
+                    // Fetch PhysicalTest entities using the IDs provided in the request
+                    List<PhysicalTest> physicalTests = physicalTestRepository.findAllById(classRequest.getPhysicalTestIds());
+                    newClass.setPhysicalTests(physicalTests);
+
                     Class savedClass = classRepository.save(newClass);
                     return new ClassResponse(savedClass);
                 })
@@ -62,7 +72,8 @@ public class ClassImpl implements ClassService {
 
     @Override
     public List<ClassResponse> getAllClassesByExamId(Long examId) {
-        Exam exam = examRepository.findById(examId).orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
+        Exam exam = examRepository.findById(examId)
+                .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.EXAM_NOT_FOUND));
         return classRepository.findByExamAndStatusTrue(exam).stream()
                 .map(ClassResponse::new)
                 .toList();
@@ -82,6 +93,11 @@ public class ClassImpl implements ClassService {
                 .filter(Class::isStatus)
                 .orElseThrow(() -> new EntityNotFoundException(SYSTEM_MESSAGE.CLASS_NOT_FOUND));
         existingClass.setName(request.getName());
+
+        // Here you can update the physical tests if required
+        List<PhysicalTest> physicalTests = physicalTestRepository.findAllById(request.getPhysicalTestIds());
+        existingClass.setPhysicalTests(physicalTests);
+
         Class updatedClass = classRepository.save(existingClass);
         return new ClassResponse(updatedClass);
     }

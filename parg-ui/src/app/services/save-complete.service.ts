@@ -11,75 +11,45 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class SaveCompleteService {
-  students: any;
-  studentEnrollments: any;
-  games: any;
-  physicalReports: any;
 
   apiUrl = environment.baseUrl;
 
   constructor(
-    private http: HttpClient,
-    private studentService: StudentService,
-    private studentEnrollmentService: StudentEnrollmentService,
-    private gameService: GameService,
-    private physicalReportService: PhysicalReportService
+    private http: HttpClient
   ) { }
 
-
-  saveStudents(data: any): void {
-    this.studentService.saveStudents(data).subscribe({
-      next: (response: any) => {
-
-      }
-    });
+  //save the complete data
+  saveAllDetails(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/student-data/save-all-details`, data);
   }
 
-  saveStudentEnrollment(data: any): void {
-    this.studentEnrollmentService.saveStudentEnrollment(data).subscribe();
+  //get the complete data
+  getStudentCompleteDataByClassId(classId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/student/getStudentCompleteData/${classId}`);
   }
 
-  saveGamesData(data: any): void {
-    this.gameService.saveGames(data).subscribe();
+  //update the complete data
+  updateAllDetails(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/student-data/update-multiple-students`, data);
   }
 
-  savePhysicalReports(data: any): void {
-    this.physicalReportService.savePhysicalReports(data).subscribe();
+  //delete the complete data
+  // Delete the complete data
+  deleteAllDetails(data: any): Observable<any> {
+    const options = {
+      body: data // Pass the body here for DELETE request
+    };
+    return this.http.delete<any>(`${this.apiUrl}/student-data/delete-multiple-students`, options);
   }
 
-  getAllStudentsByClassId(classId: number): void {
-    this.studentService.getStudentCompleteDataByClassId(classId).subscribe({
-      next: (response: any) => {
-        this.students = response.data;
-      }
-    });
+  //generate bmi details
+  generateBMIDetails(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/bmi/bmi-details`, data);
   }
 
-
-  saveAllData(formData: any): Observable<any> {
-    // Create observables for each API call
-    const saveStudents$ = this.http.post(`${this.apiUrl}/student/saveStudents`, formData.students);
-    const saveEnrollments$ = this.http.post(`${this.apiUrl}/studentEnrollment/saveStudentEnrollment`, formData.studentEnrollments);
-    const savePhysicalReports$ = this.http.post(`${this.apiUrl}/physicalReport/savePhysicalReports`, formData.physicalReports);
-    const savePerformanceMetrics$ = this.http.post(`${this.apiUrl}/physicalTestPerformanceMetric/saveMultiplePhysicalTestPerformanceMetrics`, formData.physicalTestPerformanceMetrics);
-
-    // Use forkJoin to make all API calls concurrently
-    return forkJoin({
-      students: saveStudents$,
-      enrollments: saveEnrollments$,
-      physicalReports: savePhysicalReports$,
-      performanceMetrics: savePerformanceMetrics$
-    }).pipe(
-      map((responses: any) => {
-        // Process the responses if needed
-        console.log('All data saved successfully', responses);
-        return responses;
-      }),
-      catchError((error: any) => {
-        console.error('Error saving data', error);
-        throw error; // Re-throw the error so it can be handled in the component
-      })
-    );
+  //saving student details by reading from excel file
+  saveExcelData(examId: number, data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/excel/saveExcelData/${examId}`, data);
   }
 
 

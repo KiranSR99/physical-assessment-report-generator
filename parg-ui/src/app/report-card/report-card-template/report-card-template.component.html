@@ -1,0 +1,245 @@
+<div class="d-flex justify-content-between">
+    <div class="col-md-1">
+        <a href="javascript:history.back()" class="text-decoration-none d-flex align-items-center"
+            style="color: var(--primary-color);">
+            <i class="ph ph-arrow-left me-1 fs-5"></i>
+            <span>back</span>
+        </a>
+    </div>
+    <div class="d-flex gap-2">
+        <!-- <button class="btn btn-sm custom-button"><i class="fas fa-calendar-days"></i></button> -->
+        <button class="btn btn-sm custom-button"
+            (click)="exportReportCards()"><i class="fas fa-file-export"></i> Export Report Cards</button>
+    </div>
+</div>
+<hr class="my-2">
+
+@for(student of studentDetails; track student.studentId) {
+<div id="report-cards">
+    <div class="wrapper my-4">
+        <div class="report-card-outer">
+            <div class="report-card">
+                <div class="org-header">
+                    <div class="row mt-2">
+                        <div class="col-md-3">
+                            <div class="org-logo">
+                                <img src="images/logo/epForCard.png" alt="EduPlay">
+                            </div>
+                        </div>
+                        <div class="col text-center m-0 p-0">
+                            <div class="info">
+                                <h4 class="m-0">EDUPLAY</h4>
+                                <h6 class="">Tinkune, Kathmandu, Nepal</h6>
+                                <h5>PHYSICAL ASSESSMENT REPORT</h5>
+                                <h6 class="school-name">{{ schoolDetails?.name }}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex justify-content-end">
+                                <div class="org-logo">
+                                    <img [src]="schoolDetails?.logo" alt="EduPlay">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="student-details">
+                    <div class="mt-2">
+                        <div class="row row-cols-3">
+                            <div class="col">
+                                <p>NAME: {{ student.name }}</p>
+                            </div>
+                            <div class="col text-center">
+                                <p>CLASS: {{ student.className | extractClassNumber }}</p>
+                            </div>
+                            <div class="col text-end">
+                                <p>SECTION: {{ student.section }}</p>
+                            </div>
+                            <div class="col">
+                                <p>ROLL NO: {{ student.rollNumber }}</p>
+                            </div>
+                            <div class="col text-center">
+                                <p>GENDER: {{ student.gender }}</p>
+                            </div>
+                            <div class="col text-end">
+                                <p>AGE: {{ student.age }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="physical-assessment">
+                    <div class="header ">
+                        <div class="col-md-10 text-center mt-2 py-1 mx-auto">
+                            <h6 class="fs-5 fw-bold text-dark my-0 text-uppercase">{{ examDetails.examName | firstWord
+                                }}
+                                PHYSICAL ASSESSMENT {{ examDetails.year }}</h6>
+                        </div>
+                        <div class="physical-report">
+                            <table class="table table-bordered text-center align-middle mt-2">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th>TIME FRAME</th>
+                                        <th>HEIGHT (Feet & Inches)</th>
+                                        <th>WEIGHT (KG)</th>
+                                        <th>BMI</th>
+                                        <th>BMI LEVEL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Present</td>
+                                        <td>{{ student.height | inchesToFeet }}</td>
+                                        <td>{{ student.weight }}</td>
+                                        <td>{{ student.bmi }}</td>
+                                        <td>{{ student.bmiLevel }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="physical-test">
+                                <div class="title text-center">
+                                    <h6 class="text-dark fw-bold mb-0">GENERAL PHYSICAL TEST</h6>
+                                </div>
+
+                                <div>
+                                    <table class="table table-bordered text-center align-middle">
+                                        <thead class="table-secondary">
+                                            <tr>
+                                                <th>TEST</th>
+                                                <th>UNIT</th>
+                                                <th>TEST TYPE</th>
+                                                <th>SCORE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for(game of gameDetails; track game){
+                                            <tr>
+                                                <td>{{ game.physicalTestName }}</td>
+                                                <td>{{ game.physicalTestUnit }}</td>
+                                                <td>Balance Test</td>
+                                                <td>{{ getStudentGameValue(student, game.physicalTestName) }}</td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="line"></div>
+
+                            <div class="remarks">
+                                <p>Based on the Height and weight, The BMI is <b>{{ student.bmi }}</b> placing the BMI
+                                    for
+                                    age at <b>{{ student.percentile }}</b> for <b>{{ student.age + ' years'}}</b> old
+                                    <b>{{ student.gender | lowercase }}</b>. This falls
+                                    in the BMI category
+                                    <b>{{ student.bmiLevel }}</b>. {{ student.comment }}
+                                </p>
+                            </div>
+
+                            <div class="parameters mt-3">
+                                <div class="title text-center">
+                                    <h6 class="text-dark fw-bold mb-0">PARAMETER LEVELS FOR: - Age: {{ student.age }}
+                                        and Gender: {{ student.gender }}
+                                    </h6>
+                                </div>
+                                <div>
+                                    <table class="table table-bordered text-center align-middle mt-2">
+                                        <thead class="table-secondary">
+                                            <tr>
+                                                <th>TEST</th>
+                                                <th>Underweight</th>
+                                                <th>Healthy</th>
+                                                <th>Overweight</th>
+                                                <th>Obese</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> BMI (kg/m<sup>2</sup>)</td>
+                                                <td>Below 13.5</td>
+                                                <td>13.5 to 17.5</td>
+                                                <td>17.6 to 19.5</td>
+                                                <td>19.6 and above</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="desc mt-2">
+                                    <div class="row gap-1">
+                                        <div class="col-md-5 pe-0">
+                                            <div class="info">
+                                                <h6 class="text-center text-dark">BMI FOR AGE PERCENTILE</h6>
+                                                <p>Body Mass Index (BMI) is a person’s weight in kilograms divided by
+                                                    the
+                                                    square of height in meters. For children and teens, BMI is age- and
+                                                    sex-specific and is often referred to as BMI-for-age percentile. In
+                                                    children, a high amount of body fat can lead to weight-related
+                                                    diseases
+                                                    and other health problems. BMI does not measure body fat directly,
+                                                    but
+                                                    BMI is correlated with more direct measures of body fat.</p>
+                                            </div>
+                                        </div>
+                                        @for(game of gameDetails; track game){
+                                        <div class="col p-0">
+                                            <div class="info">
+                                                <h6 class="text-center text-dark">{{ game.physicalTestName | uppercase
+                                                    }}</h6>
+                                                <p>{{ game.physicalTestDescription }}</p>
+                                            </div>
+                                        </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signs">
+                    <div class="d-flex justify-content-between align-items-center px-3 position-relative">
+                        <div class="sign">
+                            <div class="line"></div>
+                            <p>Trainer</p>
+                        </div>
+                        <div class="sign middle d-flex flex-column position-absolute">
+                            <p class="my-0">???</p>
+                            <div class="line"></div>
+                            <p>Issue Date</p>
+                        </div>
+                        <div class="sign">
+                            <div class="line"></div>
+                            <p>Supervisor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="infos mt-2">
+                    <div class="d-flex justify-content-between px-1">
+                        <div class="info d-flex align-items-center">
+                            <i class="fas fa-globe me-1"></i>
+                            <small>www.eduplay.com.np</small>
+                        </div>
+                        <div class="info d-flex align-items-center">
+                            <i class="fas fa-phone me-1"></i>
+                            <small>9854623146</small>
+                        </div>
+                        <div class="info d-flex align-items-center">
+                            <i class="fas fa-envelope me-1"></i>
+                            <small>{{'eduplay@yopmail.com'}}</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+}

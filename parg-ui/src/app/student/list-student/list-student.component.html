@@ -1,2 +1,54 @@
-<ag-grid-angular [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef" class="ag-theme-quartz"
-    style="height: 82vh; width: 100%;"></ag-grid-angular>
+<div class="d-flex justify-content-between">
+    <div class="col-md-1 mt-2">
+        <a href="javascript:history.back()" class="text-decoration-none d-flex align-items-center"
+            style="color: var(--primary-color);">
+            <i class="ph ph-arrow-left me-1 fs-5"></i>
+            <span>back</span>
+        </a>
+    </div>
+    <div class="d-flex justify-content-center gap-3">
+        <button class="btn" (click)="addStudentRow()"><i class="fas fa-user-plus"></i>
+            <div class="button-label">Add Student</div>
+        </button>
+        <button class="btn" (click)="saveAllStudents()"><i class="fas fa-floppy-disk"></i>
+            <div class="button-label">Save Changes</div>
+        </button>
+        <button class="btn" (click)="clearNewStudents()"><i class="fas fa-delete-left"></i>
+            <div class="button-label">Clear Rows</div>
+        </button>
+        <button class="btn" (click)="deleteSelectedStudents()"><i class="fas fa-trash"></i>
+            <div class="button-label">Delete Students</div>
+        </button>
+        <button class="btn" (click)="goToReportCenter()"><i class="fas fa-file"></i>
+            <div class="button-label">Generate Report</div>
+        </button>
+        <button class="btn" (click)="groupStudents()">
+            <i class="fas fa-chart-pie"></i>
+            <div class="button-label">Group Students</div>
+        </button>
+    </div>
+</div>
+<hr class="my-2">
+
+<div class="container-fluid">
+    <div>
+        <div class="row mb-3">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col px-0">
+            <ag-grid-angular #agGrid [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef"
+                [pagination]="true" [paginationPageSizeSelector]="[5, 10, 20, 50, 100]" [gridOptions]="gridOptions"
+                (selectionChanged)="onSelectionChanged($event)" class="ag-theme-quartz"
+                style="height: 72vh; width: 100%;">
+            </ag-grid-angular>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+
+        </div>
+    </div>
+</div>

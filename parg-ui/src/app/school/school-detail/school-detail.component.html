@@ -33,7 +33,7 @@
                 <img src="{{schoolDetails?.logo}}" alt="{{schoolDetails?.name}}">
             </div>
             <div class="card-body">
-                <h6 class="card-title">{{schoolDetails?.name}}</h6>
+                <h6 class="card-title text-center">{{schoolDetails?.name}}</h6>
                 <div class="mt-4">
                     <div class=" d-flex align-items-center">
                         <i class="fas fa-location-dot fs-5 me-2"></i>
@@ -76,7 +76,7 @@
                             <!-- Dropdown menu -->
                             <div class="dropdown position-absolute top-0 end-0 mt-2 me-2">
                                 <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    data-bs-toggle="dropdown" aria-expanded="false" (click)="stopEventPropagation($event)">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -104,8 +104,7 @@
                                 <h6>{{selectedExam.year + ' ' + selectedExam.examName}}</h6>
                                 <div class="d-flex ">
                                     <button class="btn btn-sm custom-button me-1" (click)="addClassToExam()">Add Class</button>
-                                    <button class="btn btn-sm custom-button-outlined"><label for="fileSelect">Update Student Data</label></button>
-                                    <input type="file" name="fileSelect" id="fileSelect" class="d-none" />
+                                    <button class="btn btn-sm custom-button-outlined" (click)="openModalToImportStudents()">Import Student Details</button>
                                     
                                 </div>
                             </div>
@@ -130,11 +129,11 @@
 
                                     <div class="dropdown">
                                         <button class="btn btn-link text-dark p-0" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            data-bs-toggle="dropdown" aria-expanded="false" (click)="stopEventPropagation($event)">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" (click)="editClass(class.id, class.name)">
+                                            <li><a class="dropdown-item" (click)="openUpdateClassModal(class)">
                                                     <i class="fas fa-edit me-2"></i>Edit</a></li>
                                             <li><a class="dropdown-item" (click)="deleteClass(class.id)"><i
                                                         class="fas fa-trash me-2"></i>Delete</a></li>

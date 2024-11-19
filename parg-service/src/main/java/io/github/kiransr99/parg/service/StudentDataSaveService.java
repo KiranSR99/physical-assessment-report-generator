@@ -1,7 +1,6 @@
 package io.github.kiransr99.parg.service;
 
 import io.github.kiransr99.parg.dto.request.StudentDataSaveRequest;
-import io.github.kiransr99.parg.dto.request.StudentEnrollmentRequest;
 import io.github.kiransr99.parg.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

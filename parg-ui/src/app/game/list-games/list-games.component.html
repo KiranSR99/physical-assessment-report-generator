@@ -1,0 +1,77 @@
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Left column: List of games -->
+        <div class="col-md-7">
+            <h4>Games List</h4>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col" *ngFor="let game of games">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">{{ game.physicalTestName }}</h5>
+                                <!-- Dropdown menu -->
+                                <div class="dropdown ">
+                                    <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" >
+                                            <i class="fas fa-edit me-2"></i>
+                                            <span (click)="editGame(game)">Edit</span>
+                                        </a>
+                                        <a class="dropdown-item">
+                                            <i class="fas fa-trash me-2"></i>
+                                            <span (click)="deleteGame(game.physicalTestId)">Delete</span>
+                                        </a>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="card-text">{{ game.physicalTestDescription }}</p>
+                            <p class="card-text text-muted">Unit: {{ game.physicalTestUnit }}</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right column: Add/Edit game form -->
+        <div class="col-md-5">
+            <h4>{{ isEditing ? 'Edit Game' : 'Add New Game' }}</h4>
+            <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="physicalTestName" class="form-label custom-label">Game Name</label>
+                    <input type="text" class="form-control" id="physicalTestName" formControlName="physicalTestName"
+                        placeholder="Enter game name">
+                    <div *ngIf="gameForm.get('physicalTestName')?.invalid && (gameForm.get('physicalTestName')?.dirty || gameForm.get('physicalTestName')?.touched)"
+                        class="text-danger">
+                        Game name is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="physicalTestDescription" class="form-label custom-label">Description</label>
+                    <textarea class="form-control" id="physicalTestDescription"
+                        formControlName="physicalTestDescription" rows="5"
+                        placeholder="Enter game description"></textarea>
+                    <div *ngIf="gameForm.get('physicalTestDescription')?.invalid && (gameForm.get('physicalTestDescription')?.dirty || gameForm.get('physicalTestDescription')?.touched)"
+                        class="text-danger">
+                        Game description is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="physicalTestUnit" class="form-label custom-label">Unit</label>
+                    <input type="text" class="form-control" id="physicalTestUnit" formControlName="physicalTestUnit"
+                        placeholder="Enter game unit">
+                    <div *ngIf="gameForm.get('physicalTestUnit')?.invalid && (gameForm.get('physicalTestUnit')?.dirty || gameForm.get('physicalTestUnit')?.touched)"
+                        class="text-danger">
+                        Game unit is required.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-sm custom-button">{{ isEditing ? 'Update Game' : 'Add Game' }}</button>
+                <button type="button" class="btn btn-sm custom-button-outlined ms-2" (click)="resetForm()">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

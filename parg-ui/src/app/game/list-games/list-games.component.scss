@@ -1,0 +1,41 @@
+.card {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.dropdown {
+    button {
+        i {
+            color: var(--secondary-color);
+        }
+    }
+
+    .dropdown-menu {
+        min-width: 100px;
+
+        .dropdown-item {
+            cursor: pointer;
+            font-weight: 300;
+
+            i {
+                color: var(--secondary-color);
+
+            }
+        }
+    }
+}
+
+form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    textarea {
+        font-weight: 300;
+    }
+}

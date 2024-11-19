@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +25,7 @@ public class ExcelDetailsResponse {
     private String bmiLevel;
     private String bmiPercentile;
     private String comment;
+    private List<PhysicalTestPerformanceMetricResponse> physicalTestPerformanceMetrics;
 
     public ExcelDetailsResponse(StudentEnrollment savedStudentEnrollment, PhysicalReport physicalReport) {
         this.name = savedStudentEnrollment.getStudent().getName();
@@ -39,5 +41,10 @@ public class ExcelDetailsResponse {
         this.bmiLevel = physicalReport.getBmiLevel();
         this.bmiPercentile = physicalReport.getPercentile();
         this.comment = physicalReport.getComment();
+
+
+        this.physicalTestPerformanceMetrics = physicalReport.getPerformanceMetrics().stream()
+                .map(PhysicalTestPerformanceMetricResponse::new)
+                .toList();
     }
 }

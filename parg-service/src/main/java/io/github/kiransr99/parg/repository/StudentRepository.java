@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    @Query(value = "SELECT se.roll_number, s.name, c.name AS class_name, se.section, s.date_of_birth, s.age, s.gender, " +
+    @Query(value = "SELECT s.id, se.roll_number, s.name, c.name AS class_name, se.section, s.date_of_birth, s.age, s.gender, " +
             "pr.height, pr.weight, pr.bmi, pr.bmi_level, pr.percentile, pr.comment, pt.name AS physical_test_name, ptm.value AS physical_test_value " +
             "FROM student_enrollment se " +
             "JOIN student s ON se.student_id = s.id " +
@@ -20,9 +20,11 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "LEFT JOIN physical_report pr ON se.id = pr.student_enrollment_id " +
             "LEFT JOIN physical_test_performance_metric ptm ON pr.id = ptm.physical_report_id " +
             "LEFT JOIN physical_test pt ON ptm.physical_test_id = pt.id " +
-            "WHERE c.id = :classId",
+            "WHERE c.id = :classId " +
+            "ORDER BY se.roll_number ASC",
             nativeQuery = true)
     List<Object[]> findStudentCompleteDataByClassId(@Param("classId") Long classId);
+
 
 
 }

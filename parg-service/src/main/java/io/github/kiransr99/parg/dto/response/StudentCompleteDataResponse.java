@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentCompleteDataResponse {
+    private Long studentId;
     private String rollNumber;
     private String name;
     private String className;

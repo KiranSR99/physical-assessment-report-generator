@@ -39,7 +39,8 @@ body {
     overflow-x: hidden;
 }
 
-input, button{
+input,
+button {
     font-weight: 300 !important;
 }
 
@@ -113,12 +114,12 @@ input:focus {
     position: fixed !important;
     z-index: 1060;
 
-    .toast-title{
+    .toast-title {
         font-size: 16px;
         font-weight: 400;
     }
 
-    .toast-message{
+    .toast-message {
         font-size: 14px;
         font-weight: 300;
     }
@@ -132,6 +133,31 @@ input:focus {
         overflow-x: hidden;
     }
 }
+
+
+
+
+/* Add this to your global styles or component styles */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.logo-animation {
+    animation: pulse 1.5s infinite;
+}
+
+
+
 
 //importing other necessary scss files
 @import "../public/scss/misc.scss";
