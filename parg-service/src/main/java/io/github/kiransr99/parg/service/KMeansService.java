@@ -11,12 +11,10 @@ import java.util.*;
 public class KMeansService {
 
     public ClusteringResponse kMeansClustering(ClusteringRequest clusteringRequest) {
-        // Extract `k`, `maxIterations`, and `students` from the request
         List<ClusteringStudent> students = clusteringRequest.getStudents();
         int k = clusteringRequest.getK();
         int maxIterations = clusteringRequest.getMaxIterations();
 
-        // Validate the inputs
         if (students == null || students.isEmpty()) {
             throw new IllegalArgumentException("The list of students cannot be null or empty.");
         }
@@ -24,7 +22,6 @@ public class KMeansService {
             throw new IllegalArgumentException("Invalid values for 'k' or 'maxIterations'.");
         }
 
-        // Step 1: Extract only BMI values for clustering
         List<Double> bmiValues = new ArrayList<>();
         for (ClusteringStudent student : students) {
             bmiValues.add(student.getBmi());
@@ -45,7 +42,7 @@ public class KMeansService {
             // Step 4: Update centroids
             double[] newCentroids = updateCentroids(bmiValues, clusterAssignments, k);
             if (Arrays.equals(newCentroids, centroids)) {
-                break; // Stop if centroids don't change
+                break;
             }
             centroids = newCentroids;
         }
@@ -53,7 +50,6 @@ public class KMeansService {
         // Step 5: Group students into clusters
         List<List<ClusteringStudent>> clusters = groupStudentsByClusters(students, clusterAssignments, k);
 
-        // Return the ClusteringResponse
         return new ClusteringResponse(clusters);
     }
 
