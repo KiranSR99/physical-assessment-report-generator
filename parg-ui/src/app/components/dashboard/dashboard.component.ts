@@ -12,8 +12,8 @@ export class DashboardComponent {
     
   }
 
-  hello(): void{
-    this.router.navigate([`/school/exam/class/1/report-card`]);
-  }
+  // hello(): void{
+  //   this.router.navigate([`/school/exam/class/1/report-card`]);
+  // }
 
 }
