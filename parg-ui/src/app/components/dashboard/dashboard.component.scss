@@ -1,21 +1,36 @@
 .card {
     border-radius: 0.75rem;
+
+    .card-body {
+        h6 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff !important;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            color: #fff !important;
+        }
+    }
 }
 
-.card-footer {
-    background-color: rgba(0, 0, 0, 0.1);
+.card-header {
+    background-color: #f8f9fa;
+    font-size: 1.1rem;
 }
 
-.card-body h3 {
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-table th,
-table td {
+.table th,
+.table td {
     vertical-align: middle;
 }
 
-table th {
+.table thead th {
     font-weight: 600;
+}
+
+.btn {
+    color: #000 !important;
 }

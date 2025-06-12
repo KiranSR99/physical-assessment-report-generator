@@ -1,135 +1,106 @@
 <div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <!-- <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
-                            <i class="bi bi-house-door"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-people"></i> Students
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-list-check"></i> Physical Exams
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-bar-chart-line"></i> Reports
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav> -->
-
-        <!-- Main Content -->
-        <main class="col ms-sm-auto px-md-4">
-            <div
-                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h4 class="h2">Dashboard</h4>
-                <button class="btn custom-button" (click)="hello()"><i class="fas fa-face-smile"></i></button>
-            </div>
-
-            <!-- Summary Cards -->
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card bg-primary text-white shadow">
-                        <div class="card-body">
-                            Total Students
-                            <h3 class="text-light">850</h3>
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a href="#" class="text-white stretched-link">View Details</a>
-                            <i class="bi bi-chevron-right text-white"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card bg-success text-white shadow">
-                        <div class="card-body">
-                            Upcoming Exams
-                            <h3 class="text-light">12</h3>
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a href="#" class="text-white stretched-link">View Details</a>
-                            <i class="bi bi-chevron-right text-white"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card bg-warning text-white shadow">
-                        <div class="card-body">
-                            Physical Test Participation
-                            <h3 class="text-light">630</h3>
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a href="#" class="text-white stretched-link">View Details</a>
-                            <i class="bi bi-chevron-right text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Table of Recent Physical Exams -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    Recent Physical Exams
-                </div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Student Name</th>
-                                <th scope="col">Class</th>
-                                <th scope="col">Exam Type</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>John Doe</td>
-                                <td>Class 10</td>
-                                <td>Running Test</td>
-                                <td>2024-09-15</td>
-                                <td>9.5</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jane Smith</td>
-                                <td>Class 9</td>
-                                <td>Long Jump</td>
-                                <td>2024-09-14</td>
-                                <td>8.3</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Michael Johnson</td>
-                                <td>Class 11</td>
-                                <td>High Jump</td>
-                                <td>2024-09-13</td>
-                                <td>9.2</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Emily Davis</td>
-                                <td>Class 8</td>
-                                <td>Shot Put</td>
-                                <td>2024-09-12</td>
-                                <td>7.9</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
+    <!-- Header Section -->
+    <div class="bg-light py-4 px-3 mb-4 rounded shadow-sm text-center">
+        <h3 class="fw-bold">Welcome to Physical Assessment Report Generator System</h3>
+        <p class="text-muted mb-0">
+            Efficiently manage school programs, physical exams, and student fitness results.
+        </p>
     </div>
+
+    <!-- Summary Cards -->
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary shadow h-100">
+                <div class="card-body">
+                    <h6>Total Students</h6>
+                    <h3>850</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success shadow h-100">
+                <div class="card-body">
+                    <h6>Schools Managed</h6>
+                    <h3>25</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-info shadow h-100">
+                <div class="card-body">
+                    <h6>Upcoming Exams</h6>
+                    <h3>6</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-warning shadow h-100">
+                <div class="card-body">
+                    <h6>Reports Pending</h6>
+                    <h3>12</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Table -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header fw-semibold">Recent Physical Exams</div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>School</th>
+                            <th>Exam</th>
+                            <th>Date</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>John Doe</td>
+                            <td>Everest School</td>
+                            <td>Running</td>
+                            <td>2024-09-10</td>
+                            <td>9.2</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>Green Valley</td>
+                            <td>High Jump</td>
+                            <td>2024-09-09</td>
+                            <td>8.7</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Samir Thapa</td>
+                            <td>Himalaya Vidya</td>
+                            <td>Shot Put</td>
+                            <td>2024-09-08</td>
+                            <td>7.8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Quick Actions -->
+    <!-- <div class="row mt-5">
+        <div class="col text-center">
+            <h5 class="mb-3 fw-semibold">Quick Actions</h5>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a class="btn btn-outline-primary" routerLink="school/add">+ Add School</a>
+                <a class="btn btn-outline-success" href="#">+ Schedule Exam</a>
+                <a class="btn btn-outline-info" href="#">View Students</a>
+                <a class="btn btn-outline-warning" href="#">Generate Report</a>
+            </div>
+        </div>
+    </div> -->
 </div>
