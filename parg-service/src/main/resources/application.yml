@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/parg
+    url: jdbc:postgresql://aws-0-ap-south-1.pooler.supabase.com:5432/postgres?user=postgres.zqgwhebbtugznmlvmaqf&password=@KiranSR99
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
